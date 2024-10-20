@@ -19,4 +19,4 @@ interface UserData {
 	availableStamps?: StampSignature[] | null
 }
 
-export { StampSignature, UserData }
+export type { StampSignature, UserData }
