@@ -4,7 +4,6 @@ import { ConnectWallet, Wallet, WalletDropdown, WalletDropdownBasename, WalletDr
 import { Name } from '@coinbase/onchainkit/identity'
 import Image from 'next/image'
 import Link from 'next/link'
-import { color } from '@coinbase/onchainkit/theme'
 
 export function Navbar() {
 	return (
