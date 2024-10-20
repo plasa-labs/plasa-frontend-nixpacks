@@ -1,6 +1,7 @@
 import fixedQuestionAbi from './abi/fixed-question.json'
 import spaceAbi from './abi/space.json'
-import plasaABI from './abi/plasa'
+import plasaAbi from './abi/plasa'
+import followerSinceStampAbi from './abi/follower-since-stamp.json'
 
 import { Abi, ContractFunctionParameters, ReadContractParameters } from 'viem'
 
@@ -36,10 +37,19 @@ export const contractsGetSpace = (spaceAddress: `0x${string}`, userAddress: `0x$
 export const contractsGetPlasa = (userAddress: `0x${string}` | undefined) => {
 	return {
 		address: '0xB118054847d57c1183B8362AA6fE1196c21aff39',
-		abi: plasaABI as Abi,
+		abi: plasaAbi as Abi,
 		functionName: 'getPlasaView',
 		args: [getValidAddress(userAddress)],
 	} as ReadContractParameters
+}
+
+export const contractsMintStamp = (stampAddress: `0x${string}`, since: number, deadline: number, signature: `0x${string}`) => {
+	return [{
+		address: stampAddress,
+		abi: followerSinceStampAbi as Abi,
+		functionName: 'mintStamp',
+		args: [since, deadline, signature],
+	}] as ContractFunctionParameters[]
 }
 
 const getValidAddress = (userAddress: `0x${string}` | undefined) => {
