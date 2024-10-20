@@ -48,19 +48,6 @@ const SkeletonCard = () => (
 	</Card>
 )
 
-const SkeletonHeader = () => (
-	<header className="flex justify-between items-center p-4 border-b">
-		<div className="flex items-center">
-			<Skeleton className="w-6 h-6 mr-2" />
-			<Skeleton className="w-20 h-8" />
-		</div>
-		<div className="flex items-center">
-			<Skeleton className="w-20 h-6 mr-2" />
-			<Skeleton className="w-10 h-10 rounded-full" />
-		</div>
-	</header>
-)
-
 export default function Component() {
 	const { address: userAddress } = useAccount()
 
@@ -71,7 +58,6 @@ export default function Component() {
 	if (isLoading) {
 		return (
 			<div className="min-h-screen">
-				<SkeletonHeader />
 				<main className="container mx-auto px-4 py-8">
 					<Skeleton className="h-8 w-40 mb-6" />
 					{[1, 2, 3].map((i) => (
