@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
-import { AlertTriangle, ArrowLeft, CheckCircle2, Clock } from "lucide-react"
+import { AlertTriangle, ArrowLeft, CheckCircle2, Clock, AlertCircle } from "lucide-react"
 import { Transaction, TransactionButton, TransactionStatus, TransactionStatusAction, TransactionStatusLabel } from '@coinbase/onchainkit/transaction'
 import { useAccount, useReadContract } from 'wagmi'
 
@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Alert } from "@/components/ui/alert"
 
 import { contractsGetQuestion, contractsVote } from '@/lib/onchain/contracts'
 import { OptionView } from '@/lib/onchain/types/options'
@@ -38,23 +39,39 @@ const QuestionHeader = ({ title, active, timeLeft }: { title: string; active: bo
 	</div>
 )
 
-const QuestionDetails = ({ description, totalPoints, canVote }: { description: string; totalPoints: number; canVote: boolean }) => (
+const QuestionDetails = ({ description, totalPoints, canVote, userPointsAtDeadline, isConnected }: { description: string; totalPoints: number; canVote: boolean; userPointsAtDeadline: number; isConnected: boolean }) => (
 	<Card className="mb-6">
 		<CardContent className="pt-6">
 			<p className="mb-4 text-muted-foreground">{description}</p>
-			<div className="flex justify-between items-center bg-muted p-3 rounded-lg">
-				<p className="text-sm font-medium">Tus puntos totales: <span className="text-primary">{totalPoints.toString()}</span></p>
-				{canVote ? (
-					<Badge variant="outline" className="bg-primary text-primary-foreground">Puedes votar</Badge>
-				) : (
-					<Badge variant="outline" className="bg-secondary text-secondary-foreground">Ya has votado</Badge>
-				)}
-			</div>
+			{!isConnected ? (
+				<Alert variant="destructive" className="mb-4">
+					<AlertCircle className="h-4 w-4" />
+					<p className="ml-2">
+						Debes estar conectado para votar.
+					</p>
+				</Alert>
+			) : (userPointsAtDeadline == 0 ? (
+				<Alert variant="destructive" className="mb-4">
+					<AlertCircle className="h-4 w-4" />
+					<p className="ml-2">
+						No tienes puntos para votar. Visita tu <a href="/profile" className="font-medium underline" target="_blank">perfil</a> para obtener sellos y ganar puntos.
+					</p>
+				</Alert>
+			) : (
+				<div className="flex justify-between items-center bg-muted p-3 rounded-lg">
+					<p className="text-sm font-medium">Tus puntos totales: <span className="text-primary">{totalPoints.toString()}</span></p>
+					{canVote ? (
+						<Badge variant="outline" className="bg-primary text-primary-foreground">Puedes votar</Badge>
+					) : (
+						<Badge variant="outline" className="bg-secondary text-secondary-foreground">Ya has votado</Badge>
+					)}
+				</div>
+			))}
 		</CardContent>
 	</Card>
 )
 
-const VotingOptions = ({ options, onVote, canVote, active, questionAddress }: { options: OptionView[]; onVote: (index: number) => void; canVote: boolean; active: boolean; questionAddress: string }) => {
+const VotingOptions = ({ options, onVote, canVote, active, questionAddress, isConnected, userPointsAtDeadline }: { options: OptionView[]; onVote: (index: number) => void; canVote: boolean; active: boolean; questionAddress: string; isConnected: boolean; userPointsAtDeadline: number }) => {
 	return (
 		<div className="space-y-4 mb-6">
 			{options.slice(1).map((option, index) => (
@@ -72,7 +89,7 @@ const VotingOptions = ({ options, onVote, canVote, active, questionAddress }: { 
 								</Badge>
 							)}
 						</div>
-						{canVote && active && (
+						{canVote && active && isConnected && userPointsAtDeadline > 0 && (
 							<Transaction
 								chainId={84532} // Base Sepolia chain ID
 								contracts={contractsVote(questionAddress as `0x${string}`, index + 1)}
@@ -143,7 +160,15 @@ const VotingProgress = ({ options }: { options: OptionView[] }) => {
 
 const InformationSection = ({ spaceData, question }: { spaceData: { name: string; contractAddress: string }; question: QuestionView }) => {
 	const formatDate = (timestamp: number) => {
-		return new Date(Number(timestamp) * 1000).toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })
+		return new Date(Number(timestamp) * 1000).toLocaleString('es-AR', {
+			timeZone: 'America/Argentina/Buenos_Aires',
+			day: '2-digit',
+			month: '2-digit',
+			year: 'numeric',
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: false
+		})
 	}
 
 	// Function to get the question type string
@@ -220,7 +245,7 @@ const LoadingComponent = () => (
 
 export default function QuestionPage() {
 	const { spaceAddress, questionAddress } = useParams()
-	const { address: userAddress } = useAccount()
+	const { address: userAddress, isConnected } = useAccount()
 
 	const [timeLeft, setTimeLeft] = useState<string>("")
 
@@ -302,6 +327,8 @@ export default function QuestionPage() {
 						description={question.data.description}
 						totalPoints={question.user.pointsAtDeadline}
 						canVote={question.user.canVote}
+						userPointsAtDeadline={question.user.pointsAtDeadline}
+						isConnected={isConnected}
 					/>
 					<VotingOptions
 						options={question.options}
@@ -309,6 +336,8 @@ export default function QuestionPage() {
 						canVote={question.user.canVote}
 						active={question.data.isActive}
 						questionAddress={questionAddress as string}
+						isConnected={isConnected}
+						userPointsAtDeadline={question.user.pointsAtDeadline}
 					/>
 					<VotingProgress options={question.options} />
 				</div>

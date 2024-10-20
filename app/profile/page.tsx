@@ -116,7 +116,7 @@ function NotConnectedCard() {
 	return (
 		<Card className="w-full max-w-md mx-auto mt-8">
 			<CardContent className="pt-6">
-				<p className="text-center">Please connect your wallet to view your profile.</p>
+				<p className="text-center">Conectá tu cuenta para ver tu perfil.</p>
 			</CardContent>
 		</Card>
 	)
@@ -260,7 +260,12 @@ function StampCard({ stamp, onMint, owned, since, authentic, userFirestore }: {
 }) {
 	const formattedDate = (timestamp: number) => {
 		const date = new Date(timestamp * 1000)
-		return date.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' })
+		return date.toLocaleDateString('es-AR', {
+			day: '2-digit',
+			month: '2-digit',
+			year: 'numeric',
+			timeZone: 'America/Argentina/Buenos_Aires'
+		})
 	}
 
 	const stampFirestoreData = userFirestore?.availableStamps?.find(

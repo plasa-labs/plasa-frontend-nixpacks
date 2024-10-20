@@ -15,11 +15,12 @@ import { SpacePreview } from '@/lib/onchain/types/spaces'
 const SpaceCard = ({ space }: { space: SpacePreview }) => (
 	<Card className="mb-4">
 		<div className="flex items-center p-4">
-			<div className="w-16 h-16 mr-4 overflow-hidden rounded-lg relative">
+			<div className="w-16 h-16 mr-4 overflow-hidden rounded-lg relative flex-shrink-0">
 				<Image
 					src={space.data.imageUrl}
 					alt={space.data.name}
-					fill
+					width={64}
+					height={64}
 					className="object-cover"
 				/>
 			</div>

@@ -36,7 +36,7 @@ export const contractsGetSpace = (spaceAddress: `0x${string}`, userAddress: `0x$
 
 export const contractsGetPlasa = (userAddress: `0x${string}` | undefined) => {
 	return {
-		address: '0xB118054847d57c1183B8362AA6fE1196c21aff39',
+		address: '0x6ae715986B4d26cDA8548589d1F76a178cB59005',
 		abi: plasaAbi as Abi,
 		functionName: 'getPlasaView',
 		args: [getValidAddress(userAddress)],
