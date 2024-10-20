@@ -1,5 +1,5 @@
-import { QuestionView, QuestionType } from "../../../lib/onchain/types/questions"
-import { AccountAddress, Timestamp } from "../../../lib/onchain/types/basic"
+import { QuestionView, QuestionType } from "@/lib/onchain/types/questions"
+import { AccountAddress, Timestamp } from "@/lib/onchain/types/basic"
 
 const exampleFixedQuestionQuery: QuestionView = {
 	data: {

@@ -1,7 +1,7 @@
-import { PlasaView, PlasaData, PlasaUser } from "../../../lib/onchain/types/plasa"
-import { StampType, StampView, StampData, StampUser } from "../../../lib/onchain/types/stamps"
-import { AccountAddress, Timestamp } from "../../../lib/onchain/types/basic"
-import { SpacePreview, SpaceData, SpaceUser, RolesUser, PermissionsUser } from "../../../lib/onchain/types/spaces"
+import { PlasaView, PlasaData, PlasaUser } from "@/lib/onchain/types/plasa"
+import { StampType, StampView, StampData, StampUser } from "@/lib/onchain/types/stamps"
+import { AccountAddress, Timestamp } from "@/lib/onchain/types/basic"
+import { SpacePreview, SpaceData, SpaceUser, RolesUser, PermissionsUser } from "@/lib/onchain/types/spaces"
 
 const examplePlasaQuery: PlasaView = {
 	data: {
