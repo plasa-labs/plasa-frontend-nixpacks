@@ -10,10 +10,13 @@ import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { ArrowLeft, CheckCircle2, Clock, AlertTriangle } from "lucide-react"
 import Link from 'next/link'
+import { useAccount } from 'wagmi'
+import { Transaction, TransactionButton, TransactionStatus, TransactionStatusLabel, TransactionStatusAction } from '@coinbase/onchainkit/transaction'
 
 import { QuestionView } from '@/app/ts-interfaces/types/questions'
 import { OptionView } from '@/app/ts-interfaces/types/options'
-import fixedQuestionABI from '@/app/fixedQuestionABI.json'
+
+import { contractsGetQuestion, contractsVote } from '@/app/onchain/contracts'
 
 const QuestionHeader = ({ title, active, timeLeft }: { title: string; active: boolean; timeLeft: string }) => (
 	<div className="mb-6">
@@ -51,31 +54,53 @@ const QuestionDetails = ({ description, totalPoints, canVote }: { description: s
 	</Card>
 )
 
-const VotingOptions = ({ options, onVote, canVote, active }: { options: OptionView[]; onVote: (index: number) => void; canVote: boolean; active: boolean }) => (
-	<div className="space-y-4 mb-6">
-		{options.slice(1).map((option, index) => (
-			<Card key={index + 1} className={option.user.voted ? "border-primary" : ""}>
-				<CardContent className="pt-6">
-					<div className="flex justify-between items-start mb-4">
-						<div>
-							<h3 className="text-lg font-semibold mb-2">{option.data.title}</h3>
-							<p className="text-sm text-muted-foreground">{option.data.description}</p>
+const VotingOptions = ({ options, onVote, canVote, active, questionAddress }: { options: OptionView[]; onVote: (index: number) => void; canVote: boolean; active: boolean; questionAddress: string }) => {
+	return (
+		<div className="space-y-4 mb-6">
+			{options.slice(1).map((option, index) => (
+				<Card key={index + 1} className={option.user.voted ? "border-primary" : ""}>
+					<CardContent className="pt-6">
+						<div className="flex justify-between items-start mb-4">
+							<div>
+								<h3 className="text-lg font-semibold mb-2">{option.data.title}</h3>
+								<p className="text-sm text-muted-foreground">{option.data.description}</p>
+							</div>
+							{option.user.voted && (
+								<Badge variant="secondary" className="ml-2">
+									<CheckCircle2 className="mr-1 h-4 w-4" />
+									Tu voto
+								</Badge>
+							)}
 						</div>
-						{option.user.voted && (
-							<Badge variant="secondary" className="ml-2">
-								<CheckCircle2 className="mr-1 h-4 w-4" />
-								Tu voto
-							</Badge>
+						{canVote && active && (
+							<Transaction
+								chainId={84532} // Base Sepolia chain ID
+								contracts={contractsVote(questionAddress as `0x${string}`, index + 1)}
+								onSuccess={(response) => {
+									console.log('Vote transaction successful:', response)
+									onVote(index + 1)
+								}}
+								onError={(error) => {
+									console.error('Vote transaction failed:', error)
+								}}
+							>
+								<TransactionButton text="Votar por esta opción">
+								</TransactionButton>
+								<TransactionStatus>
+									<TransactionStatusLabel />
+									<TransactionStatusAction />
+								</TransactionStatus>
+							</Transaction>
 						)}
-					</div>
-					{canVote && active && (
-						<Button onClick={() => onVote(index + 1)} className="w-full">Votar por esta opción</Button>
-					)}
-				</CardContent>
-			</Card>
-		))}
-	</div>
-)
+						{/* {!canVote && (
+							<Badge variant="outline" className="bg-secondary text-secondary-foreground">Ya has votado</Badge>
+						)} */}
+					</CardContent>
+				</Card>
+			))}
+		</div>
+	)
+}
 
 const VotingProgress = ({ options }: { options: OptionView[] }) => {
 	const totalPoints = options.slice(1).reduce((sum, option) => sum + Number(option.data.pointsAtDeadline), 0)
@@ -117,7 +142,7 @@ const VotingProgress = ({ options }: { options: OptionView[] }) => {
 }
 
 const InformationSection = ({ spaceData, question }: { spaceData: { name: string; contractAddress: string }; question: QuestionView }) => {
-	const formatDate = (timestamp) => {
+	const formatDate = (timestamp: number) => {
 		return new Date(Number(timestamp) * 1000).toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })
 	}
 
@@ -195,25 +220,16 @@ const LoadingComponent = () => (
 
 export default function QuestionPage() {
 	const { spaceAddress, questionAddress } = useParams()
-	const [userAddress, setUserAddress] = useState<`0x${string}` | undefined>()
+	const { address: userAddress } = useAccount()
+
 	const [timeLeft, setTimeLeft] = useState<string>("")
 	// Add these new state variables
 	const [voting, setVoting] = useState(false)
 	// const [userVote, setUserVote] = useState<number | null>(null)
 
-	// Fetch user's address (you might want to use Wagmi's useAccount hook here)
-	useEffect(() => {
-		// This is a placeholder. Replace with actual logic to get the user's address.
-		setUserAddress('0x1234567890123456789012345678901234567890')
-	}, [])
+	const contract = contractsGetQuestion(questionAddress as `0x${string}`, userAddress as `0x${string}`)
 
-	const { data: questionData, isLoading, isError } = useReadContract({
-		address: questionAddress as `0x${string}`,
-		abi: fixedQuestionABI,
-		functionName: 'getQuestionView',
-		args: [userAddress!],
-		chainId: 84532, // Base Sepolia chain ID
-	})
+	const { data: questionData, isLoading, isError } = useReadContract(contract)
 
 	useEffect(() => {
 		if (questionData) {
@@ -246,12 +262,8 @@ export default function QuestionPage() {
 	}, [questionData])
 
 	const handleVote = async (optionIndex: number) => {
-		setVoting(true)
-		// Simular transacción blockchain
-		await new Promise((resolve) => setTimeout(resolve, 3000))
-		setVoting(false)
-
-		// Actualizar estado local para reflejar el voto
+		// This function is now called after a successful transaction
+		// Update local state to reflect the vote
 		if (questionData) {
 			const updatedQuestionData = { ...questionData } as unknown as QuestionView
 			updatedQuestionData.options[optionIndex].data.voteCount = Number(updatedQuestionData.options[optionIndex].data.voteCount) + 1
@@ -301,6 +313,7 @@ export default function QuestionPage() {
 						onVote={handleVote}
 						canVote={question.user.canVote}
 						active={question.data.isActive}
+						questionAddress={questionAddress as string}
 					/>
 					<VotingProgress options={question.options} />
 				</div>

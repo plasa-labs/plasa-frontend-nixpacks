@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import { useReadContract } from 'wagmi'
 import { Button } from "@/components/ui/button"
@@ -11,9 +11,11 @@ import { Skeleton } from "@/components/ui/skeleton"
 import Image from 'next/image'
 import { SpaceView } from '@/app/ts-interfaces/types/spaces'
 import { QuestionPreview } from '@/app/ts-interfaces/types/questions'
-import spaceABI from '@/app/spaceABI.json'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useAccount } from 'wagmi'
+
+import { contractsGetSpace } from '@/app/onchain/contracts'
 
 // Mock data for leaderboard (kept as requested)
 const mockLeaderboard = [
@@ -241,21 +243,11 @@ function formatPoints(points: bigint): string {
 
 export default function Component() {
 	const { spaceAddress } = useParams()
-	const [userAddress, setUserAddress] = useState<`0x${string}` | undefined>()
+	const { address: userAddress } = useAccount()
 
-	// Fetch user's address (you might want to use Wagmi's useAccount hook here)
-	useEffect(() => {
-		// This is a placeholder. Replace with actual logic to get the user's address.
-		setUserAddress('0x1234567890123456789012345678901234567890')
-	}, [])
+	const contract = contractsGetSpace(spaceAddress as `0x${string}`, userAddress as `0x${string}`)
 
-	const { data: spaceData, isLoading, isError } = useReadContract({
-		address: spaceAddress as `0x${string}`,
-		abi: spaceABI,
-		functionName: 'getSpaceView',
-		args: [userAddress!],
-		chainId: 84532, // Base Sepolia chain ID
-	})
+	const { data: spaceData, isLoading, isError } = useReadContract(contract)
 
 	// New useEffect to log spaceData
 	useEffect(() => {

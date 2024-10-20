@@ -1,34 +1,16 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Menu } from 'lucide-react'
-import { useReadContract } from 'wagmi'
+import { useReadContract, useAccount } from 'wagmi'
 
 import { Button } from "@/components/ui/button"
 import { Card, CardTitle } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Skeleton } from "@/components/ui/skeleton"
 
 import { PlasaView } from '@/app/ts-interfaces/types/plasa'
 import { SpacePreview } from '@/app/ts-interfaces/types/spaces'
-import { plasaABI } from '@/app/plasaABI'
 
-const Header = ({ username }: { username: string }) => (
-	<header className="flex justify-between items-center p-4 border-b">
-		<div className="flex items-center">
-			<Menu className="mr-2 h-6 w-6" />
-			<h1 className="text-xl font-bold">Plasa</h1>
-		</div>
-		<div className="flex items-center">
-			<span className="mr-2">{username}</span>
-			<Avatar>
-				<AvatarImage src={`https://api.dicebear.com/6.x/initials/svg?seed=${username}`} alt={username} />
-				<AvatarFallback>{username.slice(0, 2).toUpperCase()}</AvatarFallback>
-			</Avatar>
-		</div>
-	</header>
-)
+import { contractsGetPlasa } from '@/app/onchain/contracts'
 
 const SpaceCard = ({ space }: { space: SpacePreview }) => (
 	<Card className="mb-4">
@@ -74,21 +56,11 @@ const SkeletonHeader = () => (
 )
 
 export default function Component() {
-	const [userAddress, setUserAddress] = useState<`0x${string}` | undefined>()
+	const { address: userAddress } = useAccount()
 
-	// Fetch user's address (you might want to use Wagmi's useAccount hook here)
-	useEffect(() => {
-		// This is a placeholder. Replace with actual logic to get the user's address.
-		setUserAddress('0x1234567890123456789012345678901234567890')
-	}, [])
+	const contract = contractsGetPlasa(userAddress)
 
-	const { data: plasaData, isLoading, isError } = useReadContract({
-		address: '0xB118054847d57c1183B8362AA6fE1196c21aff39',
-		abi: plasaABI,
-		functionName: 'getPlasaView',
-		args: [userAddress! as `0x${string}`],
-		chainId: 84532, // Base Sepolia chain ID
-	})
+	const { data: plasaData, isLoading, isError } = useReadContract(contract)
 
 	if (isLoading) {
 		return (
@@ -105,15 +77,18 @@ export default function Component() {
 		)
 	}
 
-	if (isError || !plasaData) {
-		return <div>Error loading data</div>
+	if (isError) {
+		return <div>Error: Failed to load data. Please try again later.</div>
+	}
+
+	if (!plasaData) {
+		return <div>Error: No data available. Please check your connection and try again.</div>
 	}
 
 	const typedPlasaData = plasaData as unknown as PlasaView
 
 	return (
 		<div className="min-h-screen">
-			<Header username={typedPlasaData.user.username} />
 			<main className="container mx-auto px-4 py-8">
 				<h2 className="text-2xl font-bold mb-6">Espacios</h2>
 				{typedPlasaData.spaces.map((space: SpacePreview) => (
