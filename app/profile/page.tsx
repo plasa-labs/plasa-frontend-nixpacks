@@ -3,12 +3,14 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
+// Third-party libraries
 import { useAccount, useReadContract } from 'wagmi'
 import { useName } from '@coinbase/onchainkit/identity'
 import { baseSepolia } from 'viem/chains'
+import { Transaction, TransactionButton, TransactionStatus, TransactionStatusLabel, TransactionStatusAction } from '@coinbase/onchainkit/transaction'
 
+// UI components
 import { AlertTriangle, ExternalLink, Instagram } from 'lucide-react'
-
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -16,12 +18,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 
+// Types and interfaces
 import type { UserData } from '@/lib/api/interfaces'
-
-import { contractsGetPlasa, contractsMintStamp } from '@/lib/onchain/contracts'
 import { PlasaView } from '@/lib/onchain/types/plasa'
 import { StampView } from '@/lib/onchain/types/stamps'
-import { Transaction, TransactionButton, TransactionStatus, TransactionStatusLabel, TransactionStatusAction } from '@coinbase/onchainkit/transaction'
+
+// Local utilities and contracts
+import { contractsGetPlasa, contractsMintStamp } from '@/lib/onchain/contracts'
 
 export default function ProfilePage() {
 	const { address } = useAccount()
