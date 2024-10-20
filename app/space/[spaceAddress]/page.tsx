@@ -24,7 +24,7 @@ const mockLeaderboard = [
 	{ name: "bob", points: 7500 },
 	{ name: "charlie", points: 6200 },
 	{ name: "david", points: 5800 },
-	{ name: "eve", points: 4900 },
+	{ name: "eva", points: 4900 },
 ]
 
 const BackToSpacesButton = () => (
