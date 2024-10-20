@@ -76,31 +76,10 @@ export default function ProfilePage() {
 		}
 	}
 
-	const handleStampMint = (stampAddress: string) => {
+	const handleStampMint = () => {
 		setLoading(true)
 		refetchPlasa()
-		// refetch
-		// setTimeout(() => {
-		// 	setUserFirestore(prevData => {
-		// 		if (!prevData) return null
-		// 		return {
-		// 			...prevData,
-		// 			availableStamps: prevData.availableStamps?.filter(stamp => stamp.stamp.contractAddress !== stampAddress) || []
-		// 		}
-		// 	})
-		// 	setPlasa(prevPlasa => {
-		// 		if (!prevPlasa) return null
-		// 		return {
-		// 			...prevPlasa,
-		// 			stamps: prevPlasa.stamps.map(stamp =>
-		// 				stamp.data.contractAddress === stampAddress
-		// 					? { ...stamp, user: { ...stamp.user, owns: true, mintingTimestamp: (Date.now() / 1000).toString() } }
-		// 					: stamp
-		// 			)
-		// 		}
-		// 	})
 		setLoading(false)
-		// }, 1000)
 	}
 
 	if (!address) {
