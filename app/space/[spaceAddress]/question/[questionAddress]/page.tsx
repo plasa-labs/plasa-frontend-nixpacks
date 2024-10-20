@@ -15,6 +15,7 @@ import { Transaction, TransactionButton, TransactionStatus, TransactionStatusLab
 
 import { QuestionView } from '@/app/ts-interfaces/types/questions'
 import { OptionView } from '@/app/ts-interfaces/types/options'
+import { QuestionType } from '@/app/ts-interfaces/types/questions'
 
 import { contractsGetQuestion, contractsVote } from '@/app/onchain/contracts'
 
@@ -147,11 +148,11 @@ const InformationSection = ({ spaceData, question }: { spaceData: { name: string
 	}
 
 	// Function to get the question type string
-	const getQuestionTypeString = (questionType: number): string => {
+	const getQuestionTypeString = (questionType: QuestionType): string => {
 		switch (questionType) {
-			case 1:
+			case QuestionType.Open:
 				return "Abierta"
-			case 2:
+			case QuestionType.Fixed:
 				return "Fija"
 			default:
 				return "Desconocido"
@@ -223,9 +224,6 @@ export default function QuestionPage() {
 	const { address: userAddress } = useAccount()
 
 	const [timeLeft, setTimeLeft] = useState<string>("")
-	// Add these new state variables
-	const [voting, setVoting] = useState(false)
-	// const [userVote, setUserVote] = useState<number | null>(null)
 
 	const contract = contractsGetQuestion(questionAddress as `0x${string}`, userAddress as `0x${string}`)
 
@@ -262,8 +260,6 @@ export default function QuestionPage() {
 	}, [questionData])
 
 	const handleVote = async (optionIndex: number) => {
-		// This function is now called after a successful transaction
-		// Update local state to reflect the vote
 		if (questionData) {
 			const updatedQuestionData = { ...questionData } as unknown as QuestionView
 			updatedQuestionData.options[optionIndex].data.voteCount = Number(updatedQuestionData.options[optionIndex].data.voteCount) + 1
@@ -330,16 +326,6 @@ export default function QuestionPage() {
 					}} question={question} />
 				</div>
 			</div>
-			{voting && (
-				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-					<Card className="w-64">
-						<CardContent className="flex flex-col items-center justify-center h-32">
-							<Skeleton className="h-8 w-8 rounded-full mb-4" />
-							<p className="text-center">Procesando voto...</p>
-						</CardContent>
-					</Card>
-				</div>
-			)}
 		</div>
 	)
 }
