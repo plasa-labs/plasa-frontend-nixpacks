@@ -8,6 +8,7 @@ import { cookieToInitialState } from 'wagmi'
 
 import { getConfig } from './wagmi'
 import { Providers } from './OnchainProviders'
+import { Navbar } from './components/Navbar'
 
 const geistSans = localFont({
 	src: "./fonts/GeistVF.woff",
@@ -39,7 +40,10 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<Providers initialState={initialState}>{children}</Providers>
+				<Providers initialState={initialState}>
+					<Navbar />
+					<main>{children}</main>
+				</Providers>
 			</body>
 		</html>
 	)
