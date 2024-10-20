@@ -1,7 +1,7 @@
-import { AccountAddress, Timestamp } from "../types/basic"
-import { PointsView } from "../types/points"
-import { QuestionPreview, QuestionType } from "../types/questions"
-import { SpaceView, SpaceData, SpaceUser, RolesUser, PermissionsUser } from "../types/spaces"
+import { AccountAddress, Timestamp } from "../../../lib/onchain/types/basic"
+import { PointsView } from "../../../lib/onchain/types/points"
+import { QuestionPreview, QuestionType } from "../../../lib/onchain/types/questions"
+import { SpaceView, SpaceData, SpaceUser, RolesUser, PermissionsUser } from "../../../lib/onchain/types/spaces"
 
 const exampleSpaceQuery: SpaceView = {
 	data: {

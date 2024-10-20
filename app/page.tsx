@@ -8,10 +8,10 @@ import { Button } from "@/components/ui/button"
 import { Card, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 
-import { PlasaView } from '@/app/ts-interfaces/types/plasa'
-import { SpacePreview } from '@/app/ts-interfaces/types/spaces'
+import { PlasaView } from '@/lib/onchain/types/plasa'
+import { SpacePreview } from '@/lib/onchain/types/spaces'
 
-import { contractsGetPlasa } from '@/app/onchain/contracts'
+import { contractsGetPlasa } from '@/lib/onchain/contracts'
 
 const SpaceCard = ({ space }: { space: SpacePreview }) => (
 	<Card className="mb-4">

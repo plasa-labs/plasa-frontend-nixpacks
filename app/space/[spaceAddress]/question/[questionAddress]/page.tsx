@@ -13,11 +13,11 @@ import Link from 'next/link'
 import { useAccount } from 'wagmi'
 import { Transaction, TransactionButton, TransactionStatus, TransactionStatusLabel, TransactionStatusAction } from '@coinbase/onchainkit/transaction'
 
-import { QuestionView } from '@/app/ts-interfaces/types/questions'
-import { OptionView } from '@/app/ts-interfaces/types/options'
-import { QuestionType } from '@/app/ts-interfaces/types/questions'
+import { QuestionView } from '@/lib/onchain/types/questions'
+import { OptionView } from '@/lib/onchain/types/options'
+import { QuestionType } from '@/lib/onchain/types/questions'
 
-import { contractsGetQuestion, contractsVote } from '@/app/onchain/contracts'
+import { contractsGetQuestion, contractsVote } from '@/lib/onchain/contracts'
 
 const QuestionHeader = ({ title, active, timeLeft }: { title: string; active: boolean; timeLeft: string }) => (
 	<div className="mb-6">

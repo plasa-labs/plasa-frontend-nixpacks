@@ -9,13 +9,13 @@ import { Badge } from "@/components/ui/badge"
 import { PlusCircle, ChevronRight, Users, Eye, ArrowLeft, Calendar, Hash } from 'lucide-react'
 import { Skeleton } from "@/components/ui/skeleton"
 import Image from 'next/image'
-import { SpaceView } from '@/app/ts-interfaces/types/spaces'
-import { QuestionPreview } from '@/app/ts-interfaces/types/questions'
+import { SpaceView } from '@/lib/onchain/types/spaces'
+import { QuestionPreview } from '@/lib/onchain/types/questions'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAccount } from 'wagmi'
 
-import { contractsGetSpace } from '@/app/onchain/contracts'
+import { contractsGetSpace } from '@/lib/onchain/contracts'
 
 // Mock data for leaderboard (kept as requested)
 const mockLeaderboard = [
