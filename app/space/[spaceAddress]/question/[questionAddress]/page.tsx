@@ -1,23 +1,22 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { useReadContract } from 'wagmi'
+
+import { AlertTriangle, ArrowLeft, CheckCircle2, Clock } from "lucide-react"
+import { Transaction, TransactionButton, TransactionStatus, TransactionStatusAction, TransactionStatusLabel } from '@coinbase/onchainkit/transaction'
+import { useAccount, useReadContract } from 'wagmi'
+
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
-import { ArrowLeft, CheckCircle2, Clock, AlertTriangle } from "lucide-react"
-import Link from 'next/link'
-import { useAccount } from 'wagmi'
-import { Transaction, TransactionButton, TransactionStatus, TransactionStatusLabel, TransactionStatusAction } from '@coinbase/onchainkit/transaction'
-
-import { QuestionView } from '@/lib/onchain/types/questions'
-import { OptionView } from '@/lib/onchain/types/options'
-import { QuestionType } from '@/lib/onchain/types/questions'
 
 import { contractsGetQuestion, contractsVote } from '@/lib/onchain/contracts'
+import { OptionView } from '@/lib/onchain/types/options'
+import { QuestionType, QuestionView } from '@/lib/onchain/types/questions'
 
 const QuestionHeader = ({ title, active, timeLeft }: { title: string; active: boolean; timeLeft: string }) => (
 	<div className="mb-6">

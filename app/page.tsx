@@ -1,17 +1,16 @@
 'use client'
 
-import Link from 'next/link'
-import { useReadContract, useAccount } from 'wagmi'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useAccount, useReadContract } from 'wagmi'
 
 import { Button } from "@/components/ui/button"
 import { Card, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 
+import { contractsGetPlasa } from '@/lib/onchain/contracts'
 import { PlasaView } from '@/lib/onchain/types/plasa'
 import { SpacePreview } from '@/lib/onchain/types/spaces'
-
-import { contractsGetPlasa } from '@/lib/onchain/contracts'
 
 const SpaceCard = ({ space }: { space: SpacePreview }) => (
 	<Card className="mb-4">

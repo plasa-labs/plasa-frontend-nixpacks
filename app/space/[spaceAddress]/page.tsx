@@ -1,20 +1,21 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import { useParams } from 'next/navigation'
-import { useReadContract } from 'wagmi'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useParams, useRouter } from 'next/navigation'
+
+import { useAccount, useReadContract } from 'wagmi'
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { PlusCircle, ChevronRight, Users, Eye, ArrowLeft, Calendar, Hash } from 'lucide-react'
 import { Skeleton } from "@/components/ui/skeleton"
-import Image from 'next/image'
+
+import { PlusCircle, ChevronRight, Users, Eye, ArrowLeft, Calendar, Hash } from 'lucide-react'
+
 import { SpaceView } from '@/lib/onchain/types/spaces'
 import { QuestionPreview } from '@/lib/onchain/types/questions'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useAccount } from 'wagmi'
-
 import { contractsGetSpace } from '@/lib/onchain/contracts'
 
 // Mock data for leaderboard (kept as requested)
