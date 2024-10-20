@@ -1,6 +1,6 @@
 'use client'
 
-import { ConnectWallet, Wallet, WalletDropdown, WalletDropdownBasename, WalletDropdownDisconnect } from '@coinbase/onchainkit/wallet'
+import { ConnectWallet, Wallet, WalletDropdown, WalletDropdownBasename, WalletDropdownDisconnect, WalletDropdownLink } from '@coinbase/onchainkit/wallet'
 import { Name } from '@coinbase/onchainkit/identity'
 import Link from 'next/link'
 
@@ -18,6 +18,9 @@ export function Navbar() {
 						</ConnectWallet>
 						<WalletDropdown className="bg-secondary text-primary hover:bg-secondary/90">
 							<WalletDropdownBasename className="bg-secondary text-primary" />
+							<WalletDropdownLink href="/profile" className="bg-secondary text-primary">
+								Mi perfil
+							</WalletDropdownLink>
 							<WalletDropdownDisconnect className="bg-secondary text-primary hover:text-primary/90" />
 						</WalletDropdown>
 					</Wallet>
