@@ -18,8 +18,10 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 import type { UserData } from '@/lib/api/interfaces'
 
-import { contractsGetPlasa } from '@/lib/onchain/contracts'
+import { contractsGetPlasa, contractsMintStamp } from '@/lib/onchain/contracts'
 import { PlasaView } from '@/lib/onchain/types/plasa'
+import { StampView } from '@/lib/onchain/types/stamps'
+import { Transaction, TransactionButton, TransactionStatus, TransactionStatusLabel, TransactionStatusAction } from '@coinbase/onchainkit/transaction'
 
 export default function ProfilePage() {
 	const { address } = useAccount()
@@ -27,7 +29,7 @@ export default function ProfilePage() {
 	const [loading, setLoading] = useState(true)
 
 	const contract = contractsGetPlasa(address)
-	const { data: plasa, isLoading: plasaLoading } = useReadContract(contract)
+	const { data: plasa, isLoading: plasaLoading, refetch: refetchPlasa } = useReadContract(contract)
 
 	useEffect(() => {
 		if (plasa && address) {
@@ -54,47 +56,48 @@ export default function ProfilePage() {
 		}
 	}, [plasa, address])
 
-	const handleConnectInstagram = (username: string) => {
+	const handleConnectInstagram = async (username: string) => {
 		setLoading(true)
-		setTimeout(() => {
-			setUserFirestore(prevData => {
-				if (!prevData) return null
-				return {
-					...prevData,
-					instagramUsername: username,
-					availableStamps: [
-						{ stamp: { contractAddress: '0x2' }, since: Date.now() / 1000, signature: '', deadline: 0, authentic: true },
-						{ stamp: { contractAddress: '0x3' }, since: Date.now() / 1000, signature: '', deadline: 0, authentic: false },
-					]
-				}
+		try {
+			const response = await fetch('https://linkinstagram-i2wvmwqfoq-uc.a.run.app', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ userAddress: address, instagramUsername: username }),
 			})
+			const updatedUserData = await response.json()
+			setUserFirestore(updatedUserData)
+		} catch (error) {
+			console.error('Error connecting Instagram:', error)
+		} finally {
 			setLoading(false)
-		}, 1000)
+		}
 	}
 
 	const handleStampMint = (stampAddress: string) => {
 		setLoading(true)
-		setTimeout(() => {
-			setUserFirestore(prevData => {
-				if (!prevData) return null
-				return {
-					...prevData,
-					availableStamps: prevData.availableStamps?.filter(stamp => stamp.stamp.contractAddress !== stampAddress) || []
-				}
-			})
-			setPlasa(prevView => {
-				if (!prevView) return null
-				return {
-					...prevView,
-					stamps: prevView.stamps.map(stamp =>
-						stamp.data.contractAddress === stampAddress
-							? { ...stamp, user: { ...stamp.user, owns: true, mintingTimestamp: (Date.now() / 1000).toString() } }
-							: stamp
-					)
-				}
-			})
-			setLoading(false)
-		}, 1000)
+		refetchPlasa()
+		// refetch
+		// setTimeout(() => {
+		// 	setUserFirestore(prevData => {
+		// 		if (!prevData) return null
+		// 		return {
+		// 			...prevData,
+		// 			availableStamps: prevData.availableStamps?.filter(stamp => stamp.stamp.contractAddress !== stampAddress) || []
+		// 		}
+		// 	})
+		// 	setPlasa(prevPlasa => {
+		// 		if (!prevPlasa) return null
+		// 		return {
+		// 			...prevPlasa,
+		// 			stamps: prevPlasa.stamps.map(stamp =>
+		// 				stamp.data.contractAddress === stampAddress
+		// 					? { ...stamp, user: { ...stamp.user, owns: true, mintingTimestamp: (Date.now() / 1000).toString() } }
+		// 					: stamp
+		// 			)
+		// 		}
+		// 	})
+		setLoading(false)
+		// }, 1000)
 	}
 
 	if (!address) {
@@ -165,7 +168,7 @@ function UsernameCard({ address }: { address: string }) {
 	)
 }
 
-function ConnectionsCard({ userFirestore, onConnectInstagram }: { userFirestore: UserFirestore | null, onConnectInstagram: (username: string) => void }) {
+function ConnectionsCard({ userFirestore, onConnectInstagram }: { userFirestore: UserData | null, onConnectInstagram: (username: string) => void }) {
 	const [instagramUsername, setInstagramUsername] = useState('')
 
 	return (
@@ -206,7 +209,7 @@ function ConnectionsCard({ userFirestore, onConnectInstagram }: { userFirestore:
 	)
 }
 
-function StampsCard({ userFirestore, plasa, onStampMint }: { userFirestore: UserFirestore | null, plasa: PlasaView | null, onStampMint: (address: string) => void }) {
+function StampsCard({ userFirestore, plasa, onStampMint }: { userFirestore: UserData | null, plasa: PlasaView | null, onStampMint: (address: string) => void }) {
 	const ownedStamps = plasa?.stamps.filter(stamp => stamp.user.owns) || []
 	const availableStamps = userFirestore?.availableStamps || []
 
@@ -231,9 +234,9 @@ function StampsCard({ userFirestore, plasa, onStampMint }: { userFirestore: User
 			<CardContent>
 				<h3 className="font-semibold mb-2">Mis Sellos</h3>
 				{ownedStamps.length > 0 ? (
-					<div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
+					<div className="space-y-4 mb-6">
 						{ownedStamps.map(stamp => (
-							<StampCard key={stamp.data.contractAddress} stamp={stamp} owned={true} />
+							<StampCard key={stamp.data.contractAddress} stamp={stamp} owned={true} userFirestore={userFirestore} />
 						))}
 					</div>
 				) : (
@@ -242,7 +245,7 @@ function StampsCard({ userFirestore, plasa, onStampMint }: { userFirestore: User
 
 				<h3 className="font-semibold mb-2">Sellos Disponibles</h3>
 				{availableStamps.length > 0 ? (
-					<div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+					<div className="space-y-4">
 						{availableStamps.map(stampSig => {
 							const stampData = plasa?.stamps.find(s => s.data.contractAddress === stampSig.stamp.contractAddress)
 							return stampData ? (
@@ -252,6 +255,7 @@ function StampsCard({ userFirestore, plasa, onStampMint }: { userFirestore: User
 									onMint={() => onStampMint(stampData.data.contractAddress)}
 									since={stampSig.since}
 									authentic={stampSig.authentic}
+									userFirestore={userFirestore}
 								/>
 							) : null
 						})}
@@ -264,19 +268,27 @@ function StampsCard({ userFirestore, plasa, onStampMint }: { userFirestore: User
 	)
 }
 
-function StampCard({ stamp, onMint, owned, since, authentic }: {
-	stamp: typeof mockPlasa.stamps[0],
+function StampCard({ stamp, onMint, owned, since, authentic, userFirestore }: {
+	stamp: StampView,
 	onMint?: () => void,
 	owned?: boolean,
 	since?: number,
-	authentic?: boolean
+	authentic?: boolean,
+	userFirestore: UserData | null
 }) {
-	const formattedDate = (timestamp: number) => new Date(timestamp * 1000).toLocaleDateString()
+	const formattedDate = (timestamp: number) => {
+		const date = new Date(timestamp * 1000)
+		return date.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' })
+	}
+
+	const stampFirestoreData = userFirestore?.availableStamps?.find(
+		s => s.stamp.contractAddress === stamp.data.contractAddress
+	)
 
 	return (
 		<Card className="overflow-hidden flex flex-col h-full">
 			<CardContent className="p-4 flex-grow flex flex-col">
-				<h4 className="font-semibold mb-2 truncate">{stamp.data.name}</h4>
+				<h4 className="font-semibold mb-2 truncate">@{stamp.data.name}</h4>
 				<div className="flex-grow">
 					{owned ? (
 						<p className="text-xs text-muted-foreground mb-2">
@@ -304,12 +316,33 @@ function StampCard({ stamp, onMint, owned, since, authentic }: {
 						size="sm"
 						className="w-full mt-2"
 					>
-						<Link href={`https://etherscan.io/token/${stamp.data.contractAddress}`} target="_blank" rel="noopener noreferrer">
+						<Link href={`https://sepolia.basescan.org/token/${stamp.data.contractAddress}?a=${stamp.user.stampId}`} target="_blank" rel="noopener noreferrer">
 							Ver mi sello <ExternalLink className="ml-2 h-4 w-4" />
 						</Link>
 					</Button>
-				) : onMint && (
-					<Button onClick={onMint} size="sm" className="w-full mt-2">Obtener</Button>
+				) : onMint && stampFirestoreData && (
+					<Transaction
+						chainId={84532} // Base Sepolia chain ID
+						contracts={contractsMintStamp(
+							stamp.data.contractAddress as `0x${string}`,
+							stampFirestoreData.since,
+							stampFirestoreData.deadline,
+							stampFirestoreData.signature as `0x${string}`
+						)}
+						onSuccess={(response) => {
+							console.log('Mint transaction successful:', response)
+							onMint()
+						}}
+						onError={(error) => {
+							console.error('Mint transaction failed:', error)
+						}}
+					>
+						<TransactionButton text="Obtener" className="w-full mt-2" />
+						<TransactionStatus>
+							<TransactionStatusLabel />
+							<TransactionStatusAction />
+						</TransactionStatus>
+					</Transaction>
 				)}
 			</CardContent>
 		</Card>
