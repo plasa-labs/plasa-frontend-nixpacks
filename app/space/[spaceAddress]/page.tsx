@@ -25,9 +25,10 @@ const mockLeaderboard = [
 ]
 
 const BackToSpacesButton = () => (
-	<Link href="/">
-		<Button variant="outline" size="sm" className="mb-4">
-			<ArrowLeft className="mr-2 h-4 w-4" /> Volver a espacios
+	<Link href="/" passHref>
+		<Button variant="outline" className="mb-6">
+			<ArrowLeft className="mr-2 h-4 w-4" />
+			Volver a Espacios
 		</Button>
 	</Link>
 )
