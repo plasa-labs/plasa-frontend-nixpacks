@@ -5,9 +5,13 @@ import Link from 'next/link'
 import { Menu } from 'lucide-react'
 
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Skeleton } from "@/components/ui/skeleton"
+
+import { PlasaView } from '@/app/ts-interfaces/types/plasa'
+import { SpacePreview } from '@/app/ts-interfaces/types/spaces'
 
 // Mock data fetch function
 const fetchPlasaData = async () => {
@@ -51,7 +55,7 @@ const Header = ({ username }: { username: string }) => (
 	</header>
 )
 
-const SpaceCard = ({ space }: { space: any }) => (
+const SpaceCard = ({ space }: { space: SpacePreview }) => (
 	<Card className="mb-4">
 		<div className="flex items-center p-4">
 			<div className="w-16 h-16 mr-4 overflow-hidden rounded-lg">
@@ -95,7 +99,7 @@ const SkeletonHeader = () => (
 )
 
 export default function Component() {
-	const [plasaData, setPlasaData] = useState<any>(null)
+	const [plasaData, setPlasaData] = useState<PlasaView | null>(null)
 
 	useEffect(() => {
 		fetchPlasaData().then(setPlasaData)
@@ -121,7 +125,7 @@ export default function Component() {
 			<Header username={plasaData.user.username} />
 			<main className="container mx-auto px-4 py-8">
 				<h2 className="text-2xl font-bold mb-6">Espacios</h2>
-				{plasaData.spaces.map((space: any) => (
+				{plasaData.spaces.map((space: SpacePreview) => (
 					<SpaceCard key={space.data.contractAddress} space={space} />
 				))}
 				<p className="text-center mt-8 text-sm text-gray-600">
