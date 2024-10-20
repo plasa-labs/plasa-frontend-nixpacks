@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useReadContract, useAccount } from 'wagmi'
+import Image from 'next/image'
 
 import { Button } from "@/components/ui/button"
 import { Card, CardTitle } from "@/components/ui/card"
@@ -15,8 +16,13 @@ import { contractsGetPlasa } from '@/app/onchain/contracts'
 const SpaceCard = ({ space }: { space: SpacePreview }) => (
 	<Card className="mb-4">
 		<div className="flex items-center p-4">
-			<div className="w-16 h-16 mr-4 overflow-hidden rounded-lg">
-				<img src={space.data.imageUrl} alt={space.data.name} className="w-full h-full object-cover" />
+			<div className="w-16 h-16 mr-4 overflow-hidden rounded-lg relative">
+				<Image
+					src={space.data.imageUrl}
+					alt={space.data.name}
+					fill
+					className="object-cover"
+				/>
 			</div>
 			<div className="flex-grow">
 				<CardTitle className="mb-2">{space.data.name}</CardTitle>
