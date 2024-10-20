@@ -4,6 +4,7 @@ import { ConnectWallet, Wallet, WalletDropdown, WalletDropdownBasename, WalletDr
 import { Name } from '@coinbase/onchainkit/identity'
 import Image from 'next/image'
 import Link from 'next/link'
+import { color } from '@coinbase/onchainkit/theme'
 
 export function Navbar() {
 	return (
@@ -14,15 +15,15 @@ export function Navbar() {
 				</Link>
 				<div className="flex justify-end">
 					<Wallet>
-						<ConnectWallet text="Conectar" className="bg-secondary text-primary hover:bg-secondary/90">
-							<Name className="text-primary" />
+						<ConnectWallet text="Conectar">
+							<Name />
 						</ConnectWallet>
-						<WalletDropdown className="bg-secondary text-primary hover:bg-secondary/90">
-							<WalletDropdownBasename className="bg-secondary text-primary" />
-							<WalletDropdownLink href="/profile" className="bg-secondary text-primary">
+						<WalletDropdown>
+							<WalletDropdownBasename />
+							<WalletDropdownLink href="/profile">
 								Mi perfil
 							</WalletDropdownLink>
-							<WalletDropdownDisconnect className="bg-secondary text-primary hover:text-primary/90" />
+							<WalletDropdownDisconnect />
 						</WalletDropdown>
 					</Wallet>
 				</div>
