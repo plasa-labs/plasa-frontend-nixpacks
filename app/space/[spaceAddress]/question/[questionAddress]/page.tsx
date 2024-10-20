@@ -51,10 +51,10 @@ const QuestionDetails = ({ description, totalPoints, canVote }: { description: s
 	</Card>
 )
 
-const VotingOptions = ({ options, onVote, userVote, canVote, active }: { options: OptionView[]; onVote: (index: number) => void; userVote: number; canVote: boolean; active: boolean }) => (
+const VotingOptions = ({ options, onVote, canVote, active }: { options: OptionView[]; onVote: (index: number) => void; canVote: boolean; active: boolean }) => (
 	<div className="space-y-4 mb-6">
 		{options.slice(1).map((option, index) => (
-			<Card key={index + 1} className={userVote === index + 1 ? "border-primary" : ""}>
+			<Card key={index + 1} className={option.user.voted ? "border-primary" : ""}>
 				<CardContent className="pt-6">
 					<div className="flex justify-between items-start mb-4">
 						<div>
@@ -102,7 +102,7 @@ const VotingProgress = ({ options }: { options: OptionView[] }) => {
 									</div>
 									<div className="text-right">
 										<span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full bg-primary text-primary-foreground">
-											{Number(option.data.voteCount)} votos
+											{option.data.voteCount.toString()} votos
 										</span>
 									</div>
 								</div>
@@ -197,6 +197,9 @@ export default function QuestionPage() {
 	const { spaceAddress, questionAddress } = useParams()
 	const [userAddress, setUserAddress] = useState<`0x${string}` | undefined>()
 	const [timeLeft, setTimeLeft] = useState<string>("")
+	// Add these new state variables
+	const [voting, setVoting] = useState(false)
+	// const [userVote, setUserVote] = useState<number | null>(null)
 
 	// Fetch user's address (you might want to use Wagmi's useAccount hook here)
 	useEffect(() => {
@@ -242,9 +245,21 @@ export default function QuestionPage() {
 		}
 	}, [questionData])
 
-	const handleVote = async (indiceOpcion: number) => {
-		// Implement voting logic here
-		console.log(`Voting for option ${indiceOpcion}`)
+	const handleVote = async (optionIndex: number) => {
+		setVoting(true)
+		// Simular transacción blockchain
+		await new Promise((resolve) => setTimeout(resolve, 3000))
+		setVoting(false)
+
+		// Actualizar estado local para reflejar el voto
+		if (questionData) {
+			const updatedQuestionData = { ...questionData } as unknown as QuestionView
+			updatedQuestionData.options[optionIndex].data.voteCount = Number(updatedQuestionData.options[optionIndex].data.voteCount) + 1
+			updatedQuestionData.options[optionIndex].user.voted = true
+			updatedQuestionData.user.canVote = false
+			updatedQuestionData.data.voteCount = Number(updatedQuestionData.data.voteCount) + 1
+			updatedQuestionData.options[optionIndex].data.pointsAtDeadline = Number(updatedQuestionData.options[optionIndex].data.pointsAtDeadline) + Number(updatedQuestionData.user.pointsAtDeadline)
+		}
 	}
 
 	if (isLoading) {
@@ -284,7 +299,6 @@ export default function QuestionPage() {
 					<VotingOptions
 						options={question.options}
 						onVote={handleVote}
-						userVote={question.options.findIndex(option => option.user.voted)}
 						canVote={question.user.canVote}
 						active={question.data.isActive}
 					/>
@@ -294,7 +308,7 @@ export default function QuestionPage() {
 					<Card>
 						<CardContent className="pt-6">
 							<h2 className="text-xl font-semibold mb-2">Total de Votos</h2>
-							<p className="text-3xl font-bold">{question.data.voteCount}</p>
+							<p className="text-3xl font-bold">{question.data.voteCount.toString()}</p>
 						</CardContent>
 					</Card>
 					<InformationSection spaceData={{
@@ -303,6 +317,16 @@ export default function QuestionPage() {
 					}} question={question} />
 				</div>
 			</div>
+			{voting && (
+				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+					<Card className="w-64">
+						<CardContent className="flex flex-col items-center justify-center h-32">
+							<Skeleton className="h-8 w-8 rounded-full mb-4" />
+							<p className="text-center">Procesando voto...</p>
+						</CardContent>
+					</Card>
+				</div>
+			)}
 		</div>
 	)
 }
