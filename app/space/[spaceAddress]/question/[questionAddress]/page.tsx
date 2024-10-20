@@ -18,6 +18,8 @@ import { Alert } from "@/components/ui/alert"
 import { contractsGetQuestion, contractsVote } from '@/lib/onchain/contracts'
 import { OptionView } from '@/lib/onchain/types/options'
 import { QuestionType, QuestionView } from '@/lib/onchain/types/questions'
+import { formatPoints } from '@/lib/format'
+
 
 const QuestionHeader = ({ title, active, timeLeft }: { title: string; active: boolean; timeLeft: string }) => (
 	<div className="mb-6">
@@ -59,7 +61,7 @@ const QuestionDetails = ({ description, totalPoints, canVote, userPointsAtDeadli
 				</Alert>
 			) : (
 				<div className="flex justify-between items-center bg-muted p-3 rounded-lg">
-					<p className="text-sm font-medium">Tus puntos totales: <span className="text-primary">{totalPoints.toString()}</span></p>
+					<p className="text-sm font-medium">Tus puntos: <span className="text-primary">{formatPoints(totalPoints)}</span></p>
 					{canVote ? (
 						<Badge variant="outline" className="bg-primary text-primary-foreground">Puedes votar</Badge>
 					) : (
@@ -139,7 +141,7 @@ const VotingProgress = ({ options }: { options: OptionView[] }) => {
 								<div className="flex mb-2 items-center justify-between">
 									<div>
 										<span className="text-lg font-semibold inline-block text-primary">
-											{Number(option.data.pointsAtDeadline).toLocaleString()} puntos
+											{Math.floor(Number(option.data.pointsAtDeadline) / 1e15).toLocaleString()} puntos
 										</span>
 									</div>
 									<div className="text-right">
@@ -177,9 +179,9 @@ const InformationSection = ({ spaceData, question }: { spaceData: { name: string
 			case QuestionType.Open:
 				return "Abierta"
 			case QuestionType.Fixed:
-				return "Fija"
+				return "Cerrado"
 			default:
-				return "Desconocido"
+				return "Cerrado"
 		}
 	}
 
@@ -199,11 +201,11 @@ const InformationSection = ({ spaceData, question }: { spaceData: { name: string
 						<p className="text-muted-foreground truncate">{spaceData.contractAddress}</p>
 					</div>
 					<div>
-						<p className="font-semibold">Contrato de la Pregunta</p>
+						<p className="font-semibold">Contrato del Tema</p>
 						<p className="text-muted-foreground truncate">{question.data.contractAddress}</p>
 					</div>
 					<div>
-						<p className="font-semibold">Tipo de Pregunta</p>
+						<p className="font-semibold">Tipo de Tema</p>
 						<p className="text-muted-foreground">{getQuestionTypeString(question.data.questionType)}</p>
 					</div>
 					<div>
@@ -313,7 +315,7 @@ export default function QuestionPage() {
 			<Link href={`/space/${spaceAddress}`} passHref>
 				<Button variant="outline" className="mb-6">
 					<ArrowLeft className="mr-2 h-4 w-4" />
-					Volver a Preguntas
+					Volver a Temas
 				</Button>
 			</Link>
 			<QuestionHeader

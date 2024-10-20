@@ -12,12 +12,12 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 
-import { PlusCircle, ChevronRight, Users, Eye, ArrowLeft, Calendar, Hash } from 'lucide-react'
+import { PlusCircle, Users, Eye, ArrowLeft, Calendar, Hash } from 'lucide-react'
 
 import { SpaceView } from '@/lib/onchain/types/spaces'
 import { QuestionPreview } from '@/lib/onchain/types/questions'
 import { contractsGetSpace } from '@/lib/onchain/contracts'
-
+import { formatPoints } from '@/lib/format'
 // Mock data for leaderboard (kept as requested)
 const mockLeaderboard = [
 	{ name: "alice", points: 8900 },
@@ -146,7 +146,7 @@ const QuestionCard = ({ question, spaceAddress }: { question: QuestionPreview; s
 				</div>
 				<div className="flex justify-between items-center">
 					<span className="text-sm font-medium">
-						Tus puntos: {formatPoints(BigInt(question.user.pointsAtDeadline))}
+						Tus puntos: {formatPoints(question.user.pointsAtDeadline)}
 					</span>
 					{canVote && isActive ? (
 						<Button variant="default" size="sm" onClick={handleQuestionClick}>
@@ -178,9 +178,9 @@ const Leaderboard = ({ members }: { members: { name: string; points: number }[] 
 					<Badge variant="secondary">{member.points} puntos</Badge>
 				</div>
 			))}
-			<Button variant="outline" className="w-full mt-4">
+			{/* <Button variant="outline" className="w-full mt-4">
 				Ver todos <ChevronRight className="ml-2 h-4 w-4" />
-			</Button>
+			</Button> */}
 		</CardContent>
 	</Card>
 )
@@ -237,10 +237,6 @@ const SpaceInfoSkeleton = () => (
 		</CardContent>
 	</Card>
 )
-
-function formatPoints(points: bigint): string {
-	return points.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-}
 
 export default function Component() {
 	const { spaceAddress } = useParams()
