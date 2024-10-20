@@ -3,7 +3,9 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
-import { useAccount } from 'wagmi'
+import { useAccount, useReadContract } from 'wagmi'
+import { useName } from '@coinbase/onchainkit/identity'
+import { baseSepolia } from 'viem/chains'
 
 import { AlertTriangle, ExternalLink, Instagram } from 'lucide-react'
 
@@ -16,47 +18,46 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 import type { UserData } from '@/lib/api/interfaces'
 
-// Mock data
-const mockPlasaView = {
-	user: { username: 'jesse.base.eth' },
-	stamps: [
-		{ data: { contractAddress: '0x1', name: 'Stamp 1' }, user: { owns: true, mintingTimestamp: '1620000000' } },
-		{ data: { contractAddress: '0x2', name: 'Stamp 2' }, user: { owns: false } },
-		{ data: { contractAddress: '0x3', name: 'Stamp 3' }, user: { owns: false } },
-	]
-}
-
-const mockUserData: UserData = {
-	address: '0x1234...5678',
-	instagramUsername: null,
-	availableStamps: [
-		{ stamp: { contractAddress: '0x2', chainId: 1, platform: 'base', followedAccount: '0x1234...5678' }, since: 1620000000, signature: '', deadline: 0, authentic: true },
-		{ stamp: { contractAddress: '0x3', chainId: 1, platform: 'base', followedAccount: '0x1234...5678' }, since: 1620100000, signature: '', deadline: 0, authentic: false },
-	]
-}
+import { contractsGetPlasa } from '@/lib/onchain/contracts'
+import { PlasaView } from '@/lib/onchain/types/plasa'
 
 export default function ProfilePage() {
 	const { address } = useAccount()
-	const [userData, setUserData] = useState<UserData | null>(null)
-	const [plasaView, setPlasaView] = useState<typeof mockPlasaView | null>(null)
+	const [userFirestore, setUserFirestore] = useState<UserData | null>(null)
 	const [loading, setLoading] = useState(true)
-	const [username, setUsername] = useState<string | null>(null)
+
+	const contract = contractsGetPlasa(address)
+	const { data: plasa, isLoading: plasaLoading } = useReadContract(contract)
 
 	useEffect(() => {
-		// Simulate API calls
-		setTimeout(() => {
-			setUserData(mockUserData)
-			setPlasaView(mockPlasaView)
-			// Simulate fetching the username from another query
-			setUsername(Math.random() > 0.5 ? 'cool.base.eth' : null)
-			setLoading(false)
-		}, 1500)
-	}, [])
+		if (plasa && address) {
+			const plasaView = plasa as unknown as PlasaView
+			const stampAddresses = plasaView.stamps
+				.filter(stamp => !stamp.user.owns)
+				.map(stamp => stamp.data.contractAddress)
+
+			console.log('Stamp addresses:', stampAddresses)
+
+			fetch(`https://getuserdata-i2wvmwqfoq-uc.a.run.app?userAddress=${address}&stampAddresses=${stampAddresses.join(',')}`)
+				.then(res => res.json())
+				.then(data => {
+					console.log('User Firestore data:', data)
+					console.log(data)
+
+					setUserFirestore(data)
+					setLoading(false)
+				})
+				.catch(error => {
+					console.error("Error fetching user data:", error)
+					setLoading(false)
+				})
+		}
+	}, [plasa, address])
 
 	const handleConnectInstagram = (username: string) => {
 		setLoading(true)
 		setTimeout(() => {
-			setUserData(prevData => {
+			setUserFirestore(prevData => {
 				if (!prevData) return null
 				return {
 					...prevData,
@@ -74,14 +75,14 @@ export default function ProfilePage() {
 	const handleStampMint = (stampAddress: string) => {
 		setLoading(true)
 		setTimeout(() => {
-			setUserData(prevData => {
+			setUserFirestore(prevData => {
 				if (!prevData) return null
 				return {
 					...prevData,
 					availableStamps: prevData.availableStamps?.filter(stamp => stamp.stamp.contractAddress !== stampAddress) || []
 				}
 			})
-			setPlasaView(prevView => {
+			setPlasa(prevView => {
 				if (!prevView) return null
 				return {
 					...prevView,
@@ -100,22 +101,24 @@ export default function ProfilePage() {
 		return <NotConnectedCard />
 	}
 
-	if (loading) {
+	if (loading || plasaLoading) {
 		return <SkeletonLoader />
 	}
+
+	const typedPlasaData = plasa as unknown as PlasaView
 
 	return (
 		<div className="container mx-auto px-4 py-8 max-w-4xl">
 			<h1 className="text-3xl font-bold mb-6">Mi Perfil</h1>
 			<div className="grid gap-6 md:grid-cols-2">
 				<div>
-					<UsernameCard username={username} />
-					<ConnectionsCard userData={userData} onConnectInstagram={handleConnectInstagram} />
+					<UsernameCard address={address} />
+					<ConnectionsCard userFirestore={userFirestore} onConnectInstagram={handleConnectInstagram} />
 				</div>
 				<div>
 					<StampsCard
-						userData={userData}
-						plasaView={plasaView}
+						userFirestore={userFirestore}
+						plasa={typedPlasaData}
 						onStampMint={handleStampMint}
 					/>
 				</div>
@@ -134,22 +137,24 @@ function NotConnectedCard() {
 	)
 }
 
-function UsernameCard({ username }: { username: string | null }) {
+function UsernameCard({ address }: { address: string }) {
+	const { name: basename } = useName({ address: address as `0x${string}`, chain: baseSepolia })
+
 	return (
 		<Card className="mb-6">
 			<CardHeader>
 				<CardTitle>Nombre de usuario</CardTitle>
 			</CardHeader>
 			<CardContent>
-				{username ? (
+				{basename ? (
 					<div className="flex items-center justify-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white rounded-lg p-4">
-						<h2 className="text-2xl font-bold tracking-tight">{username}</h2>
+						<h2 className="text-2xl font-bold tracking-tight">{basename}</h2>
 					</div>
 				) : (
 					<p className="text-muted-foreground">Aún no tienes nombre de usuario</p>
 				)}
 			</CardContent>
-			{!username && (
+			{!basename && (
 				<CardFooter>
 					<Button asChild className="w-full">
 						<Link href="https://www.base.org/names">Obtener nombre de usuario</Link>
@@ -160,7 +165,7 @@ function UsernameCard({ username }: { username: string | null }) {
 	)
 }
 
-function ConnectionsCard({ userData, onConnectInstagram }: { userData: UserData | null, onConnectInstagram: (username: string) => void }) {
+function ConnectionsCard({ userFirestore, onConnectInstagram }: { userFirestore: UserFirestore | null, onConnectInstagram: (username: string) => void }) {
 	const [instagramUsername, setInstagramUsername] = useState('')
 
 	return (
@@ -174,8 +179,8 @@ function ConnectionsCard({ userData, onConnectInstagram }: { userData: UserData 
 						<Instagram className="text-pink-500" />
 						<span className="font-medium">Instagram</span>
 					</div>
-					{userData?.instagramUsername ? (
-						<p className="text-sm font-medium">{userData.instagramUsername}</p>
+					{userFirestore?.instagramUsername ? (
+						<p className="text-sm font-medium">{userFirestore.instagramUsername}</p>
 					) : (
 						<Dialog>
 							<DialogTrigger asChild>
@@ -201,11 +206,11 @@ function ConnectionsCard({ userData, onConnectInstagram }: { userData: UserData 
 	)
 }
 
-function StampsCard({ userData, plasaView, onStampMint }: { userData: UserData | null, plasaView: typeof mockPlasaView | null, onStampMint: (address: string) => void }) {
-	const ownedStamps = plasaView?.stamps.filter(stamp => stamp.user.owns) || []
-	const availableStamps = userData?.availableStamps || []
+function StampsCard({ userFirestore, plasa, onStampMint }: { userFirestore: UserFirestore | null, plasa: PlasaView | null, onStampMint: (address: string) => void }) {
+	const ownedStamps = plasa?.stamps.filter(stamp => stamp.user.owns) || []
+	const availableStamps = userFirestore?.availableStamps || []
 
-	if (!userData?.instagramUsername) {
+	if (!userFirestore?.instagramUsername) {
 		return (
 			<Card>
 				<CardHeader>
@@ -239,7 +244,7 @@ function StampsCard({ userData, plasaView, onStampMint }: { userData: UserData |
 				{availableStamps.length > 0 ? (
 					<div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
 						{availableStamps.map(stampSig => {
-							const stampData = plasaView?.stamps.find(s => s.data.contractAddress === stampSig.stamp.contractAddress)
+							const stampData = plasa?.stamps.find(s => s.data.contractAddress === stampSig.stamp.contractAddress)
 							return stampData ? (
 								<StampCard
 									key={stampData.data.contractAddress}
@@ -260,7 +265,7 @@ function StampsCard({ userData, plasaView, onStampMint }: { userData: UserData |
 }
 
 function StampCard({ stamp, onMint, owned, since, authentic }: {
-	stamp: typeof mockPlasaView.stamps[0],
+	stamp: typeof mockPlasa.stamps[0],
 	onMint?: () => void,
 	owned?: boolean,
 	since?: number,
