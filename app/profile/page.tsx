@@ -2,17 +2,19 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+
+import { useAccount } from 'wagmi'
+
+import { AlertTriangle, ExternalLink, Instagram } from 'lucide-react'
+
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { Instagram, Loader2, ExternalLink, AlertTriangle } from 'lucide-react'
 import { Skeleton } from "@/components/ui/skeleton"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Badge } from "@/components/ui/badge"
-import type { UserData, StampSignature } from './return-interfaces'
 
-const PLASA_CONTRACT_ADDRESS = '0xB118054847d57c1183B8362AA6fE1196c21aff39'
+import type { UserData } from '@/lib/api/interfaces'
 
 // Mock data
 const mockPlasaView = {
@@ -28,13 +30,13 @@ const mockUserData: UserData = {
 	address: '0x1234...5678',
 	instagramUsername: null,
 	availableStamps: [
-		{ stamp: { contractAddress: '0x2' }, since: 1620000000, signature: '', deadline: 0, authentic: true },
-		{ stamp: { contractAddress: '0x3' }, since: 1620100000, signature: '', deadline: 0, authentic: false },
+		{ stamp: { contractAddress: '0x2', chainId: 1, platform: 'base', followedAccount: '0x1234...5678' }, since: 1620000000, signature: '', deadline: 0, authentic: true },
+		{ stamp: { contractAddress: '0x3', chainId: 1, platform: 'base', followedAccount: '0x1234...5678' }, since: 1620100000, signature: '', deadline: 0, authentic: false },
 	]
 }
 
 export default function ProfilePage() {
-	const [address, setAddress] = useState<string | undefined>('0x1234...5678') // Mock address
+	const { address } = useAccount()
 	const [userData, setUserData] = useState<UserData | null>(null)
 	const [plasaView, setPlasaView] = useState<typeof mockPlasaView | null>(null)
 	const [loading, setLoading] = useState(true)
