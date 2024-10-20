@@ -1,96 +1,21 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { useParams } from 'next/navigation'
+import { useReadContract } from 'wagmi'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { PlusCircle, ChevronRight, Users, Eye, ArrowLeft, Calendar, Hash } from 'lucide-react'
 import { Skeleton } from "@/components/ui/skeleton"
 import Image from 'next/image'
-import { useParams } from 'next/navigation'
 import { SpaceView } from '@/app/ts-interfaces/types/spaces'
-import { QuestionType, QuestionView } from '@/app/ts-interfaces/types/questions'
+import { QuestionPreview } from '@/app/ts-interfaces/types/questions'
+import spaceABI from '@/app/spaceABI.json'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
-// Mock data (moved outside the component for clarity)
-const mockSpace: SpaceView = {
-	data: {
-		contractAddress: "0xaaaa1111bbbb2222cccc3333dddd4444eeee5555",
-		name: "Crypto Governance",
-		description: "A space for discussing and voting on crypto governance proposals",
-		imageUrl: "https://raw.githubusercontent.com/base-org/brand-kit/refs/heads/main/logo/in-product/Base_Network_Logo.png",
-		creationTimestamp: 1620000000000,
-	},
-	user: {
-		roles: {
-			superAdmin: false,
-			admin: true,
-			mod: true,
-		},
-		permissions: {
-			UpdateSpaceInfo: true,
-			UpdateSpacePoints: true,
-			UpdateQuestionInfo: true,
-			UpdateQuestionDeadline: true,
-			UpdateQuestionPoints: true,
-			CreateFixedQuestion: true,
-			CreateOpenQuestion: true,
-			VetoFixedQuestion: false,
-			VetoOpenQuestion: false,
-			VetoOpenQuestionOption: false,
-			LiftVetoFixedQuestion: false,
-			LiftVetoOpenQuestion: false,
-			LiftVetoOpenQuestionOption: false,
-			AddOpenQuestionOption: false,
-		},
-	},
-	points: {
-		data: {
-			contractAddress: "0xbbbb2222cccc3333dddd4444eeee5555ffff6666",
-			name: "Governance Points",
-			symbol: "GP",
-		},
-		user: {
-			currentBalance: 1000,
-		},
-	},
-	questions: [
-		{
-			data: {
-				contractAddress: "0x1111aaaabbbbccccddddeeeeffffgggg2222hhhh",
-				questionType: QuestionType.Fixed,
-				title: "Should we implement EIP-1559?",
-				description: "Proposal to implement Ethereum Improvement Proposal 1559",
-				creator: "0xcccc3333dddd4444eeee5555ffff6666gggg7777",
-				kickoff: Date.now(),
-				deadline: Date.now() + 5 * 24 * 60 * 60 * 1000, // 5 days from now
-				isActive: true,
-				voteCount: 1500,
-			},
-			user: {
-				canVote: true,
-				pointsAtDeadline: 950,
-			},
-		},
-		{
-			data: {
-				contractAddress: "0x4444iiiijjjjkkkkllllmmmmnnnnoooo5555pppp",
-				questionType: QuestionType.Open,
-				title: "What should be our next focus area?",
-				description: "Open discussion on the next priority for our governance",
-				creator: "0xdddd4444eeee5555ffff6666gggg7777hhhh8888",
-				kickoff: Date.now() - 7 * 24 * 60 * 60 * 1000, // 7 days ago
-				deadline: Date.now() - 2 * 24 * 60 * 60 * 1000, // 2 days ago
-				isActive: false,
-				voteCount: 750,
-			},
-			user: {
-				canVote: false,
-				pointsAtDeadline: 1000,
-			},
-		},
-	]
-}
-
+// Mock data for leaderboard (kept as requested)
 const mockLeaderboard = [
 	{ name: "alice", points: 8900 },
 	{ name: "bob", points: 7500 },
@@ -100,12 +25,14 @@ const mockLeaderboard = [
 ]
 
 const BackToSpacesButton = () => (
-	<Button variant="outline" size="sm" className="mb-4">
-		<ArrowLeft className="mr-2 h-4 w-4" /> Volver a espacios
-	</Button>
+	<Link href="/">
+		<Button variant="outline" size="sm" className="mb-4">
+			<ArrowLeft className="mr-2 h-4 w-4" /> Volver a espacios
+		</Button>
+	</Link>
 )
 
-const SpaceHeader = ({ name, description, points, symbol, imageUrl }: { name: string; description: string; points: number; symbol: string; imageUrl: string }) => (
+const SpaceHeader = ({ name, description, points, symbol, imageUrl }: { name: string; description: string; points: bigint; symbol: string; imageUrl: string }) => (
 	<Card className="mb-6">
 		<CardHeader>
 			<div className="flex items-start">
@@ -117,7 +44,7 @@ const SpaceHeader = ({ name, description, points, symbol, imageUrl }: { name: st
 					<CardDescription>{description}</CardDescription>
 				</div>
 				<Badge variant="secondary" className="text-lg px-3 py-1 ml-4">
-					{points} {symbol}
+					{formatPoints(points)} {symbol}
 				</Badge>
 			</div>
 		</CardHeader>
@@ -139,7 +66,7 @@ const SpaceHeaderSkeleton = () => (
 	</Card>
 )
 
-const QuestionsList = ({ questions, canCreateQuestion }: { questions: any[]; canCreateQuestion: boolean }) => (
+const QuestionsList = ({ questions, canCreateQuestion, spaceAddress }: { questions: QuestionPreview[]; canCreateQuestion: boolean; spaceAddress: string }) => (
 	<Card className="mb-6">
 		<CardHeader>
 			<div className="flex justify-between items-center">
@@ -151,7 +78,7 @@ const QuestionsList = ({ questions, canCreateQuestion }: { questions: any[]; can
 		</CardHeader>
 		<CardContent>
 			{questions.map((question, index) => (
-				<QuestionCard key={index} question={question} />
+				<QuestionCard key={index} question={question} spaceAddress={spaceAddress} />
 			))}
 		</CardContent>
 	</Card>
@@ -184,11 +111,17 @@ const QuestionsListSkeleton = () => (
 	</Card>
 )
 
-const QuestionCard = ({ question }: { question: QuestionView }) => {
+const QuestionCard = ({ question, spaceAddress }: { question: QuestionPreview; spaceAddress: string }) => {
+	const router = useRouter()
 	const isActive = question.data.isActive
 	const canVote = question.user.canVote
-	const timeRemaining = new Date(question.data.deadline).getTime() - Date.now()
+	const deadlineTimestamp = Number(question.data.deadline)
+	const timeRemaining = new Date(deadlineTimestamp * 1000).getTime() - Date.now()
 	const daysRemaining = Math.ceil(timeRemaining / (1000 * 60 * 60 * 24))
+
+	const handleQuestionClick = () => {
+		router.push(`/space/${spaceAddress}/question/${question.data.contractAddress}`)
+	}
 
 	return (
 		<Card className="mb-4">
@@ -205,18 +138,18 @@ const QuestionCard = ({ question }: { question: QuestionView }) => {
 					<span>
 						{isActive ? `Quedan ${daysRemaining} días` : `Terminó hace ${Math.abs(daysRemaining)} días`}
 					</span>
-					<span>{question.data.voteCount} votos</span>
+					<span>{BigInt(question.data.voteCount).toString()} votos</span>
 				</div>
 				<div className="flex justify-between items-center">
 					<span className="text-sm font-medium">
-						Tus puntos: {question.user.pointsAtDeadline}
+						Tus puntos: {formatPoints(BigInt(question.user.pointsAtDeadline))}
 					</span>
 					{canVote && isActive ? (
-						<Button variant="default" size="sm">
+						<Button variant="default" size="sm" onClick={handleQuestionClick}>
 							Votar
 						</Button>
 					) : (
-						<Button variant="outline" size="sm">
+						<Button variant="outline" size="sm" onClick={handleQuestionClick}>
 							<Eye className="mr-2 h-4 w-4" /> Ver
 						</Button>
 					)}
@@ -265,7 +198,7 @@ const LeaderboardSkeleton = () => (
 	</Card>
 )
 
-const SpaceInfo = ({ contractAddress, creationDate }: { contractAddress: string; creationDate: number }) => (
+const SpaceInfo = ({ contractAddress, creationDate }: { contractAddress: string; creationDate: bigint }) => (
 	<Card>
 		<CardHeader>
 			<CardTitle>Información del Espacio</CardTitle>
@@ -277,7 +210,7 @@ const SpaceInfo = ({ contractAddress, creationDate }: { contractAddress: string;
 			</div>
 			<div className="flex items-center">
 				<Calendar className="mr-2 h-4 w-4" />
-				<span className="text-sm">Fecha de creación: {new Date(creationDate).toLocaleDateString()}</span>
+				<span className="text-sm">Fecha de creación: {new Date(Number(creationDate) * 1000).toLocaleDateString()}</span>
 			</div>
 		</CardContent>
 	</Card>
@@ -301,26 +234,37 @@ const SpaceInfoSkeleton = () => (
 	</Card>
 )
 
+function formatPoints(points: bigint): string {
+	return points.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+}
+
 export default function Component() {
 	const { spaceAddress } = useParams()
+	const [userAddress, setUserAddress] = useState<`0x${string}` | undefined>()
 
-	const [space, setSpace] = useState<SpaceView | null>(null)
-	const [leaderboardData, setLeaderboardData] = useState<any>(null)
-	const [loading, setLoading] = useState(true)
-
+	// Fetch user's address (you might want to use Wagmi's useAccount hook here)
 	useEffect(() => {
-		const fetchData = async () => {
-			// Simulate API call delay
-			await new Promise(resolve => setTimeout(resolve, 2000))
-			setSpace(mockSpace)
-			setLeaderboardData(mockLeaderboard)
-			setLoading(false)
-		}
-
-		fetchData()
+		// This is a placeholder. Replace with actual logic to get the user's address.
+		setUserAddress('0x1234567890123456789012345678901234567890')
 	}, [])
 
-	if (loading) {
+	const { data: spaceData, isLoading, isError } = useReadContract({
+		address: spaceAddress as `0x${string}`,
+		abi: spaceABI,
+		functionName: 'getSpaceView',
+		args: [userAddress!],
+		chainId: 84532, // Base Sepolia chain ID
+	})
+
+	// New useEffect to log spaceData
+	useEffect(() => {
+		if (spaceData) {
+			console.log('Space data:')
+			console.log(spaceData)
+		}
+	}, [spaceData])
+
+	if (isLoading) {
 		return (
 			<div className="max-w-4xl mx-auto bg-background text-foreground p-6">
 				<BackToSpacesButton />
@@ -332,24 +276,31 @@ export default function Component() {
 		)
 	}
 
+	if (isError || !spaceData) {
+		return <div>Error loading space data</div>
+	}
+
+	const space = spaceData as unknown as SpaceView
+
 	return (
 		<div className="max-w-4xl mx-auto bg-background text-foreground p-6">
 			<BackToSpacesButton />
 			<SpaceHeader
 				name={space.data.name}
 				description={space.data.description}
-				points={space.points.user.currentBalance}
+				points={BigInt(space.points.user.currentBalance)}
 				symbol={space.points.data.symbol}
 				imageUrl={space.data.imageUrl}
 			/>
 			<QuestionsList
 				questions={space.questions}
 				canCreateQuestion={space.user.permissions.CreateFixedQuestion || space.user.permissions.CreateOpenQuestion}
+				spaceAddress={spaceAddress as string}
 			/>
-			<Leaderboard members={leaderboardData} />
+			<Leaderboard members={mockLeaderboard} />
 			<SpaceInfo
 				contractAddress={space.data.contractAddress}
-				creationDate={space.data.creationTimestamp}
+				creationDate={BigInt(space.data.creationTimestamp)}
 			/>
 		</div>
 	)
