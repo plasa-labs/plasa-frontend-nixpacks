@@ -13,7 +13,7 @@ import { Transaction, TransactionButton, TransactionStatus, TransactionStatusLab
 import { AlertTriangle, ExternalLink, Instagram } from 'lucide-react'
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -62,10 +62,13 @@ export default function ProfilePage() {
 	const handleConnectInstagram = async (username: string) => {
 		setLoading(true)
 		try {
+			// Process the username: convert to lowercase, remove spaces and '@' symbols
+			const processedUsername = username.toLowerCase().replace(/\s+/g, '').replace('@', '')
+
 			const response = await fetch('https://linkinstagram-i2wvmwqfoq-uc.a.run.app', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ userAddress: address, instagramUsername: username }),
+				body: JSON.stringify({ userAddress: address, instagramUsername: processedUsername }),
 			})
 			const updatedUserData = await response.json()
 			setUserFirestore(updatedUserData)
@@ -136,7 +139,9 @@ function UsernameCard({ address }: { address: string }) {
 						<h2 className="text-2xl font-bold tracking-tight">{basename}</h2>
 					</div>
 				) : (
-					<p className="text-muted-foreground">Aún no tienes nombre de usuario</p>
+					<CardDescription>
+						El nombre de usuario es opcional y se puede obtener en cualquier momento.
+					</CardDescription>
 				)}
 			</CardContent>
 			{!basename && (
@@ -214,7 +219,7 @@ function StampsCard({ userFirestore, plasa, onStampMint }: { userFirestore: User
 				<CardTitle>Sellos</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<h3 className="font-semibold mb-2">Mis Sellos</h3>
+				<h3 className="font-semibold mb-2">Mis sellos</h3>
 				{ownedStamps.length > 0 ? (
 					<div className="space-y-4 mb-6">
 						{ownedStamps.map(stamp => (
@@ -225,7 +230,7 @@ function StampsCard({ userFirestore, plasa, onStampMint }: { userFirestore: User
 					<p className="text-muted-foreground mb-6">Aún no tienes sellos.</p>
 				)}
 
-				<h3 className="font-semibold mb-2">Sellos Disponibles</h3>
+				<h3 className="font-semibold mb-2">Sellos disponibles</h3>
 				{availableStamps.length > 0 ? (
 					<div className="space-y-4">
 						{availableStamps.map(stampSig => {
@@ -324,7 +329,8 @@ function StampCard({ stamp, onMint, owned, since, authentic, userFirestore }: {
 							console.error('Mint transaction failed:', error)
 						}}
 					>
-						<TransactionButton text="Obtener" className="w-full mt-2" />
+						{/* <TransactionButton text="Obtener sello" className="w-full mt-2 h-10 flex items-center justify-center text-white bg-secondary border-primary border-2 hover:bg-secondary/80" /> */}
+						<TransactionButton text="Obtener sello" />
 						<TransactionStatus>
 							<TransactionStatusLabel />
 							<TransactionStatusAction />
