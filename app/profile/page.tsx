@@ -175,7 +175,7 @@ function ConnectionsCard({ userFirestore, onConnectInstagram }: { userFirestore:
 								<DialogHeader>
 									<DialogTitle>Conectar Instagram</DialogTitle>
 								</DialogHeader>
-								<p className="mb-4">Ingresa tu nombre de usuario de Instagram para conectar tu cuenta.</p>
+								<p className="mb-4">La API de Instagram Basic Display requiere que el usuario sea invitado y acepte participar como tester en la plataforma de Meta Developers. Para evitarlo y no pedirles autenticación real, podés ingresar directamente tu nombre de usuario de Instagram.</p>
 								<Input
 									placeholder="Nombre de usuario de Instagram"
 									value={instagramUsername}
@@ -279,7 +279,7 @@ function StampCard({ stamp, onMint, owned, since, authentic, userFirestore }: {
 				<div className="flex-grow">
 					{owned ? (
 						<p className="text-xs text-muted-foreground mb-2">
-							Desde {formattedDate(Number(stamp.user.mintingTimestamp))}
+							Desde {formattedDate(Number(stamp.user.specific))}
 						</p>
 					) : (
 						<>
