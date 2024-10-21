@@ -10,7 +10,8 @@ import { Inter } from 'next/font/google'
 
 import { getConfig } from './wagmi'
 import { Providers } from './OnchainProviders'
-import { Navbar } from '@/app/components/Navbar'
+import { Navbar } from '@/components/Navbar'
+import { Footer } from '@/components/Footer'
 import { ThemeProvider } from "@/components/theme-provider"
 
 const inter = Inter({ subsets: ['latin'] })
@@ -42,6 +43,7 @@ export default function RootLayout({
 					<Providers initialState={initialState}>
 						<Navbar />
 						<main>{children}</main>
+						<Footer />
 					</Providers>
 				</ThemeProvider>
 			</body>
