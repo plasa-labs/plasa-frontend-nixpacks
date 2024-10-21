@@ -11,19 +11,9 @@ import { Inter } from 'next/font/google'
 import { getConfig } from './wagmi'
 import { Providers } from './OnchainProviders'
 import { Navbar } from '@/app/components/Navbar'
+import { ThemeProvider } from "@/components/theme-provider"
 
 const inter = Inter({ subsets: ['latin'] })
-
-// const geistSans = localFont({
-// 	src: "./fonts/GeistVF.woff",
-// 	variable: "--font-geist-sans",
-// 	weight: "100 900",
-// })
-// const geistMono = localFont({
-// 	src: "./fonts/GeistMonoVF.woff",
-// 	variable: "--font-geist-mono",
-// 	weight: "100 900",
-// })
 
 export const metadata: Metadata = {
 	title: "Plasa",
@@ -40,15 +30,20 @@ export default function RootLayout({
 		headers().get('cookie')
 	)
 	return (
-		<html lang="en">
-			<body
-				// className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-				className={`${inter.className} antialiased`}
-			>
-				<Providers initialState={initialState}>
-					<Navbar />
-					<main>{children}</main>
-				</Providers>
+		<html lang="en" suppressHydrationWarning>
+			<head />
+			<body className={`${inter.className} antialiased`}>
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange
+				>
+					<Providers initialState={initialState}>
+						<Navbar />
+						<main>{children}</main>
+					</Providers>
+				</ThemeProvider>
 			</body>
 		</html>
 	)

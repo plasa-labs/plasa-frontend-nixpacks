@@ -21,7 +21,7 @@ const SpaceCard = ({ space }: { space: SpacePreview }) => (
 					alt={space.data.name}
 					width={64}
 					height={64}
-					className="object-cover"
+					className="object-cover "
 				/>
 			</div>
 			<div className="flex-grow">
@@ -29,7 +29,7 @@ const SpaceCard = ({ space }: { space: SpacePreview }) => (
 				<p className="text-sm text-gray-600">{space.data.description}</p>
 			</div>
 			<Link href={`/space/${space.data.contractAddress}`} passHref>
-				<Button>Entrar</Button>
+				<Button className="ml-4">Entrar</Button>
 			</Link>
 		</div>
 	</Card>
