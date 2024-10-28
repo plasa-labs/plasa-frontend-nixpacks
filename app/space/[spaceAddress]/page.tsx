@@ -256,7 +256,7 @@ export default function Component() {
 
 	if (isLoading) {
 		return (
-			<div className="max-w-4xl mx-auto bg-background text-foreground p-6">
+			<div className="container mx-auto bg-background text-foreground p-6">
 				<BackToSpacesButton />
 				<SpaceHeaderSkeleton />
 				<QuestionsListSkeleton />
@@ -273,7 +273,7 @@ export default function Component() {
 	const space = spaceData as unknown as SpaceView
 
 	return (
-		<div className="max-w-4xl mx-auto bg-background text-foreground p-6">
+		<div className="container mx-auto bg-background text-foreground p-6">
 			<BackToSpacesButton />
 			<SpaceHeader
 				name={space.data.name}
