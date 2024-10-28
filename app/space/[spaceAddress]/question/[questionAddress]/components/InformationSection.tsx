@@ -1,7 +1,7 @@
-import { ExternalLink } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { QuestionView, QuestionType } from '@/lib/onchain/types/questions'
-import { abbreviateAddress, scanLink, formatDate } from '../utils/formatters'
+import { formatDate } from '@/lib/utils/formatters'
+import { AddressLink } from '@/lib/components/AddressLink'
 
 interface InformationSectionProps {
 	spaceData: {
@@ -42,17 +42,11 @@ export const InformationSection = ({ spaceData, question }: InformationSectionPr
 					</div>
 					<div>
 						<p className="font-semibold">Contrato del Espacio</p>
-						<a href={scanLink(spaceData.contractAddress)} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center">
-							{abbreviateAddress(spaceData.contractAddress)}
-							<ExternalLink className="h-3 w-3 ml-1" />
-						</a>
+						<AddressLink address={spaceData.contractAddress} />
 					</div>
 					<div>
 						<p className="font-semibold">Contrato del Tema</p>
-						<a href={scanLink(question.data.contractAddress)} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center">
-							{abbreviateAddress(question.data.contractAddress)}
-							<ExternalLink className="h-3 w-3 ml-1" />
-						</a>
+						<AddressLink address={question.data.contractAddress} />
 					</div>
 					<div>
 						<p className="font-semibold">Tipo de Tema</p>
@@ -72,10 +66,7 @@ export const InformationSection = ({ spaceData, question }: InformationSectionPr
 					</div>
 					<div>
 						<p className="font-semibold">Creador</p>
-						<a href={scanLink(question.data.creator)} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center">
-							{abbreviateAddress(question.data.creator)}
-							<ExternalLink className="h-3 w-3 ml-1" />
-						</a>
+						<AddressLink address={question.data.creator} />
 					</div>
 				</div>
 			</CardContent>
