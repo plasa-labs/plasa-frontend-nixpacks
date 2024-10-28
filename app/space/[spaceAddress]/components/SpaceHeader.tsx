@@ -23,7 +23,7 @@ export function SpaceHeader({ name, description, points, symbol, imageUrl }: Spa
 						<CardTitle className="text-3xl mb-2">{name}</CardTitle>
 						<CardDescription>{description}</CardDescription>
 					</div>
-					<Badge variant="secondary" className="text-lg px-3 py-1 ml-4">
+					<Badge variant="secondary" className="text-lg px-3 py-1 ml-4 whitespace-nowrap">
 						{formatPoints(points)} {symbol}
 					</Badge>
 				</div>
