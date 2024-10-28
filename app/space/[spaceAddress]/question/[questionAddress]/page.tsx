@@ -23,7 +23,7 @@ import { formatPoints } from '@/lib/format'
 const QuestionHeader = ({ title, active, timeLeft }: { title: string; active: boolean; timeLeft: string }) => (
 	<div className="mb-6">
 		<div className="flex items-center justify-between mb-2">
-			<h1 className="text-3xl font-bold">{title}</h1>
+			<h1 className="text-2xl font-bold">{title}</h1>
 			<Badge variant={active ? "default" : "secondary"}>{active ? "Activa" : "Finalizada"}</Badge>
 		</div>
 		{active ? (
@@ -92,7 +92,7 @@ const VotingOptions = ({ options, onVote, canVote, active, questionAddress, isCo
 					<CardContent className="pt-6">
 						<div className="flex justify-between items-start mb-4">
 							<div>
-								<h3 className="text-lg font-semibold mb-2">{option.data.title}</h3>
+								<h3 className="text-base font-semibold mb-2">{option.data.title}</h3>
 								<p className="text-sm text-muted-foreground">{option.data.description}</p>
 							</div>
 							{option.user.voted && (
@@ -357,7 +357,7 @@ export default function QuestionPage() {
 				<div className="space-y-6">
 					<Card>
 						<CardContent className="pt-6">
-							<h2 className="text-xl font-semibold mb-2">Total de Votos</h2>
+							<h2 className="text-base font-semibold mb-2">Total de Votos</h2>
 							<p className="text-3xl font-bold">{question.data.voteCount.toString()}</p>
 						</CardContent>
 					</Card>
