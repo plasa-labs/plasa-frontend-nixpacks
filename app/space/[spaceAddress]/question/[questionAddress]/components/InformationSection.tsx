@@ -36,21 +36,13 @@ export const InformationSection = ({ spaceData, question }: InformationSectionPr
 			</CardHeader>
 			<CardContent>
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-					<div>
+					{/* <div>
 						<p className="font-semibold">Espacio</p>
 						<p className="text-muted-foreground">{spaceData.name}</p>
-					</div>
+					</div> */}
 					<div>
-						<p className="font-semibold">Contrato del Espacio</p>
-						<AddressLink address={spaceData.contractAddress} />
-					</div>
-					<div>
-						<p className="font-semibold">Contrato del Tema</p>
-						<AddressLink address={question.data.contractAddress} />
-					</div>
-					<div>
-						<p className="font-semibold">Tipo de Tema</p>
-						<p className="text-muted-foreground">{getQuestionTypeString(question.data.questionType)}</p>
+						<p className="font-semibold">Total de Votos</p>
+						<p className="text-muted-foreground">{question.data.voteCount.toString()}</p>
 					</div>
 					<div>
 						<p className="font-semibold">Inicio</p>
@@ -61,12 +53,20 @@ export const InformationSection = ({ spaceData, question }: InformationSectionPr
 						<p className="text-muted-foreground">{formatDate(question.data.deadline)}</p>
 					</div>
 					<div>
-						<p className="font-semibold">Total de Votos</p>
-						<p className="text-muted-foreground">{question.data.voteCount.toString()}</p>
+						<p className="font-semibold">Contrato del Tema</p>
+						<AddressLink address={question.data.contractAddress} />
 					</div>
 					<div>
 						<p className="font-semibold">Creador</p>
 						<AddressLink address={question.data.creator} />
+					</div>
+					{/* <div>
+						<p className="font-semibold">Tipo de Tema</p>
+						<p className="text-muted-foreground">{getQuestionTypeString(question.data.questionType)}</p>
+					</div> */}
+					<div>
+						<p className="font-semibold">Contrato del Espacio</p>
+						<AddressLink address={spaceData.contractAddress} />
 					</div>
 				</div>
 			</CardContent>
