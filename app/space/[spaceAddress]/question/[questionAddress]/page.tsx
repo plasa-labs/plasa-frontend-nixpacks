@@ -96,7 +96,7 @@ const VotingOptions = ({ options, onVote, canVote, active, questionAddress, isCo
 								<p className="text-sm text-muted-foreground">{option.data.description}</p>
 							</div>
 							{option.user.voted && (
-								<Badge variant="secondary" className="ml-2">
+								<Badge variant="secondary" className="ml-2 flex items-center whitespace-nowrap">
 									<CheckCircle2 className="mr-1 h-4 w-4" />
 									Tu voto
 								</Badge>
