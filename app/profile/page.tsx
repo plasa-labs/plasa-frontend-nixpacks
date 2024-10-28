@@ -87,7 +87,7 @@ export default function ProfilePage() {
 	const typedPlasaData = plasa as unknown as PlasaView
 
 	return (
-		<div className="container mx-auto px-4 py-8">
+		<div className="main-container">
 			<h1 className="text-3xl font-bold mb-6">Mi Perfil</h1>
 			<div className="grid gap-6 md:grid-cols-2">
 				<div>

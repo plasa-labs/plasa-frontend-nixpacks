@@ -69,7 +69,7 @@ export default function QuestionPage() {
 	const question = questionData as unknown as QuestionView
 
 	return (
-		<div className="container mx-auto px-4 py-8">
+		<div className="main-container">
 			<Link href={`/space/${spaceAddress}`} passHref>
 				<Button variant="outline" className="mb-6">
 					<ArrowLeft className="mr-2 h-4 w-4" />

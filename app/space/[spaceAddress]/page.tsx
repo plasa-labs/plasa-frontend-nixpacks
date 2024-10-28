@@ -43,7 +43,7 @@ export default function SpacePage() {
 
 	if (isLoading) {
 		return (
-			<div className="container mx-auto bg-background text-foreground p-6">
+			<div className="main-container">
 				<BackToSpacesButton />
 				<SpaceHeaderSkeleton />
 				<QuestionsListSkeleton />
@@ -60,7 +60,7 @@ export default function SpacePage() {
 	const space = spaceData as unknown as SpaceView
 
 	return (
-		<div className="container mx-auto bg-background text-foreground p-6">
+		<div className="main-container">
 			<BackToSpacesButton />
 			<SpaceHeader
 				name={space.data.name}

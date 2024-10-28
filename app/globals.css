@@ -76,3 +76,15 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  /* Define a shared container style that can be used across components */
+  .container-base {
+    @apply container mx-auto px-4 lg:px-8;
+    max-width: min(100vw - 2rem, theme('screens.2xl'));
+  }
+
+  .main-container {
+    @apply container-base py-6 md:py-8 min-h-screen;
+  }
+}

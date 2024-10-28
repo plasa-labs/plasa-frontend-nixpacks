@@ -18,16 +18,14 @@ export default function SpacesPage() {
 	if (!plasaData) return <NoDataState />
 
 	return (
-		<div className="">
-			<main className="container mx-auto px-4 py-8">
-				<h2 className="text-2xl font-bold mb-6">Espacios</h2>
-				{plasaData.spaces.map((space: SpacePreview) => (
-					<SpaceCard key={space.data.contractAddress} space={space} />
-				))}
-				<p className="text-center mt-8 text-sm text-gray-600">
-					Contáctanos para crear tu propio espacio!
-				</p>
-			</main>
+		<div className="main-container">
+			<h2 className="text-2xl font-bold mb-6">Espacios</h2>
+			{plasaData.spaces.map((space: SpacePreview) => (
+				<SpaceCard key={space.data.contractAddress} space={space} />
+			))}
+			<p className="text-center mt-8 text-sm text-gray-600">
+				Contáctanos para crear tu propio espacio!
+			</p>
 		</div>
 	)
 }
