@@ -7,14 +7,16 @@ import { ConnectWallet, Wallet, WalletDropdown, WalletDropdownBasename, WalletDr
 import { Name } from '@coinbase/onchainkit/identity'
 
 import { ThemeToggle } from '@/components/theme-toggle'
+import { Public_Sans } from 'next/font/google'
+
+const publicSans = Public_Sans({ subsets: ['latin'] })
 
 export function Navbar() {
 	return (
 		<nav className="border-b border-border">
 			<div className="container mx-auto flex justify-between items-center py-4 px-4 sm:px-6 lg:px-8">
 				<Link href="/" className="flex-shrink-0">
-					{/* <Image src="https://raw.githubusercontent.com/plasa-labs/brand/refs/heads/main/logos/horizontal/black-text-transparent-bg-fit.png" alt="D&D Logo" width={100} height={40} /> */}
-					<h1 className="text-2xl font-bold">plasa</h1>
+					<h1 className={`text-4xl font-medium tracking-tighter ${publicSans.className}`}>plasa</h1>
 				</Link>
 				<div className="flex justify-end">
 					<Wallet>
