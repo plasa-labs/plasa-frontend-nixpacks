@@ -19,6 +19,13 @@ import { OptionView } from '@/lib/onchain/types/options'
 import { QuestionType, QuestionView } from '@/lib/onchain/types/questions'
 import { formatPoints } from '@/lib/format'
 
+const abbreviateAddress = (address: string) => {
+	return `${address.slice(0, 6)}...${address.slice(-4)}`
+}
+
+const scanLink = (address: string) => `https://sepolia.basescan.org/address/${address}`
+
+
 
 const QuestionHeader = ({ title, active, timeLeft }: { title: string; active: boolean; timeLeft: string }) => (
 	<div className="mb-6">
@@ -209,11 +216,17 @@ const InformationSection = ({ spaceData, question }: { spaceData: { name: string
 					</div>
 					<div>
 						<p className="font-semibold">Contrato del Espacio</p>
-						<p className="text-muted-foreground truncate">{spaceData.contractAddress}</p>
+						<a href={scanLink(spaceData.contractAddress)} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center">
+							{abbreviateAddress(spaceData.contractAddress)}
+							<ExternalLink className="h-3 w-3 ml-1" />
+						</a>
 					</div>
 					<div>
 						<p className="font-semibold">Contrato del Tema</p>
-						<p className="text-muted-foreground truncate">{question.data.contractAddress}</p>
+						<a href={scanLink(question.data.contractAddress)} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center">
+							{abbreviateAddress(question.data.contractAddress)}
+							<ExternalLink className="h-3 w-3 ml-1" />
+						</a>
 					</div>
 					<div>
 						<p className="font-semibold">Tipo de Tema</p>
@@ -233,7 +246,10 @@ const InformationSection = ({ spaceData, question }: { spaceData: { name: string
 					</div>
 					<div>
 						<p className="font-semibold">Creador</p>
-						<p className="text-muted-foreground truncate">{question.data.creator}</p>
+						<a href={scanLink(question.data.creator)} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center">
+							{abbreviateAddress(question.data.creator)}
+							<ExternalLink className="h-3 w-3 ml-1" />
+						</a>
 					</div>
 				</div>
 			</CardContent>
