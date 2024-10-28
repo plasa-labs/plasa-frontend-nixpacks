@@ -1,4 +1,4 @@
-import { Calendar } from 'lucide-react'
+import { Calendar, ReceiptText } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { AddressLink } from '@/lib/components/AddressLink'
 
@@ -15,6 +15,7 @@ export function SpaceInfo({ contractAddress, creationDate }: SpaceInfoProps) {
 			</CardHeader>
 			<CardContent>
 				<div className="flex items-center mb-2">
+					<ReceiptText className="mr-2 h-4 w-4" />
 					<span className="text-sm">Dirección del contrato: </span>
 					<AddressLink address={contractAddress} className="ml-2 text-sm	" />
 				</div>
