@@ -80,7 +80,7 @@ export default function Component() {
 	const typedPlasaData = plasaData as unknown as PlasaView
 
 	return (
-		<div className="min-h-screen">
+		<div className="">
 			<main className="container mx-auto px-4 py-8">
 				<h2 className="text-2xl font-bold mb-6">Espacios</h2>
 				{typedPlasaData.spaces.map((space: SpacePreview) => (
