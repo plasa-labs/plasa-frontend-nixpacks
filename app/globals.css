@@ -82,6 +82,7 @@ body {
   .container-base {
     @apply container mx-auto px-4 lg:px-8;
     max-width: min(100vw - 2rem, theme('screens.2xl'));
+    max-width: 100%;
   }
 
   .main-container {
