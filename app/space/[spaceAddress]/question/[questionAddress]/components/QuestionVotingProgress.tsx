@@ -2,11 +2,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { OptionView } from '@/lib/onchain/types/options'
 
-interface VotingProgressProps {
+interface QuestionVotingProgressProps {
 	options: OptionView[]
 }
 
-export const VotingProgress = ({ options }: VotingProgressProps) => {
+export const QuestionVotingProgress = ({ options }: QuestionVotingProgressProps) => {
 	const totalPoints = options.slice(1).reduce((sum, option) => sum + Number(option.data.pointsAtDeadline), 0)
 
 	return (

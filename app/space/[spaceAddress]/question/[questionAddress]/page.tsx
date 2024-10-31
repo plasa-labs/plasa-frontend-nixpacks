@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import { QuestionHeader } from './components/QuestionHeader'
 import { QuestionDetails } from './components/QuestionDetails'
 import { QuestionVotingOptions } from './components/QuestionVotingOptions'
-import { VotingProgress } from './components/VotingProgress'
+import { QuestionVotingProgress } from './components/QuestionVotingProgress'
 import { QuestionInformation } from './components/QuestionInformation'
 import { QuestionLoading } from './components/QuestionLoading'
 
@@ -101,7 +101,7 @@ export default function QuestionPage() {
 						isConnected={isConnected}
 						userPointsAtDeadline={question.user.pointsAtDeadline}
 					/>
-					<VotingProgress options={question.options} />
+					<QuestionVotingProgress options={question.options} />
 				</div>
 				<div className='space-y-6'>
 					<QuestionInformation
