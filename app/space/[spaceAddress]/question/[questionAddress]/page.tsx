@@ -11,7 +11,7 @@ import { QuestionHeader } from "./components/QuestionHeader"
 import { QuestionDetails } from "./components/QuestionDetails"
 import { VotingOptions } from "./components/VotingOptions"
 import { VotingProgress } from "./components/VotingProgress"
-import { InformationSection } from "./components/InformationSection"
+import { QuestionInformation } from "./components/QuestionInformation"
 import { LoadingComponent } from "./components/LoadingComponent"
 
 import { contractsGetQuestion } from '@/lib/onchain/contracts'
@@ -104,7 +104,7 @@ export default function QuestionPage() {
 					<VotingProgress options={question.options} />
 				</div>
 				<div className="space-y-6">
-					<InformationSection
+					<QuestionInformation
 						spaceData={{
 							name: "Space Name",
 							contractAddress: spaceAddress as string

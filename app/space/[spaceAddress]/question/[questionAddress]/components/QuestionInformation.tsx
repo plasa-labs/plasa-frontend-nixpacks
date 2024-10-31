@@ -4,7 +4,7 @@ import { QuestionView } from '@/lib/onchain/types/questions'
 import { formatDate } from '@/lib/utils/formatters'
 import { AddressLink } from '@/lib/components/AddressLink'
 
-interface InformationSectionProps {
+interface QuestionInformationProps {
 	spaceData: {
 		name: string
 		contractAddress: string
@@ -23,7 +23,7 @@ interface InformationSectionProps {
 // 	}
 // }
 
-export const InformationSection = ({ spaceData, question }: InformationSectionProps) => (
+export const QuestionInformation = ({ spaceData, question }: QuestionInformationProps) => (
 	<>
 		<Card>
 			<CardContent className="pt-6">
