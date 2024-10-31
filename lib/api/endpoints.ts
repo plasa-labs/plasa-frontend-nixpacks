@@ -1,3 +1,5 @@
+import { UserData } from "./interfaces"
+
 /**
  * Fetches user data from the API.
  * 
@@ -5,7 +7,7 @@
  * @returns A promise that resolves to the user data.
  * @throws Will throw an error if the API_URL is not set, userId is not provided, or if the fetch fails.
  */
-async function fetchUser(userId: string): Promise<any> {
+async function fetchUser(userId: string): Promise<UserData> {
 	const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
 
 	// Check if API_URL environment variable is set
@@ -37,7 +39,7 @@ async function fetchUser(userId: string): Promise<any> {
 
 		// Parse and return the user data
 		const userData = await response.json()
-		return userData
+		return userData as UserData
 	} catch (error) {
 		console.error('Error fetching user data:', error)
 		throw error
@@ -52,7 +54,7 @@ async function fetchUser(userId: string): Promise<any> {
  * @returns A promise that resolves to the updated user data.
  * @throws Will throw an error if the API_URL is not set, userId or username is not provided, or if the fetch fails.
  */
-async function setInstagramUsername(userId: string, username: string): Promise<any> {
+async function setInstagramUsername(userId: string, username: string): Promise<UserData> {
 	const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
 
 	// Check if API_URL environment variable is set
@@ -95,7 +97,7 @@ async function setInstagramUsername(userId: string, username: string): Promise<a
 		const updatedUserData = await response.json()
 		console.log('Updated user data:', updatedUserData)
 
-		return updatedUserData
+		return updatedUserData as UserData
 	} catch (error) {
 		console.error('Error setting Instagram username:', error)
 		throw error

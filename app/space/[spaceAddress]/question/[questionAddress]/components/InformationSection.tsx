@@ -11,16 +11,16 @@ interface InformationSectionProps {
 	question: QuestionView
 }
 
-const getQuestionTypeString = (questionType: QuestionType): string => {
-	switch (questionType) {
-		case QuestionType.Open:
-			return "Abierta"
-		case QuestionType.Fixed:
-			return "Cerrado"
-		default:
-			return "Cerrado"
-	}
-}
+// const getQuestionTypeString = (questionType: QuestionType): string => {
+// 	switch (questionType) {
+// 		case QuestionType.Open:
+// 			return "Abierta"
+// 		case QuestionType.Fixed:
+// 			return "Cerrado"
+// 		default:
+// 			return "Cerrado"
+// 	}
+// }
 
 export const InformationSection = ({ spaceData, question }: InformationSectionProps) => (
 	<>
