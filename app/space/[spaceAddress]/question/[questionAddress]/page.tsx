@@ -12,7 +12,7 @@ import { QuestionDetails } from './components/QuestionDetails'
 import { QuestionVotingOptions } from './components/QuestionVotingOptions'
 import { VotingProgress } from './components/VotingProgress'
 import { QuestionInformation } from './components/QuestionInformation'
-import { LoadingComponent } from './components/LoadingComponent'
+import { QuestionLoading } from './components/QuestionLoading'
 
 import { contractsGetQuestion } from '@/lib/onchain/contracts'
 import { QuestionView } from '@/lib/onchain/types/questions'
@@ -63,7 +63,7 @@ export default function QuestionPage() {
 		}
 	}
 
-	if (isLoading) return <LoadingComponent />
+	if (isLoading) return <QuestionLoading />
 	if (isError || !questionData) return <div>Error al cargar los datos</div>
 
 	const question = questionData as unknown as QuestionView
