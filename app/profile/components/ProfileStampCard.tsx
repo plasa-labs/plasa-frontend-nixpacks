@@ -8,7 +8,7 @@ import { contractsMintStamp } from '@/lib/onchain/contracts'
 import type { UserData } from '@/lib/api/interfaces'
 import type { StampView } from '@/lib/onchain/types/stamps'
 
-interface StampCardProps {
+interface ProfileStampCardProps {
 	stamp: StampView
 	onMint?: () => void
 	owned?: boolean
@@ -17,7 +17,7 @@ interface StampCardProps {
 	userFirestore: UserData | null
 }
 
-export function StampCard({ stamp, onMint, owned, since, authentic, userFirestore }: StampCardProps) {
+export function ProfileStampCard({ stamp, onMint, owned, since, authentic, userFirestore }: ProfileStampCardProps) {
 	const formattedDate = (timestamp: number) => {
 		const date = new Date(timestamp * 1000)
 		return date.toLocaleDateString('es-AR', {

@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { StampCard } from './StampCard'
+import { ProfileStampCard } from './ProfileStampCard'
 import type { UserData } from '@/lib/api/interfaces'
 import type { PlasaView } from '@/lib/onchain/types/plasa'
 
@@ -38,7 +38,7 @@ export function StampsCard({ userFirestore, plasa, onStampMint }: StampsCardProp
 				{ownedStamps.length > 0 ? (
 					<div className="space-y-4 mb-6">
 						{ownedStamps.map(stamp => (
-							<StampCard key={stamp.data.contractAddress} stamp={stamp} owned={true} userFirestore={userFirestore} />
+							<ProfileStampCard key={stamp.data.contractAddress} stamp={stamp} owned={true} userFirestore={userFirestore} />
 						))}
 					</div>
 				) : (
@@ -51,7 +51,7 @@ export function StampsCard({ userFirestore, plasa, onStampMint }: StampsCardProp
 						{availableStamps.map(stampSig => {
 							const stampData = plasa?.stamps.find(s => s.data.contractAddress === stampSig.stamp.contractAddress)
 							return stampData ? (
-								<StampCard
+								<ProfileStampCard
 									key={stampData.data.contractAddress}
 									stamp={stampData}
 									onMint={() => onStampMint(stampData.data.contractAddress)}
