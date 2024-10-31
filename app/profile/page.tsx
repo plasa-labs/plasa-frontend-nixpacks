@@ -28,18 +28,15 @@ export default function ProfilePage() {
 
 	useEffect(() => {
 		if (plasa && address) {
-			const plasaView = plasa as unknown as PlasaView
-			const stampAddresses = plasaView.stamps
-				.filter(stamp => !stamp.user.owns)
-				.map(stamp => stamp.data.contractAddress)
+			// const plasaView = plasa as unknown as PlasaView
+			// const stampAddresses = plasaView.stamps
+			// 	.filter(stamp => !stamp.user.owns)
+			// 	.map(stamp => stamp.data.contractAddress)
 
-			console.log('Stamp addresses:', stampAddresses)
+			// console.log('Stamp addresses:', stampAddresses)
 
 			fetchUser(address)
 				.then(data => {
-					console.log('User Firestore data:')
-					console.log(data)
-
 					setUserFirestore(data)
 					setLoading(false)
 				})
