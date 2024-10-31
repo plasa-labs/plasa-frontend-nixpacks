@@ -2,12 +2,12 @@ import { Calendar, ReceiptText } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { AddressLink } from '@/lib/components/AddressLink'
 
-interface SpaceInfoProps {
+interface SpaceInformationProps {
 	contractAddress: string
 	creationDate: bigint
 }
 
-export function SpaceInfo({ contractAddress, creationDate }: SpaceInfoProps) {
+export function SpaceInformation({ contractAddress, creationDate }: SpaceInformationProps) {
 	return (
 		<Card>
 			<CardHeader>

@@ -10,12 +10,12 @@ import { SpaceBackToSpacesButton } from './SpaceBackToSpacesButton'
 import { SpaceHeader } from './SpaceHeader'
 import { SpaceQuestionsList } from './SpaceQuestionsList'
 import { SpaceLeaderboard } from './SpaceLeaderboard'
-import { SpaceInfo } from './SpaceInfo'
+import { SpaceInformation } from './SpaceInformation'
 import {
 	SpaceHeaderSkeleton,
 	SpaceQuestionsListSkeleton,
 	SpaceLeaderboardSkeleton,
-	SpaceInfoSkeleton
+	SpaceInformationSkeleton
 } from './loading'
 
 // Mock data for leaderboard (kept as requested)
@@ -50,7 +50,7 @@ export function Space({ spaceAddress }: SpaceProps) {
 				<SpaceHeaderSkeleton />
 				<SpaceQuestionsListSkeleton />
 				<SpaceLeaderboardSkeleton />
-				<SpaceInfoSkeleton />
+				<SpaceInformationSkeleton />
 			</div>
 		)
 	}
@@ -77,7 +77,7 @@ export function Space({ spaceAddress }: SpaceProps) {
 				spaceAddress={spaceAddress}
 			/>
 			<SpaceLeaderboard members={mockLeaderboard} />
-			<SpaceInfo
+			<SpaceInformation
 				contractAddress={space.data.contractAddress}
 				creationDate={BigInt(space.data.creationTimestamp)}
 			/>
