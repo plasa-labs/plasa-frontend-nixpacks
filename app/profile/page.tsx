@@ -9,6 +9,7 @@ import { PlasaView } from '@/lib/onchain/types/plasa'
 
 // Local utilities and contracts
 import { contractsGetPlasa } from '@/lib/onchain/contracts'
+import { fetchUser, setInstagramUsername } from '@/lib/api/endpoints'
 
 // Components
 import { NotConnectedCard } from './components/NotConnectedCard'
@@ -34,17 +35,16 @@ export default function ProfilePage() {
 
 			console.log('Stamp addresses:', stampAddresses)
 
-			fetch(`https://getuserdata-i2wvmwqfoq-uc.a.run.app?userAddress=${address}&stampAddresses=${stampAddresses.join(',')}`)
-				.then(res => res.json())
+			fetchUser(address)
 				.then(data => {
-					console.log('User Firestore data:', data)
+					console.log('User Firestore data:')
 					console.log(data)
 
 					setUserFirestore(data)
 					setLoading(false)
 				})
 				.catch(error => {
-					console.error("Error fetching user data:", error)
+					console.error('Error fetching user data:', error)
 					setLoading(false)
 				})
 		}
@@ -55,13 +55,10 @@ export default function ProfilePage() {
 		try {
 			// Process the username: convert to lowercase, remove spaces and '@' symbols
 			const processedUsername = username.toLowerCase().replace(/\s+/g, '').replace('@', '')
+			console.log('Processed username:', processedUsername)
 
-			const response = await fetch('https://linkinstagram-i2wvmwqfoq-uc.a.run.app', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ userAddress: address, instagramUsername: processedUsername }),
-			})
-			const updatedUserData = await response.json()
+			// Use the setInstagramUsername function from endpoints.ts
+			const updatedUserData = await setInstagramUsername(address as string, processedUsername)
 			setUserFirestore(updatedUserData)
 		} catch (error) {
 			console.error('Error connecting Instagram:', error)
@@ -87,7 +84,7 @@ export default function ProfilePage() {
 	const typedPlasaData = plasa as unknown as PlasaView
 
 	return (
-		<div className="main-container">
+		<div className="main-container" suppressHydrationWarning={true}>
 			<h1 className="text-3xl font-bold mb-6">Mi Perfil</h1>
 			<div className="grid gap-6 md:grid-cols-2">
 				<div>

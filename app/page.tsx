@@ -6,10 +6,6 @@ import { ErrorState, NoDataState } from '@/app/components/spaces/ErrorState'
 import { usePlasaData } from '@/app/hooks/usePlasaData'
 import { SpacePreview } from '@/lib/onchain/types/spaces'
 
-interface PlasaData {
-	spaces: SpacePreview[]
-}
-
 export default function SpacesPage() {
 	const { data: plasaData, isLoading, isError } = usePlasaData()
 
