@@ -21,15 +21,18 @@ export const metadata: Metadata = {
 	description: "Real world governance",
 }
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: {
 	children: ReactNode
 }) {
+	const headersObject = await headers()
+	const cookieHeader = headersObject.get('cookie')
 	const initialState = cookieToInitialState(
 		getConfig(),
-		headers().get('cookie')
+		cookieHeader
 	)
+
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<head />

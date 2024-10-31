@@ -25,8 +25,8 @@ export function ConnectionsCard({ userFirestore, onConnectInstagram }: Connectio
 						<Instagram className="text-pink-500" />
 						<span className="font-medium">Instagram</span>
 					</div>
-					{userFirestore?.instagramUsername ? (
-						<p className="text-sm font-medium">{userFirestore.instagramUsername}</p>
+					{userFirestore?.instagram ? (
+						<p className="text-sm font-medium">{userFirestore.instagram}</p>
 					) : (
 						<Dialog>
 							<DialogTrigger asChild>

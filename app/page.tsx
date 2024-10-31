@@ -6,10 +6,6 @@ import { ErrorState, NoDataState } from '@/app/components/spaces/ErrorState'
 import { usePlasaData } from '@/app/hooks/usePlasaData'
 import { SpacePreview } from '@/lib/onchain/types/spaces'
 
-interface PlasaData {
-	spaces: SpacePreview[]
-}
-
 export default function SpacesPage() {
 	const { data: plasaData, isLoading, isError } = usePlasaData()
 
@@ -18,7 +14,7 @@ export default function SpacesPage() {
 	if (!plasaData) return <NoDataState />
 
 	return (
-		<div className="main-container">
+		<div className="main-container" suppressHydrationWarning={true}>
 			<h2 className="text-2xl font-bold mb-6">Espacios</h2>
 			{plasaData.spaces.map((space: SpacePreview) => (
 				<SpaceCard key={space.data.contractAddress} space={space} />

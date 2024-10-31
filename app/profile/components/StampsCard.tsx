@@ -11,9 +11,11 @@ interface StampsCardProps {
 
 export function StampsCard({ userFirestore, plasa, onStampMint }: StampsCardProps) {
 	const ownedStamps = plasa?.stamps.filter(stamp => stamp.user.owns) || []
-	const availableStamps = userFirestore?.availableStamps || []
+	const availableStamps = userFirestore?.availableStamps?.filter(stampSig =>
+		!ownedStamps.some(ownedStamp => ownedStamp.data.contractAddress === stampSig.stamp.contractAddress)
+	) || []
 
-	if (!userFirestore?.instagramUsername) {
+	if (!userFirestore?.instagram) {
 		return (
 			<Card>
 				<CardHeader>

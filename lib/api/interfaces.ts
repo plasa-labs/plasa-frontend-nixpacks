@@ -15,7 +15,7 @@ interface StampSignature {
 
 interface UserData {
 	address: string
-	instagramUsername?: string | null
+	instagram?: string | null
 	availableStamps?: StampSignature[] | null
 }
 

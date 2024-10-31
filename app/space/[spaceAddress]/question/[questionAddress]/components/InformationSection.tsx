@@ -1,5 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { QuestionView, QuestionType } from '@/lib/onchain/types/questions'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { QuestionView } from '@/lib/onchain/types/questions'
+// import { QuestionView, QuestionType } from '@/lib/onchain/types/questions'
 import { formatDate } from '@/lib/utils/formatters'
 import { AddressLink } from '@/lib/components/AddressLink'
 
@@ -11,16 +12,16 @@ interface InformationSectionProps {
 	question: QuestionView
 }
 
-const getQuestionTypeString = (questionType: QuestionType): string => {
-	switch (questionType) {
-		case QuestionType.Open:
-			return "Abierta"
-		case QuestionType.Fixed:
-			return "Cerrado"
-		default:
-			return "Cerrado"
-	}
-}
+// const getQuestionTypeString = (questionType: QuestionType): string => {
+// 	switch (questionType) {
+// 		case QuestionType.Open:
+// 			return "Abierta"
+// 		case QuestionType.Fixed:
+// 			return "Cerrado"
+// 		default:
+// 			return "Cerrado"
+// 	}
+// }
 
 export const InformationSection = ({ spaceData, question }: InformationSectionProps) => (
 	<>
