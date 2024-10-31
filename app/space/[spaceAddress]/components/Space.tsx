@@ -18,8 +18,8 @@ import {
 	SpaceInfoSkeleton
 } from './loading'
 
-// Mock data for SpaceLeaderboard (kept as requested)
-const mockSpaceLeaderboard = [
+// Mock data for leaderboard (kept as requested)
+const mockLeaderboard = [
 	{ name: "alice", points: 8900 },
 	{ name: "bob", points: 7500 },
 	{ name: "charlie", points: 6200 },
@@ -76,7 +76,7 @@ export function Space({ spaceAddress }: SpaceProps) {
 				canCreateQuestion={space.user.permissions.CreateFixedQuestion || space.user.permissions.CreateOpenQuestion}
 				spaceAddress={spaceAddress}
 			/>
-			<SpaceLeaderboard members={mockSpaceLeaderboard} />
+			<SpaceLeaderboard members={mockLeaderboard} />
 			<SpaceInfo
 				contractAddress={space.data.contractAddress}
 				creationDate={BigInt(space.data.creationTimestamp)}
