@@ -6,7 +6,7 @@ import { useAccount, useReadContract } from 'wagmi'
 import { SpaceView } from '@/lib/onchain/types/spaces'
 import { contractsGetSpace } from '@/lib/onchain/contracts'
 
-import { BackToSpacesButton } from './BackToSpacesButton'
+import { SpaceBackToSpacesButton } from './SpaceBackToSpacesButton'
 import { SpaceHeader } from './SpaceHeader'
 import { SpaceQuestionsList } from './SpaceQuestionsList'
 import { SpaceLeaderboard } from './SpaceLeaderboard'
@@ -46,7 +46,7 @@ export function Space({ spaceAddress }: SpaceProps) {
 	if (isLoading) {
 		return (
 			<div className="main-container">
-				<BackToSpacesButton />
+				<SpaceBackToSpacesButton />
 				<SpaceHeaderSkeleton />
 				<SpaceQuestionsListSkeleton />
 				<SpaceLeaderboardSkeleton />
@@ -63,7 +63,7 @@ export function Space({ spaceAddress }: SpaceProps) {
 
 	return (
 		<div className="main-container">
-			<BackToSpacesButton />
+			<SpaceBackToSpacesButton />
 			<SpaceHeader
 				name={space.data.name}
 				description={space.data.description}
