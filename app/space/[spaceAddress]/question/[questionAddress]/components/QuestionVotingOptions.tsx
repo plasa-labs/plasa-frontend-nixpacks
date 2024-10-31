@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { OptionView } from '@/lib/onchain/types/options'
 import { contractsVote } from '@/lib/onchain/contracts'
 
-interface VotingOptionsProps {
+interface QuestionVotingOptionsProps {
 	options: OptionView[]
 	onVote: (index: number) => void
 	canVote: boolean
@@ -15,7 +15,7 @@ interface VotingOptionsProps {
 	userPointsAtDeadline: number
 }
 
-export const VotingOptions = ({
+export const QuestionVotingOptions = ({
 	options,
 	onVote,
 	canVote,
@@ -23,7 +23,7 @@ export const VotingOptions = ({
 	questionAddress,
 	isConnected,
 	userPointsAtDeadline
-}: VotingOptionsProps) => {
+}: QuestionVotingOptionsProps) => {
 	return (
 		<div className="space-y-4 mb-6">
 			{options.slice(1).map((option, index) => (

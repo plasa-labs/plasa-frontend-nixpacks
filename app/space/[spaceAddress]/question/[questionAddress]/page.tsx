@@ -1,18 +1,18 @@
-"use client"
+'use client'
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft } from 'lucide-react'
 import { useAccount, useReadContract } from 'wagmi'
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 
-import { QuestionHeader } from "./components/QuestionHeader"
-import { QuestionDetails } from "./components/QuestionDetails"
-import { VotingOptions } from "./components/VotingOptions"
-import { VotingProgress } from "./components/VotingProgress"
-import { QuestionInformation } from "./components/QuestionInformation"
-import { LoadingComponent } from "./components/LoadingComponent"
+import { QuestionHeader } from './components/QuestionHeader'
+import { QuestionDetails } from './components/QuestionDetails'
+import { QuestionVotingOptions } from './components/QuestionVotingOptions'
+import { VotingProgress } from './components/VotingProgress'
+import { QuestionInformation } from './components/QuestionInformation'
+import { LoadingComponent } from './components/LoadingComponent'
 
 import { contractsGetQuestion } from '@/lib/onchain/contracts'
 import { QuestionView } from '@/lib/onchain/types/questions'
@@ -20,7 +20,7 @@ import { QuestionView } from '@/lib/onchain/types/questions'
 export default function QuestionPage() {
 	const { spaceAddress, questionAddress } = useParams()
 	const { address: userAddress, isConnected } = useAccount()
-	const [timeLeft, setTimeLeft] = useState<string>("")
+	const [timeLeft, setTimeLeft] = useState<string>('')
 
 	const contract = contractsGetQuestion(questionAddress as `0x${string}`, userAddress as `0x${string}`)
 	const { data: questionData, isLoading, isError } = useReadContract(contract)
@@ -33,7 +33,7 @@ export default function QuestionPage() {
 					const now = Date.now()
 					const remaining = Number(question.data.deadline) * 1000 - now
 					if (remaining <= 0) {
-						setTimeLeft("Votación finalizada")
+						setTimeLeft('Votación finalizada')
 					} else {
 						const days = Math.floor(remaining / (1000 * 60 * 60 * 24))
 						const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
@@ -47,7 +47,7 @@ export default function QuestionPage() {
 				const timer = setInterval(updateTimeLeft, 1000)
 				return () => clearInterval(timer)
 			} else {
-				setTimeLeft("Votación finalizada")
+				setTimeLeft('Votación finalizada')
 			}
 		}
 	}, [questionData])
@@ -69,10 +69,10 @@ export default function QuestionPage() {
 	const question = questionData as unknown as QuestionView
 
 	return (
-		<div className="main-container">
+		<div className='main-container'>
 			<Link href={`/space/${spaceAddress}`} passHref>
-				<Button variant="outline" className="mb-6">
-					<ArrowLeft className="mr-2 h-4 w-4" />
+				<Button variant='outline' className='mb-6'>
+					<ArrowLeft className='mr-2 h-4 w-4' />
 					Volver a Temas
 				</Button>
 			</Link>
@@ -83,8 +83,8 @@ export default function QuestionPage() {
 				timeLeft={timeLeft}
 			/>
 
-			<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-				<div className="lg:col-span-2 space-y-6">
+			<div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
+				<div className='lg:col-span-2 space-y-6'>
 					<QuestionDetails
 						description={question.data.description}
 						totalPoints={question.user.pointsAtDeadline}
@@ -92,7 +92,7 @@ export default function QuestionPage() {
 						userPointsAtDeadline={question.user.pointsAtDeadline}
 						isConnected={isConnected}
 					/>
-					<VotingOptions
+					<QuestionVotingOptions
 						options={question.options}
 						onVote={handleVote}
 						canVote={question.user.canVote}
@@ -103,10 +103,10 @@ export default function QuestionPage() {
 					/>
 					<VotingProgress options={question.options} />
 				</div>
-				<div className="space-y-6">
+				<div className='space-y-6'>
 					<QuestionInformation
 						spaceData={{
-							name: "Space Name",
+							name: 'Space Name',
 							contractAddress: spaceAddress as string
 						}}
 						question={question}
