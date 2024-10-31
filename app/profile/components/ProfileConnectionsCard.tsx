@@ -6,12 +6,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from "@/components/ui/input"
 import type { UserData } from '@/lib/api/interfaces'
 
-interface ConnectionsCardProps {
+interface ProfileConnectionsCardProps {
 	userFirestore: UserData | null
 	onConnectInstagram: (username: string) => void
 }
 
-export function ConnectionsCard({ userFirestore, onConnectInstagram }: ConnectionsCardProps) {
+export function ProfileConnectionsCard({ userFirestore, onConnectInstagram }: ProfileConnectionsCardProps) {
 	const [instagramUsername, setInstagramUsername] = useState('')
 
 	return (
