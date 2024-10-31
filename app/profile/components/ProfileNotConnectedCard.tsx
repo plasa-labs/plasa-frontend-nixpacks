@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card"
 
-export function NotConnectedCard() {
+export function ProfileNotConnectedCard() {
 	return (
 		<Card className="w-full max-w-md mx-auto mt-8">
 			<CardContent className="pt-6">

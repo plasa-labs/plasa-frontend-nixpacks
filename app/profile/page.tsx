@@ -12,7 +12,7 @@ import { contractsGetPlasa } from '@/lib/onchain/contracts'
 import { fetchUser, setInstagramUsername } from '@/lib/api/endpoints'
 
 // Components
-import { NotConnectedCard } from './components/NotConnectedCard'
+import { ProfileNotConnectedCard } from './components/ProfileNotConnectedCard'
 import { ProfileUsernameCard } from './components/ProfileUsernameCard'
 import { ConnectionsCard } from './components/ConnectionsCard'
 import { StampsCard } from './components/StampsCard'
@@ -71,7 +71,7 @@ export default function ProfilePage() {
 	}
 
 	if (!address) {
-		return <NotConnectedCard />
+		return <ProfileNotConnectedCard />
 	}
 
 	if (loading || plasaLoading) {
