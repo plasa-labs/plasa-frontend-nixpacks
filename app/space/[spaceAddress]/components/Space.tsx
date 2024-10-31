@@ -9,17 +9,17 @@ import { contractsGetSpace } from '@/lib/onchain/contracts'
 import { BackToSpacesButton } from './BackToSpacesButton'
 import { SpaceHeader } from './SpaceHeader'
 import { QuestionsList } from './QuestionsList'
-import { Leaderboard } from './Leaderboard'
+import { SpaceLeaderboard } from './SpaceLeaderboard'
 import { SpaceInfo } from './SpaceInfo'
 import {
 	SpaceHeaderSkeleton,
 	QuestionsListSkeleton,
-	LeaderboardSkeleton,
+	SpaceLeaderboardSkeleton,
 	SpaceInfoSkeleton
 } from './loading'
 
-// Mock data for leaderboard (kept as requested)
-const mockLeaderboard = [
+// Mock data for SpaceLeaderboard (kept as requested)
+const mockSpaceLeaderboard = [
 	{ name: "alice", points: 8900 },
 	{ name: "bob", points: 7500 },
 	{ name: "charlie", points: 6200 },
@@ -49,7 +49,7 @@ export function Space({ spaceAddress }: SpaceProps) {
 				<BackToSpacesButton />
 				<SpaceHeaderSkeleton />
 				<QuestionsListSkeleton />
-				<LeaderboardSkeleton />
+				<SpaceLeaderboardSkeleton />
 				<SpaceInfoSkeleton />
 			</div>
 		)
@@ -76,7 +76,7 @@ export function Space({ spaceAddress }: SpaceProps) {
 				canCreateQuestion={space.user.permissions.CreateFixedQuestion || space.user.permissions.CreateOpenQuestion}
 				spaceAddress={spaceAddress}
 			/>
-			<Leaderboard members={mockLeaderboard} />
+			<SpaceLeaderboard members={mockSpaceLeaderboard} />
 			<SpaceInfo
 				contractAddress={space.data.contractAddress}
 				creationDate={BigInt(space.data.creationTimestamp)}

@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 
-export function LeaderboardSkeleton() {
+export function SpaceLeaderboardSkeleton() {
 	return (
 		<Card className="mb-6">
 			<CardHeader>

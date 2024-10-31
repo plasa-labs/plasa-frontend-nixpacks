@@ -2,11 +2,11 @@ import { Users } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
-interface LeaderboardProps {
+interface SpaceLeaderboardProps {
 	members: { name: string; points: number }[]
 }
 
-export function Leaderboard({ members }: LeaderboardProps) {
+export function SpaceLeaderboard({ members }: SpaceLeaderboardProps) {
 	return (
 		<Card className="mb-6">
 			<CardHeader>
