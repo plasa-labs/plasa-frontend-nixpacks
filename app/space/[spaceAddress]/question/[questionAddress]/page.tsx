@@ -1,7 +1,7 @@
 'use client'
 
 import { useParams } from 'next/navigation'
-import { Question } from './components/Question'
+import { Question } from '@/components/question/Question'
 
 export default function QuestionPage() {
 	const { spaceAddress, questionAddress } = useParams()
