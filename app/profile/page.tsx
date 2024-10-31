@@ -16,7 +16,7 @@ import { ProfileNotConnectedCard } from './components/ProfileNotConnectedCard'
 import { ProfileUsernameCard } from './components/ProfileUsernameCard'
 import { ProfileConnectionsCard } from './components/ProfileConnectionsCard'
 import { ProfileStampsCard } from './components/ProfileStampsCard'
-import { SkeletonLoader } from './components/SkeletonLoader'
+import { ProfileSkeletonLoader } from './components/ProfileSkeletonLoader'
 
 export default function ProfilePage() {
 	const { address } = useAccount()
@@ -75,7 +75,7 @@ export default function ProfilePage() {
 	}
 
 	if (loading || plasaLoading) {
-		return <SkeletonLoader />
+		return <ProfileSkeletonLoader />
 	}
 
 	const typedPlasaData = plasa as unknown as PlasaView

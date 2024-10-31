@@ -1,7 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 
-export function SkeletonLoader() {
+export function ProfileSkeletonLoader() {
 	return (
 		<div className="container mx-auto px-4 py-8">
 			<Skeleton className="h-10 w-48 mb-6" />
