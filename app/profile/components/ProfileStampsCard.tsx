@@ -3,13 +3,13 @@ import { ProfileStampCard } from './ProfileStampCard'
 import type { UserData } from '@/lib/api/interfaces'
 import type { PlasaView } from '@/lib/onchain/types/plasa'
 
-interface StampsCardProps {
+interface ProfileStampsCardProps {
 	userFirestore: UserData | null
 	plasa: PlasaView | null
 	onStampMint: (address: string) => void
 }
 
-export function StampsCard({ userFirestore, plasa, onStampMint }: StampsCardProps) {
+export function ProfileStampsCard({ userFirestore, plasa, onStampMint }: ProfileStampsCardProps) {
 	const ownedStamps = plasa?.stamps.filter(stamp => stamp.user.owns) || []
 	const availableStamps = userFirestore?.availableStamps?.filter(stampSig =>
 		!ownedStamps.some(ownedStamp => ownedStamp.data.contractAddress === stampSig.stamp.contractAddress)

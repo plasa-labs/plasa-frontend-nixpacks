@@ -15,7 +15,7 @@ import { fetchUser, setInstagramUsername } from '@/lib/api/endpoints'
 import { ProfileNotConnectedCard } from './components/ProfileNotConnectedCard'
 import { ProfileUsernameCard } from './components/ProfileUsernameCard'
 import { ConnectionsCard } from './components/ConnectionsCard'
-import { StampsCard } from './components/StampsCard'
+import { ProfileStampsCard } from './components/ProfileStampsCard'
 import { SkeletonLoader } from './components/SkeletonLoader'
 
 export default function ProfilePage() {
@@ -89,7 +89,7 @@ export default function ProfilePage() {
 					<ConnectionsCard userFirestore={userFirestore} onConnectInstagram={handleConnectInstagram} />
 				</div>
 				<div>
-					<StampsCard
+					<ProfileStampsCard
 						userFirestore={userFirestore}
 						plasa={typedPlasaData}
 						onStampMint={handleStampMint}
