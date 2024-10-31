@@ -4,7 +4,7 @@ import { PlusCircle } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { QuestionPreview } from '@/lib/onchain/types/questions'
-import { QuestionCard } from './QuestionCard'
+import { SpaceQuestionCard } from './SpaceQuestionCard'
 
 interface SpaceQuestionsListProps {
 	questions: QuestionPreview[]
@@ -25,7 +25,7 @@ export function SpaceQuestionsList({ questions, canCreateQuestion, spaceAddress 
 			</CardHeader>
 			<CardContent>
 				{questions.map((question, index) => (
-					<QuestionCard key={index} question={question} spaceAddress={spaceAddress} />
+					<SpaceQuestionCard key={index} question={question} spaceAddress={spaceAddress} />
 				))}
 			</CardContent>
 		</Card>

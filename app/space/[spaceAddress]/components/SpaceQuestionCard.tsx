@@ -8,12 +8,12 @@ import { Badge } from "@/components/ui/badge"
 import { QuestionPreview } from '@/lib/onchain/types/questions'
 import { formatPoints } from '@/lib/format'
 
-interface QuestionCardProps {
+interface SpaceQuestionCardProps {
 	question: QuestionPreview
 	spaceAddress: string
 }
 
-export function QuestionCard({ question, spaceAddress }: QuestionCardProps) {
+export function SpaceQuestionCard({ question, spaceAddress }: SpaceQuestionCardProps) {
 	const router = useRouter()
 	const isActive = question.data.isActive
 	const canVote = question.user.canVote
