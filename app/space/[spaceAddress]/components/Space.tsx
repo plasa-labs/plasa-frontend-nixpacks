@@ -8,12 +8,12 @@ import { contractsGetSpace } from '@/lib/onchain/contracts'
 
 import { BackToSpacesButton } from './BackToSpacesButton'
 import { SpaceHeader } from './SpaceHeader'
-import { QuestionsList } from './QuestionsList'
+import { SpaceQuestionsList } from './SpaceQuestionsList'
 import { SpaceLeaderboard } from './SpaceLeaderboard'
 import { SpaceInfo } from './SpaceInfo'
 import {
 	SpaceHeaderSkeleton,
-	QuestionsListSkeleton,
+	SpaceQuestionsListSkeleton,
 	SpaceLeaderboardSkeleton,
 	SpaceInfoSkeleton
 } from './loading'
@@ -48,7 +48,7 @@ export function Space({ spaceAddress }: SpaceProps) {
 			<div className="main-container">
 				<BackToSpacesButton />
 				<SpaceHeaderSkeleton />
-				<QuestionsListSkeleton />
+				<SpaceQuestionsListSkeleton />
 				<SpaceLeaderboardSkeleton />
 				<SpaceInfoSkeleton />
 			</div>
@@ -71,7 +71,7 @@ export function Space({ spaceAddress }: SpaceProps) {
 				symbol={space.points.data.symbol}
 				imageUrl={space.data.imageUrl}
 			/>
-			<QuestionsList
+			<SpaceQuestionsList
 				questions={space.questions}
 				canCreateQuestion={space.user.permissions.CreateFixedQuestion || space.user.permissions.CreateOpenQuestion}
 				spaceAddress={spaceAddress}

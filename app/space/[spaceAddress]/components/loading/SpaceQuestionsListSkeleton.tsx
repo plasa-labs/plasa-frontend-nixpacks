@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 
-export function QuestionsListSkeleton() {
+export function SpaceQuestionsListSkeleton() {
 	return (
 		<Card className="mb-6">
 			<CardHeader>

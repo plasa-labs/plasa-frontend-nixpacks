@@ -6,13 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { QuestionPreview } from '@/lib/onchain/types/questions'
 import { QuestionCard } from './QuestionCard'
 
-interface QuestionsListProps {
+interface SpaceQuestionsListProps {
 	questions: QuestionPreview[]
 	canCreateQuestion: boolean
 	spaceAddress: string
 }
 
-export function QuestionsList({ questions, canCreateQuestion, spaceAddress }: QuestionsListProps) {
+export function SpaceQuestionsList({ questions, canCreateQuestion, spaceAddress }: SpaceQuestionsListProps) {
 	return (
 		<Card className="mb-6">
 			<CardHeader>
