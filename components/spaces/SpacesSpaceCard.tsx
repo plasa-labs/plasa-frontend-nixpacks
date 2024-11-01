@@ -2,11 +2,11 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { Button } from "@/components/ui/button"
-import { Card, CardTitle } from "@/components/ui/card"
+import { Button } from '@/components/ui/button'
+import { Card, CardTitle } from '@/components/ui/card'
 import { SpacePreview } from '@/lib/onchain/types/spaces'
 
-export const SpaceCard = ({ space }: { space: SpacePreview }) => (
+export const SpacesSpaceCard = ({ space }: { space: SpacePreview }) => (
 	<Card className="mb-4">
 		<div className="flex items-center p-4">
 			<div className="w-16 h-16 mr-4 overflow-hidden rounded-lg relative flex-shrink-0">

@@ -1,6 +1,6 @@
 import { Calendar, ReceiptText } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { AddressLink } from '@/components/AddressLink'
+import { AddressLink } from '@/components/common/AddressLink'
 
 interface SpaceInformationProps {
 	contractAddress: string

@@ -1,7 +1,7 @@
 import Image from 'next/image'
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { formatPoints } from '@/lib/format'
+import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { formatPoints } from '@/lib/utils/formatters'
 
 interface SpaceHeaderProps {
 	name: string

@@ -3,7 +3,7 @@
 import { Card } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 
-export const SkeletonCard = () => (
+export const SpacesSpaceSkeletonCard = () => (
 	<Card className="mb-4">
 		<div className="flex items-center p-4">
 			<Skeleton className="w-16 h-16 mr-4 rounded-lg" />

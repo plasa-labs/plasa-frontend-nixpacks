@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { QuestionView } from '@/lib/onchain/types/questions'
 // import { QuestionView, QuestionType } from '@/lib/onchain/types/questions'
 import { formatDate } from '@/lib/utils/formatters'
-import { AddressLink } from '@/components/AddressLink'
+import { AddressLink } from '@/components/common/AddressLink'
 
 interface QuestionInformationProps {
 	spaceData: {
