@@ -1,5 +1,5 @@
-import SpacesPage from '@/components/spaces/Spaces'
+import { Space } from '@/components/space/Space'
 
 export default function Home() {
-	return <SpacesPage />
+	return <Space spaceAddress={process.env.NEXT_PUBLIC_SPACE_ADDRESS as string} />
 }
