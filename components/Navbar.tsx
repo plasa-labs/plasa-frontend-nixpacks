@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { ConnectWallet, Wallet, WalletDropdown, WalletDropdownBasename, WalletDropdownDisconnect, WalletDropdownLink } from '@coinbase/onchainkit/wallet'
 import { Name } from '@coinbase/onchainkit/identity'
 
-import { ThemeToggle } from '@/components/theme-toggle'
+import { ThemeToggle } from '@/components/ThemeToggle'
 import { Public_Sans } from 'next/font/google'
 
 const publicSans = Public_Sans({ subsets: ['latin'] })

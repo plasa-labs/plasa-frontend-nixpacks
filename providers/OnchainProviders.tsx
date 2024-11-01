@@ -5,7 +5,7 @@ import { baseSepolia } from 'viem/chains'
 import { type ReactNode, useState } from 'react'
 import { type State, WagmiProvider } from 'wagmi'
 
-import { getConfig } from './wagmi'
+import { getConfig } from '../lib/onchain/wagmi'
 
 export function Providers(props: {
 	children: ReactNode
