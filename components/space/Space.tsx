@@ -6,7 +6,7 @@ import { useAccount, useReadContract } from 'wagmi'
 import { SpaceView } from '@/lib/onchain/types/spaces'
 import { contractsGetSpace } from '@/lib/onchain/contracts'
 
-import { SpaceBackToSpacesButton } from './SpaceBackToSpacesButton'
+// import { SpaceBackToSpacesButton } from './SpaceBackToSpacesButton'
 import { SpaceHeader } from './SpaceHeader'
 import { SpaceQuestionsList } from './SpaceQuestionsList'
 import { SpaceLeaderboard } from './SpaceLeaderboard'
@@ -35,7 +35,8 @@ export function Space({ spaceAddress }: SpaceProps) {
 	const { address: userAddress } = useAccount()
 
 	const contract = contractsGetSpace(spaceAddress as `0x${string}`, userAddress as `0x${string}`)
-	const { data: spaceData, isLoading, isError } = useReadContract(contract)
+
+	const { data: spaceData, isLoading, isError, error } = useReadContract(contract)
 
 	useEffect(() => {
 		if (spaceData) {
@@ -46,7 +47,6 @@ export function Space({ spaceAddress }: SpaceProps) {
 	if (isLoading) {
 		return (
 			<div className="main-container">
-				<SpaceBackToSpacesButton />
 				<SpaceHeaderSkeleton />
 				<SpaceQuestionsListSkeleton />
 				<SpaceLeaderboardSkeleton />
@@ -56,14 +56,26 @@ export function Space({ spaceAddress }: SpaceProps) {
 	}
 
 	if (isError || !spaceData) {
-		return <div>Error loading space data</div>
+		console.error('Error loading space data:', error)
+		return (
+			<div className="main-container">
+				<div className="p-4 text-center">
+					<h2 className="text-xl font-semibold mb-2">Error Loading Space</h2>
+					<p className="text-gray-600">
+						{error instanceof Error
+							? error.message
+							: 'Unable to load space data. Please try again later.'}
+					</p>
+				</div>
+			</div>
+		)
 	}
 
 	const space = spaceData as unknown as SpaceView
 
 	return (
 		<div className="main-container">
-			<SpaceBackToSpacesButton />
+			{/* <SpaceBackToSpacesButton /> */}
 			<SpaceHeader
 				name={space.data.name}
 				description={space.data.description}
