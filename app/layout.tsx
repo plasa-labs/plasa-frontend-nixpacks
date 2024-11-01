@@ -8,11 +8,11 @@ import { cookieToInitialState } from 'wagmi'
 
 import { Inter } from 'next/font/google'
 
-import { getConfig } from './wagmi'
-import { Providers } from './OnchainProviders'
+import { getConfig } from '@/lib/onchain/wagmi'
+import { Providers } from '@/providers/OnchainProviders'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from '@/providers/ThemeProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
