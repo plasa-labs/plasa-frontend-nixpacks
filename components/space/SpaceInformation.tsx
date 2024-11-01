@@ -2,6 +2,8 @@ import { Calendar, ReceiptText } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { AddressLink } from '@/components/common/AddressLink'
 
+import { formatDate } from '@/lib/utils/formatters'
+
 interface SpaceInformationProps {
 	contractAddress: string
 	creationDate: bigint
@@ -21,7 +23,7 @@ export function SpaceInformation({ contractAddress, creationDate }: SpaceInforma
 				</div>
 				<div className="flex items-center">
 					<Calendar className="mr-2 h-4 w-4" />
-					<span className="text-sm">Fecha de creación: {new Date(Number(creationDate) * 1000).toLocaleDateString()}</span>
+					<span className="text-sm">Fecha de creación: {formatDate(Number(creationDate))}</span>
 				</div>
 			</CardContent>
 		</Card>
