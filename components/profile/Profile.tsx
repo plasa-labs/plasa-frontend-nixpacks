@@ -71,7 +71,7 @@ export function Profile() {
 	const typedPlasaData = plasa as unknown as PlasaView
 
 	return (
-		<div className="main-container" suppressHydrationWarning={true}>
+		<div className="main-container">
 			<h1 className="text-3xl font-bold mb-6">Mi Perfil</h1>
 			<div className="grid gap-6 md:grid-cols-2">
 				<div>

@@ -15,7 +15,7 @@ export default function SpacesPage() {
 	if (!plasaData) return <SpacesNoDataState />
 
 	return (
-		<div className="main-container" suppressHydrationWarning={true}>
+		<div className="main-container">
 			<h2 className="text-2xl font-bold mb-6">Espacios</h2>
 			{plasaData.spaces.map((space: SpacePreview) => (
 				<SpacesSpaceCard key={space.data.contractAddress} space={space} />
