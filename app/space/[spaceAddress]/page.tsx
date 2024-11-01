@@ -1,7 +1,7 @@
 'use client'
 
 import { useParams } from 'next/navigation'
-import { Space } from './components/Space'
+import { Space } from '@/components/space/Space'
 
 export default function SpacePage() {
 	const { spaceAddress } = useParams()
