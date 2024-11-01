@@ -13,7 +13,7 @@ interface SpaceQuestionCardProps {
 	spaceAddress: string
 }
 
-export function SpaceQuestionCard({ question, spaceAddress }: SpaceQuestionCardProps) {
+export function SpaceQuestionCard({ question }: SpaceQuestionCardProps) {
 	const router = useRouter()
 	const isActive = question.data.isActive
 	const canVote = question.user.canVote
@@ -22,7 +22,7 @@ export function SpaceQuestionCard({ question, spaceAddress }: SpaceQuestionCardP
 	const daysRemaining = Math.ceil(timeRemaining / (1000 * 60 * 60 * 24))
 
 	const handleQuestionClick = () => {
-		router.push(`/space/${spaceAddress}/question/${question.data.contractAddress}`)
+		router.push(`/question/${question.data.contractAddress}`)
 	}
 
 	return (
