@@ -2,8 +2,10 @@
   {
     "inputs": [
       { "internalType": "address", "name": "_space", "type": "address" },
+      { "internalType": "address", "name": "_points", "type": "address" },
       { "internalType": "string", "name": "_title", "type": "string" },
       { "internalType": "string", "name": "_description", "type": "string" },
+      { "internalType": "string[]", "name": "_tags", "type": "string[]" },
       { "internalType": "uint256", "name": "_deadline", "type": "uint256" },
       {
         "internalType": "string[]",
@@ -22,6 +24,18 @@
   { "inputs": [], "name": "AlreadyVoted", "type": "error" },
   { "inputs": [], "name": "InvalidOption", "type": "error" },
   { "inputs": [], "name": "MismatchedOptionArrays", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "user", "type": "address" },
+      {
+        "internalType": "enum ISpaceAccessControl.PermissionName",
+        "name": "permissionName",
+        "type": "uint8"
+      }
+    ],
+    "name": "NotAllowed",
+    "type": "error"
+  },
   {
     "inputs": [
       { "internalType": "address", "name": "owner", "type": "address" }
@@ -87,24 +101,51 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "string",
-        "name": "newTitle",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "newDescription",
-        "type": "string"
-      },
-      {
-        "indexed": false,
         "internalType": "uint256",
         "name": "newDeadline",
         "type": "uint256"
       }
     ],
-    "name": "QuestionUpdated",
+    "name": "QuestionDeadlineUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "newDescription",
+        "type": "string"
+      }
+    ],
+    "name": "QuestionDescriptionUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "string[]",
+        "name": "newTags",
+        "type": "string[]"
+      }
+    ],
+    "name": "QuestionTagsUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "newTitle",
+        "type": "string"
+      }
+    ],
+    "name": "QuestionTitleUpdated",
     "type": "event"
   },
   {
@@ -239,6 +280,11 @@
                 "type": "string"
               },
               {
+                "internalType": "string[]",
+                "name": "tags",
+                "type": "string[]"
+              },
+              {
                 "internalType": "address",
                 "name": "creator",
                 "type": "address"
@@ -276,6 +322,69 @@
             "internalType": "struct IQuestionView.QuestionUser",
             "name": "user",
             "type": "tuple"
+          },
+          {
+            "components": [
+              {
+                "components": [
+                  {
+                    "internalType": "address",
+                    "name": "contractAddress",
+                    "type": "address"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "name",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "symbol",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "uint256",
+                    "name": "totalSupply",
+                    "type": "uint256"
+                  },
+                  {
+                    "components": [
+                      {
+                        "internalType": "address",
+                        "name": "user",
+                        "type": "address"
+                      },
+                      {
+                        "internalType": "uint256",
+                        "name": "balance",
+                        "type": "uint256"
+                      }
+                    ],
+                    "internalType": "struct IPointsView.Holder[]",
+                    "name": "top10Holders",
+                    "type": "tuple[]"
+                  }
+                ],
+                "internalType": "struct IPointsView.PointsData",
+                "name": "data",
+                "type": "tuple"
+              },
+              {
+                "components": [
+                  {
+                    "internalType": "uint256",
+                    "name": "currentBalance",
+                    "type": "uint256"
+                  }
+                ],
+                "internalType": "struct IPointsView.PointsUser",
+                "name": "user",
+                "type": "tuple"
+              }
+            ],
+            "internalType": "struct IPointsView.PointsView",
+            "name": "points",
+            "type": "tuple"
           }
         ],
         "internalType": "struct IQuestionView.QuestionPreview",
@@ -311,6 +420,11 @@
                 "internalType": "string",
                 "name": "description",
                 "type": "string"
+              },
+              {
+                "internalType": "string[]",
+                "name": "tags",
+                "type": "string[]"
               },
               {
                 "internalType": "address",
@@ -397,6 +511,210 @@
             "internalType": "struct IQuestionView.OptionView[]",
             "name": "options",
             "type": "tuple[]"
+          },
+          {
+            "components": [
+              {
+                "components": [
+                  {
+                    "internalType": "address",
+                    "name": "contractAddress",
+                    "type": "address"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "name",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "description",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "imageUrl",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "uint256",
+                    "name": "creationTimestamp",
+                    "type": "uint256"
+                  }
+                ],
+                "internalType": "struct ISpaceView.SpaceData",
+                "name": "data",
+                "type": "tuple"
+              },
+              {
+                "components": [
+                  {
+                    "components": [
+                      {
+                        "internalType": "bool",
+                        "name": "superAdmin",
+                        "type": "bool"
+                      },
+                      {
+                        "internalType": "bool",
+                        "name": "admin",
+                        "type": "bool"
+                      },
+                      { "internalType": "bool", "name": "mod", "type": "bool" }
+                    ],
+                    "internalType": "struct ISpaceView.RolesUser",
+                    "name": "roles",
+                    "type": "tuple"
+                  },
+                  {
+                    "components": [
+                      {
+                        "internalType": "bool",
+                        "name": "UpdateSpaceInfo",
+                        "type": "bool"
+                      },
+                      {
+                        "internalType": "bool",
+                        "name": "UpdateSpacePoints",
+                        "type": "bool"
+                      },
+                      {
+                        "internalType": "bool",
+                        "name": "UpdateQuestionInfo",
+                        "type": "bool"
+                      },
+                      {
+                        "internalType": "bool",
+                        "name": "UpdateQuestionDeadline",
+                        "type": "bool"
+                      },
+                      {
+                        "internalType": "bool",
+                        "name": "UpdateQuestionPoints",
+                        "type": "bool"
+                      },
+                      {
+                        "internalType": "bool",
+                        "name": "CreateFixedQuestion",
+                        "type": "bool"
+                      },
+                      {
+                        "internalType": "bool",
+                        "name": "CreateOpenQuestion",
+                        "type": "bool"
+                      },
+                      {
+                        "internalType": "bool",
+                        "name": "VetoFixedQuestion",
+                        "type": "bool"
+                      },
+                      {
+                        "internalType": "bool",
+                        "name": "VetoOpenQuestion",
+                        "type": "bool"
+                      },
+                      {
+                        "internalType": "bool",
+                        "name": "VetoOpenQuestionOption",
+                        "type": "bool"
+                      },
+                      {
+                        "internalType": "bool",
+                        "name": "LiftVetoFixedQuestion",
+                        "type": "bool"
+                      },
+                      {
+                        "internalType": "bool",
+                        "name": "LiftVetoOpenQuestion",
+                        "type": "bool"
+                      },
+                      {
+                        "internalType": "bool",
+                        "name": "LiftVetoOpenQuestionOption",
+                        "type": "bool"
+                      },
+                      {
+                        "internalType": "bool",
+                        "name": "AddOpenQuestionOption",
+                        "type": "bool"
+                      }
+                    ],
+                    "internalType": "struct ISpaceView.PermissionsUser",
+                    "name": "permissions",
+                    "type": "tuple"
+                  }
+                ],
+                "internalType": "struct ISpaceView.SpaceUser",
+                "name": "user",
+                "type": "tuple"
+              }
+            ],
+            "internalType": "struct ISpaceView.SpacePreview",
+            "name": "space",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              {
+                "components": [
+                  {
+                    "internalType": "address",
+                    "name": "contractAddress",
+                    "type": "address"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "name",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "symbol",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "uint256",
+                    "name": "totalSupply",
+                    "type": "uint256"
+                  },
+                  {
+                    "components": [
+                      {
+                        "internalType": "address",
+                        "name": "user",
+                        "type": "address"
+                      },
+                      {
+                        "internalType": "uint256",
+                        "name": "balance",
+                        "type": "uint256"
+                      }
+                    ],
+                    "internalType": "struct IPointsView.Holder[]",
+                    "name": "top10Holders",
+                    "type": "tuple[]"
+                  }
+                ],
+                "internalType": "struct IPointsView.PointsData",
+                "name": "data",
+                "type": "tuple"
+              },
+              {
+                "components": [
+                  {
+                    "internalType": "uint256",
+                    "name": "currentBalance",
+                    "type": "uint256"
+                  }
+                ],
+                "internalType": "struct IPointsView.PointsUser",
+                "name": "user",
+                "type": "tuple"
+              }
+            ],
+            "internalType": "struct IPointsView.PointsView",
+            "name": "points",
+            "type": "tuple"
           }
         ],
         "internalType": "struct IQuestionView.QuestionView",
@@ -449,6 +767,15 @@
   },
   {
     "inputs": [],
+    "name": "points",
+    "outputs": [
+      { "internalType": "contract IPoints", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "questionType",
     "outputs": [
       {
@@ -473,6 +800,13 @@
     "outputs": [
       { "internalType": "contract ISpace", "name": "", "type": "address" }
     ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "tags",
+    "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -513,6 +847,15 @@
       { "internalType": "string", "name": "_description", "type": "string" }
     ],
     "name": "updateDescription",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string[]", "name": "_tags", "type": "string[]" }
+    ],
+    "name": "updateTags",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
