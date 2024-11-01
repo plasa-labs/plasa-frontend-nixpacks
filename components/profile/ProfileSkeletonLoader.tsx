@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 
 export function ProfileSkeletonLoader() {
 	return (
-		<div className="container mx-auto px-4 py-8">
+		<div className="mx-auto px-4 py-8">
 			<Skeleton className="h-10 w-48 mb-6" />
 			<div className="grid gap-6 md:grid-cols-2">
 				<div>

@@ -23,12 +23,7 @@ export function Profile() {
 	const [userFirestore, setUserFirestore] = useState<UserData | null>(null)
 	const [loading, setLoading] = useState(true)
 
-	// If not connected, show the not connected card
-	if (!address) {
-		return <ProfileNotConnectedCard />
-	}
-
-	const contract = contractsGetPlasa(address)
+	const contract = contractsGetPlasa(address ?? '0x0')
 	const { data: plasa, isLoading: plasaLoading, refetch: refetchPlasa } = useReadContract(contract)
 
 	useEffect(() => {
@@ -44,6 +39,10 @@ export function Profile() {
 				})
 		}
 	}, [plasa, address])
+
+	if (!address) {
+		return <ProfileNotConnectedCard />
+	}
 
 	const handleConnectInstagram = async (username: string) => {
 		setLoading(true)
