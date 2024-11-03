@@ -19,14 +19,6 @@ import {
 } from './loading'
 import { ReadContractParameters } from 'viem'
 
-const mockLeaderboard = [
-	{ name: "alice", points: 8900 },
-	{ name: "bob", points: 7500 },
-	{ name: "charlie", points: 6200 },
-	{ name: "david", points: 5800 },
-	{ name: "eva", points: 4900 },
-]
-
 interface SpaceProps {
 	spaceAddress: string
 }
@@ -78,7 +70,7 @@ export function Space({ spaceAddress }: SpaceProps) {
 			<div className="main-container">
 				<SpaceHeader />
 				<SpaceQuestionsList />
-				<SpaceLeaderboard members={mockLeaderboard} />
+				<SpaceLeaderboard />
 				<SpaceInformation />
 			</div>
 		</SpaceProvider>
