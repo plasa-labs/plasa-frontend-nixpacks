@@ -12,7 +12,13 @@ import {
 	SpaceInformationSkeleton
 } from './loading'
 
-export function Space() {
+interface SpaceProps {
+	spaceAddress?: string
+}
+
+export function Space({ spaceAddress }: SpaceProps) {
+	if (spaceAddress) console.log(spaceAddress)
+
 	const { isLoading, isError, error } = useSpace()
 
 	if (isLoading) {

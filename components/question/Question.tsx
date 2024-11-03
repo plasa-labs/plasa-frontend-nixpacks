@@ -14,7 +14,7 @@ import { QuestionInformation } from './QuestionInformation'
 import { QuestionLoading } from './QuestionLoading'
 
 import { contractsGetQuestion } from '@/lib/onchain/contracts'
-import { QuestionView } from '@/lib/onchain/types/questions'
+import { QuestionView } from '@/lib/onchain/types/interfaces'
 
 interface QuestionProps {
 	spaceAddress: string
@@ -58,11 +58,11 @@ export function Question({ spaceAddress, questionAddress }: QuestionProps) {
 	const handleVote = async (optionIndex: number) => {
 		if (questionData) {
 			const updatedQuestionData = { ...questionData } as unknown as QuestionView
-			updatedQuestionData.options[optionIndex].data.voteCount = Number(updatedQuestionData.options[optionIndex].data.voteCount) + 1
+			updatedQuestionData.options[optionIndex].data.voteCount = updatedQuestionData.options[optionIndex].data.voteCount + BigInt(1)
 			updatedQuestionData.options[optionIndex].user.voted = true
 			updatedQuestionData.user.canVote = false
-			updatedQuestionData.data.voteCount = Number(updatedQuestionData.data.voteCount) + 1
-			updatedQuestionData.options[optionIndex].data.pointsAtDeadline = Number(updatedQuestionData.options[optionIndex].data.pointsAtDeadline) + Number(updatedQuestionData.user.pointsAtDeadline)
+			updatedQuestionData.data.voteCount = updatedQuestionData.data.voteCount + BigInt(1)
+			updatedQuestionData.options[optionIndex].data.pointsAtDeadline = updatedQuestionData.options[optionIndex].data.pointsAtDeadline + updatedQuestionData.user.pointsAtDeadline
 		}
 	}
 

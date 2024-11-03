@@ -23,7 +23,7 @@ export function SpaceInformation() {
 				</div>
 				<div className="flex items-center">
 					<Calendar className="mr-2 h-4 w-4" />
-					<span className="text-sm">Fecha de creación: {formatDate(Number(creationTimestamp))}</span>
+					<span className="text-sm">Fecha de creación: {formatDate(creationTimestamp)}</span>
 				</div>
 			</CardContent>
 		</Card>

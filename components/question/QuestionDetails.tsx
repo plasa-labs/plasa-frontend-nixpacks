@@ -7,9 +7,9 @@ import { formatPoints } from '@/lib/utils/formatters'
 
 interface QuestionDetailsProps {
 	description: string
-	totalPoints: number
+	totalPoints: bigint
 	canVote: boolean
-	userPointsAtDeadline: number
+	userPointsAtDeadline: bigint
 	isConnected: boolean
 }
 
@@ -30,7 +30,7 @@ export const QuestionDetails = ({
 						Debes estar conectado para votar. Hacé click en el botón &quot;Conectar&quot; de arriba.
 					</p>
 				</Alert>
-			) : (userPointsAtDeadline == 0 ? (
+			) : (userPointsAtDeadline == BigInt(0) ? (
 				<Alert variant="destructive" className="mb-4">
 					<AlertCircle className="h-4 w-4" />
 					<div className="ml-2 flex flex-col space-y-2">
