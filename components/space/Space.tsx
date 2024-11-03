@@ -1,12 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useAccount, useReadContract } from 'wagmi'
-import { SpaceView } from '@/lib/onchain/types/interfaces'
-
-import { contractsGetSpace } from '@/lib/onchain/contracts'
-import { SpaceProvider } from '@/contexts/SpaceContext'
-
+import { useSpace } from '@/contexts/SpaceContext'
 import { SpaceHeader } from './SpaceHeader'
 import { SpaceQuestionsList } from './SpaceQuestionsList'
 import { SpaceLeaderboard } from './SpaceLeaderboard'
@@ -17,24 +11,9 @@ import {
 	SpaceLeaderboardSkeleton,
 	SpaceInformationSkeleton
 } from './loading'
-import { ReadContractParameters } from 'viem'
 
-interface SpaceProps {
-	spaceAddress: string
-}
-
-export function Space({ spaceAddress }: SpaceProps) {
-	const { address: userAddress } = useAccount()
-
-	const contract: ReadContractParameters = contractsGetSpace(spaceAddress as `0x${string}`, userAddress)
-
-	const { data: spaceData, isLoading, isError, error } = useReadContract(contract)
-
-	useEffect(() => {
-		if (spaceData) {
-			console.log('Space data:', spaceData)
-		}
-	}, [spaceData])
+export function Space() {
+	const { isLoading, isError, error } = useSpace()
 
 	if (isLoading) {
 		return (
@@ -47,8 +26,7 @@ export function Space({ spaceAddress }: SpaceProps) {
 		)
 	}
 
-	if (isError || !spaceData) {
-		console.error('Error loading space data:', error)
+	if (isError) {
 		return (
 			<div className="main-container">
 				<div className="p-4 text-center">
@@ -63,16 +41,12 @@ export function Space({ spaceAddress }: SpaceProps) {
 		)
 	}
 
-	const space = spaceData as unknown as SpaceView
-
 	return (
-		<SpaceProvider value={{ space, isLoading, isError, error }}>
-			<div className="main-container">
-				<SpaceHeader />
-				<SpaceQuestionsList />
-				<SpaceLeaderboard />
-				<SpaceInformation />
-			</div>
-		</SpaceProvider>
+		<div className="main-container">
+			<SpaceHeader />
+			<SpaceQuestionsList />
+			<SpaceLeaderboard />
+			<SpaceInformation />
+		</div>
 	)
 } 

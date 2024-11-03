@@ -13,6 +13,7 @@ import { Providers } from '@/providers/OnchainProviders'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { ThemeProvider } from '@/providers/ThemeProvider'
+import { SpaceProvider } from '@/contexts/SpaceContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -44,9 +45,11 @@ export default async function RootLayout({
 					disableTransitionOnChange
 				>
 					<Providers initialState={initialState}>
-						<Navbar />
-						<main>{children}</main>
-						<Footer />
+						<SpaceProvider>
+							<Navbar />
+							<main>{children}</main>
+							<Footer />
+						</SpaceProvider>
 					</Providers>
 				</ThemeProvider>
 			</body>
