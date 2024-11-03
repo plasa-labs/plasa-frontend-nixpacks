@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import { SpaceView } from '@/lib/onchain/types/spaces'
+import { SpaceView } from '@/lib/onchain/types/interfaces'
 
 interface SpaceContextType {
 	space: SpaceView

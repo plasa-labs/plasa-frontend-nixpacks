@@ -5,7 +5,7 @@ import { Eye } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { QuestionPreview } from '@/lib/onchain/types/questions'
+import { QuestionPreview } from '@/lib/onchain/types/interfaces'
 import { formatPoints } from '@/lib/utils/formatters'
 
 interface SpaceQuestionCardProps {

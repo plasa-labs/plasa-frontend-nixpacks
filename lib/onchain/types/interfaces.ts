@@ -1,10 +1,10 @@
 // Points Types
-interface Holder {
+export interface Holder {
 	user: string  // address
 	balance: bigint
 }
 
-interface PointsData {
+export interface PointsData {
 	contractAddress: string  // address
 	name: string
 	symbol: string
@@ -12,11 +12,11 @@ interface PointsData {
 	top10Holders: Holder[]
 }
 
-interface PointsUser {
+export interface PointsUser {
 	currentBalance: bigint
 }
 
-interface PointsView {
+export interface PointsView {
 	data: PointsData
 	user: PointsUser
 }
@@ -28,7 +28,7 @@ enum QuestionType {
 	Fixed
 }
 
-interface QuestionData {
+export interface QuestionData {
 	contractAddress: string  // address
 	questionType: QuestionType
 	title: string
@@ -41,12 +41,12 @@ interface QuestionData {
 	voteCount: bigint
 }
 
-interface QuestionUser {
+export interface QuestionUser {
 	canVote: boolean
 	pointsAtDeadline: bigint
 }
 
-interface OptionData {
+export interface OptionData {
 	title: string
 	description: string
 	proposer: string  // address
@@ -54,22 +54,22 @@ interface OptionData {
 	pointsAtDeadline: bigint
 }
 
-interface OptionUser {
+export interface OptionUser {
 	voted: boolean
 }
 
-interface OptionView {
+export interface OptionView {
 	data: OptionData
 	user: OptionUser
 }
 
-interface QuestionPreview {
+export interface QuestionPreview {
 	data: QuestionData
 	user: QuestionUser
 	points: PointsView
 }
 
-interface QuestionView {
+export interface QuestionView {
 	data: QuestionData
 	user: QuestionUser
 	options: OptionView[]
@@ -83,7 +83,7 @@ enum StampType {
 	FollowerSince
 }
 
-interface StampData {
+export interface StampData {
 	contractAddress: string  // address
 	stampType: StampType
 	name: string
@@ -92,25 +92,25 @@ interface StampData {
 	specific: string  // bytes in hex
 }
 
-interface StampUser {
+export interface StampUser {
 	owns: boolean
 	stampId: bigint
 	mintingTimestamp: bigint
 	specific: string  // bytes in hex
 }
 
-interface StampView {
+export interface StampView {
 	data: StampData
 	user: StampUser
 }
 
 // Points Stamp Types
-interface PointsStampData extends StampData {
+export interface PointsStampData extends StampData {
 	multiplier: bigint
 }
 
 // Space Types
-interface SpaceData {
+export interface SpaceData {
 	contractAddress: string  // address
 	name: string
 	description: string
@@ -118,13 +118,13 @@ interface SpaceData {
 	creationTimestamp: bigint
 }
 
-interface RolesUser {
+export interface RolesUser {
 	superAdmin: boolean
 	admin: boolean
 	mod: boolean
 }
 
-interface PermissionsUser {
+export interface PermissionsUser {
 	UpdateSpaceInfo: boolean
 	UpdateSpacePoints: boolean
 	UpdateQuestionInfo: boolean
@@ -141,27 +141,27 @@ interface PermissionsUser {
 	AddOpenQuestionOption: boolean
 }
 
-interface SpaceUser {
+export interface SpaceUser {
 	roles: RolesUser
 	permissions: PermissionsUser
 }
 
-interface SpacePreview {
+export interface SpacePreview {
 	data: SpaceData
 	user: SpaceUser
 }
 
-interface PointsStampView {
+export interface PointsStampView {
 	data: PointsStampData
 	user: StampUser
 }
 
-interface MultipleFollowerSincePointsView {
+export interface MultipleFollowerSincePointsView {
 	points: PointsView
 	stamps: PointsStampView[]
 }
 
-interface SpaceView {
+export interface SpaceView {
 	data: SpaceData
 	user: SpaceUser
 	points: MultipleFollowerSincePointsView
@@ -169,17 +169,17 @@ interface SpaceView {
 }
 
 // Plasa Types
-interface PlasaData {
+export interface PlasaData {
 	contractAddress: string  // address
 	chainId: bigint
 	version: string
 }
 
-interface PlasaUser {
+export interface PlasaUser {
 	username: string
 }
 
-interface PlasaView {
+export interface PlasaView {
 	data: PlasaData
 	user: PlasaUser
 	stamps: StampView[]

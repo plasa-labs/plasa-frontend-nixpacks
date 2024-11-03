@@ -7,8 +7,8 @@ import { useSpace } from '@/contexts/SpaceContext'
 export function SpaceHeader() {
 	const { space } = useSpace()
 	const { name, description, imageUrl } = space.data
-	const { symbol } = space.points.data
-	const points = BigInt(space.points.user.currentBalance)
+	const { symbol } = space.points.points.data
+	const points = BigInt(space.points.points.user.currentBalance)
 
 	return (
 		<Card className="mb-6">

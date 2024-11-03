@@ -2,8 +2,8 @@
 
 import { useEffect } from 'react'
 import { useAccount, useReadContract } from 'wagmi'
+import { SpaceView } from '@/lib/onchain/types/interfaces'
 
-import { SpaceView } from '@/lib/onchain/types/spaces'
 import { contractsGetSpace } from '@/lib/onchain/contracts'
 import { SpaceProvider } from '@/contexts/SpaceContext'
 
