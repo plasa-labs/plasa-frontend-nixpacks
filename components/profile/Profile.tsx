@@ -1,15 +1,14 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useAccount, useReadContract } from 'wagmi'
+import { useAccount } from 'wagmi'
 import { useSpace } from '@/contexts/SpaceContext'
 
 // Types and interfaces
 import type { UserData } from '@/lib/api/interfaces'
-import { PlasaView } from '@/lib/onchain/types/interfaces'
+// import { PlasaView } from '@/lib/onchain/types/interfaces'
 
 // Local utilities and contracts
-import { contractsGetPlasa } from '@/lib/onchain/contracts'
 import { fetchUser, setInstagramUsername } from '@/lib/api/endpoints'
 
 // Components

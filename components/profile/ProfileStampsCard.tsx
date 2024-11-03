@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ProfileStampCard } from './ProfileStampCard'
 import type { UserData } from '@/lib/api/interfaces'
-import type { PlasaView } from '@/lib/onchain/types/interfaces'
+// import type { PlasaView } from '@/lib/onchain/types/interfaces'
 import { useSpace } from '@/contexts/SpaceContext'
 
 interface ProfileStampsCardProps {
