@@ -1,16 +1,23 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ProfileStampCard } from './ProfileStampCard'
 import type { UserData } from '@/lib/api/interfaces'
-import type { PlasaView } from '@/lib/onchain/types/plasa'
+import type { PlasaView } from '@/lib/onchain/types/interfaces'
+import { useSpace } from '@/contexts/SpaceContext'
 
 interface ProfileStampsCardProps {
 	userFirestore: UserData | null
-	plasa: PlasaView | null
 	onStampMint: (address: string) => void
 }
 
-export function ProfileStampsCard({ userFirestore, plasa, onStampMint }: ProfileStampsCardProps) {
-	const ownedStamps = plasa?.stamps.filter(stamp => stamp.user.owns) || []
+export function ProfileStampsCard({ userFirestore, onStampMint }: ProfileStampsCardProps) {
+	const { space } = useSpace()
+	if (!space) return null
+
+	const stamps = space.points.stamps
+	console.log(stamps)
+
+	const ownedStamps = stamps.filter(stamp => stamp.user.owns)
+
 	const availableStamps = userFirestore?.availableStamps?.filter(stampSig =>
 		!ownedStamps.some(ownedStamp => ownedStamp.data.contractAddress === stampSig.stamp.contractAddress)
 	) || []
@@ -49,7 +56,7 @@ export function ProfileStampsCard({ userFirestore, plasa, onStampMint }: Profile
 				{availableStamps.length > 0 ? (
 					<div className="space-y-4">
 						{availableStamps.map(stampSig => {
-							const stampData = plasa?.stamps.find(s => s.data.contractAddress === stampSig.stamp.contractAddress)
+							const stampData = stamps.find(s => s.data.contractAddress === stampSig.stamp.contractAddress)
 							return stampData ? (
 								<ProfileStampCard
 									key={stampData.data.contractAddress}

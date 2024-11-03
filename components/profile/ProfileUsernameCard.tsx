@@ -3,13 +3,11 @@ import { useName } from '@coinbase/onchainkit/identity'
 import { baseSepolia } from 'viem/chains'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { useAccount } from 'wagmi'
 
-interface ProfileUsernameCardProps {
-	address: string
-}
-
-export function ProfileUsernameCard({ address }: ProfileUsernameCardProps) {
-	const { name: basename } = useName({ address: address as `0x${string}`, chain: baseSepolia })
+export function ProfileUsernameCard() {
+	const { address: userAddress } = useAccount()
+	const { name: basename } = useName({ address: userAddress as `0x${string}`, chain: baseSepolia })
 
 	return (
 		<Card className="mb-6">

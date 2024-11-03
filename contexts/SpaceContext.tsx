@@ -26,7 +26,7 @@ export function SpaceProvider({ children }: { children: ReactNode }) {
 	const spaceAddress = process.env.NEXT_PUBLIC_SPACE_ADDRESS as `0x${string}`
 
 	const contract = contractsGetSpace(spaceAddress, userAddress)
-	const { data: spaceData, isLoading: isLoadingContract, isError: isErrorContract, error: contractError } = useReadContract(contract)
+	const { data: spaceData, isLoading: isLoadingContract, isError: isErrorContract, error: contractError, refetch: contractRefetch } = useReadContract(contract)
 
 	useEffect(() => {
 		if (spaceData) {
@@ -43,7 +43,7 @@ export function SpaceProvider({ children }: { children: ReactNode }) {
 		isLoading,
 		isError,
 		error,
-		refetch: () => { },
+		refetch: contractRefetch,
 		setSpace
 	}
 
