@@ -14,7 +14,6 @@ export function ProfileStampsCard({ userFirestore, onStampMint }: ProfileStampsC
 	if (!space) return null
 
 	const stamps = space.points.stamps
-	console.log(stamps)
 
 	const ownedStamps = stamps.filter(stamp => stamp.user.owns)
 
