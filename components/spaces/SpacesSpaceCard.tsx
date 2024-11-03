@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardTitle } from '@/components/ui/card'
-import { SpacePreview } from '@/lib/onchain/types/spaces'
+import { SpacePreview } from '@/lib/onchain/types/interfaces'
 
 export const SpacesSpaceCard = ({ space }: { space: SpacePreview }) => (
 	<Card className="mb-4">

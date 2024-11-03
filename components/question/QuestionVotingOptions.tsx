@@ -2,7 +2,7 @@ import { CheckCircle2 } from "lucide-react"
 import { Transaction, TransactionButton, TransactionStatus, TransactionStatusAction, TransactionStatusLabel } from '@coinbase/onchainkit/transaction'
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { OptionView } from '@/lib/onchain/types/options'
+import { OptionView } from '@/lib/onchain/types/interfaces'
 import { contractsVote } from '@/lib/onchain/contracts'
 
 interface QuestionVotingOptionsProps {
@@ -12,7 +12,7 @@ interface QuestionVotingOptionsProps {
 	active: boolean
 	questionAddress: string
 	isConnected: boolean
-	userPointsAtDeadline: number
+	userPointsAtDeadline: bigint
 }
 
 export const QuestionVotingOptions = ({
@@ -41,7 +41,7 @@ export const QuestionVotingOptions = ({
 								</Badge>
 							)}
 						</div>
-						{canVote && active && isConnected && userPointsAtDeadline > 0 && (
+						{canVote && active && isConnected && userPointsAtDeadline > BigInt(0) && (
 							<Transaction
 								chainId={84532}
 								contracts={contractsVote(questionAddress as `0x${string}`, index + 1)}

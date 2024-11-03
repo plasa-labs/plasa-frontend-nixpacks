@@ -5,32 +5,34 @@ import { Eye } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { QuestionPreview } from '@/lib/onchain/types/questions'
+import { QuestionPreview } from '@/lib/onchain/types/interfaces'
 import { formatPoints } from '@/lib/utils/formatters'
 
 interface SpaceQuestionCardProps {
 	question: QuestionPreview
-	spaceAddress: string
 }
 
-export function SpaceQuestionCard({ question, spaceAddress }: SpaceQuestionCardProps) {
+export function SpaceQuestionCard({ question }: SpaceQuestionCardProps) {
 	const router = useRouter()
+
 	const isActive = question.data.isActive
 	const canVote = question.user.canVote
+	const title = question.data.title
+	const voteCount = BigInt(question.data.voteCount)
 	const deadlineTimestamp = Number(question.data.deadline)
 	const timeRemaining = new Date(deadlineTimestamp * 1000).getTime() - Date.now()
 	const daysRemaining = Math.ceil(timeRemaining / (1000 * 60 * 60 * 24))
 
 	const handleQuestionClick = () => {
-		router.push(`/space/${spaceAddress}/question/${question.data.contractAddress}`)
+		router.push(`/question/${question.data.contractAddress}`)
 	}
 
 	return (
 		<Card className="mb-4">
 			<CardHeader>
 				<div className="flex justify-between items-start">
-					<CardTitle className="text-lg">{question.data.title}</CardTitle>
-					<Badge variant={isActive ? "default" : "secondary"}>
+					<CardTitle className="text-lg">{title}</CardTitle>
+					<Badge variant={isActive ? "default" : "secondary"} className="ml-2">
 						{isActive ? 'Activa' : 'Cerrada'}
 					</Badge>
 				</div>
@@ -40,7 +42,7 @@ export function SpaceQuestionCard({ question, spaceAddress }: SpaceQuestionCardP
 					<span>
 						{isActive ? `Quedan ${daysRemaining} días` : `Terminó hace ${Math.abs(daysRemaining)} días`}
 					</span>
-					<span>{BigInt(question.data.voteCount).toString()} votos</span>
+					<span>{voteCount.toString()} votos</span>
 				</div>
 				<div className="flex justify-between items-center">
 					<span className="text-sm font-medium">

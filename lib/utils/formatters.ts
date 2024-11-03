@@ -4,9 +4,10 @@ export const abbreviateAddress = (address: string) => {
 
 export const scanLink = (address: string) => `https://sepolia.basescan.org/address/${address}`
 
-export const formatDate = (timestamp: number) => {
-	return new Date(Number(timestamp) * 1000).toLocaleString('es-AR', {
-		timeZone: 'America/Argentina/Buenos_Aires',
+export const formatDate = (timestamp: bigint) => {
+	// Create a fixed date formatter to ensure consistency
+	const formatter = new Intl.DateTimeFormat('es-AR', {
+		// timeZone: 'America/Argentina/Buenos_Aires',
 		day: '2-digit',
 		month: '2-digit',
 		year: 'numeric',
@@ -14,11 +15,15 @@ export const formatDate = (timestamp: number) => {
 		minute: '2-digit',
 		hour12: false
 	})
+
+	return formatter.format(new Date(Number(timestamp) * 1000))
 }
 
-export const formatPoints = (points: number | bigint | string): string => {
-	return Math.floor(Number(points) / 1e17).toLocaleString('es-AR', {
+export const formatPoints = (points: bigint): string => {
+	const formatter = new Intl.NumberFormat('es-AR', {
 		maximumFractionDigits: 0,
 		minimumFractionDigits: 0,
 	})
+
+	return formatter.format(Math.floor(Number(points) / 1e17))
 }

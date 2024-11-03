@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { QuestionView } from '@/lib/onchain/types/questions'
+import { QuestionView } from '@/lib/onchain/types/interfaces'
 // import { QuestionView, QuestionType } from '@/lib/onchain/types/questions'
 import { formatDate } from '@/lib/utils/formatters'
 import { AddressLink } from '@/components/common/AddressLink'

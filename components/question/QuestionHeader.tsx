@@ -11,8 +11,8 @@ export const QuestionHeader = ({ title, active, timeLeft }: QuestionHeaderProps)
 	<div className="mb-6">
 		<div className="flex items-center justify-between mb-2">
 			<h1 className="text-2xl font-bold">{title}</h1>
-			<Badge variant={active ? "default" : "secondary"}>
-				{active ? "Activa" : "Finalizada"}
+			<Badge variant={active ? 'default' : 'secondary'} className="ml-6">
+				{active ? 'Activa' : 'Finalizada'}
 			</Badge>
 		</div>
 		{active ? (

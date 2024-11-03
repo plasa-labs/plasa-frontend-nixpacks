@@ -1,14 +1,14 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useAccount, useReadContract } from 'wagmi'
+import { useAccount } from 'wagmi'
+import { useSpace } from '@/contexts/SpaceContext'
 
 // Types and interfaces
 import type { UserData } from '@/lib/api/interfaces'
-import { PlasaView } from '@/lib/onchain/types/plasa'
+// import { PlasaView } from '@/lib/onchain/types/interfaces'
 
 // Local utilities and contracts
-import { contractsGetPlasa } from '@/lib/onchain/contracts'
 import { fetchUser, setInstagramUsername } from '@/lib/api/endpoints'
 
 // Components
@@ -23,11 +23,10 @@ export function Profile() {
 	const [userFirestore, setUserFirestore] = useState<UserData | null>(null)
 	const [loading, setLoading] = useState(true)
 
-	const contract = contractsGetPlasa(address ?? '0x0')
-	const { data: plasa, isLoading: plasaLoading, refetch: refetchPlasa } = useReadContract(contract)
+	const { space, isLoading: spaceLoading, refetch: refetchSpace } = useSpace()
 
 	useEffect(() => {
-		if (plasa && address) {
+		if (space && address) {
 			fetchUser(address)
 				.then(data => {
 					setUserFirestore(data)
@@ -38,7 +37,7 @@ export function Profile() {
 					setLoading(false)
 				})
 		}
-	}, [plasa, address])
+	}, [space, address])
 
 	if (!address) {
 		return <ProfileNotConnectedCard />
@@ -59,28 +58,25 @@ export function Profile() {
 
 	const handleStampMint = () => {
 		setLoading(true)
-		refetchPlasa()
+		refetchSpace()
 		setLoading(false)
 	}
 
-	if (loading || plasaLoading) {
+	if (loading || spaceLoading) {
 		return <ProfileSkeletonLoader />
 	}
-
-	const typedPlasaData = plasa as unknown as PlasaView
 
 	return (
 		<div className="main-container">
 			<h1 className="text-3xl font-bold mb-6">Mi Perfil</h1>
 			<div className="grid gap-6 md:grid-cols-2">
 				<div>
-					<ProfileUsernameCard address={address} />
+					<ProfileUsernameCard />
 					<ProfileConnectionsCard userFirestore={userFirestore} onConnectInstagram={handleConnectInstagram} />
 				</div>
 				<div>
 					<ProfileStampsCard
 						userFirestore={userFirestore}
-						plasa={typedPlasaData}
 						onStampMint={handleStampMint}
 					/>
 				</div>

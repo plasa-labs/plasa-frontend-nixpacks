@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { OptionView } from '@/lib/onchain/types/options'
+import { OptionView } from '@/lib/onchain/types/interfaces'
 
 interface QuestionVotingProgressProps {
 	options: OptionView[]

@@ -5,7 +5,7 @@ import { SpacesLoadingState } from './SpacesLoadingState'
 import { SpacesErrorState, SpacesNoDataState } from './SpacesErrorState'
 
 import { usePlasaData } from '@/app/hooks/usePlasaData'
-import { SpacePreview } from '@/lib/onchain/types/spaces'
+import { SpacePreview } from '@/lib/onchain/types/interfaces'
 
 export default function SpacesPage() {
 	const { data: plasaData, isLoading, isError } = usePlasaData()

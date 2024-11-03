@@ -2,16 +2,17 @@ import Image from 'next/image'
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { formatPoints } from '@/lib/utils/formatters'
+import { useSpace } from '@/contexts/SpaceContext'
 
-interface SpaceHeaderProps {
-	name: string
-	description: string
-	points: bigint
-	symbol: string
-	imageUrl: string
-}
+export function SpaceHeader() {
+	const { space } = useSpace()
 
-export function SpaceHeader({ name, description, points, symbol, imageUrl }: SpaceHeaderProps) {
+	if (!space) return null
+
+	const { name, description, imageUrl } = space.data
+	const { symbol } = space.points.points.data
+	const points = BigInt(space.points.points.user.currentBalance)
+
 	return (
 		<Card className="mb-6">
 			<CardHeader>
