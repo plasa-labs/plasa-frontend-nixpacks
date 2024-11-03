@@ -5,8 +5,8 @@ import { useAccount, useReadContract } from 'wagmi'
 
 import { SpaceView } from '@/lib/onchain/types/spaces'
 import { contractsGetSpace } from '@/lib/onchain/contracts'
+import { SpaceProvider } from '@/contexts/SpaceContext'
 
-// import { SpaceBackToSpacesButton } from './SpaceBackToSpacesButton'
 import { SpaceHeader } from './SpaceHeader'
 import { SpaceQuestionsList } from './SpaceQuestionsList'
 import { SpaceLeaderboard } from './SpaceLeaderboard'
@@ -17,8 +17,8 @@ import {
 	SpaceLeaderboardSkeleton,
 	SpaceInformationSkeleton
 } from './loading'
+import { ReadContractParameters } from 'viem'
 
-// Mock data for leaderboard (kept as requested)
 const mockLeaderboard = [
 	{ name: "alice", points: 8900 },
 	{ name: "bob", points: 7500 },
@@ -34,7 +34,9 @@ interface SpaceProps {
 export function Space({ spaceAddress }: SpaceProps) {
 	const { address: userAddress } = useAccount()
 
-	const contract = contractsGetSpace(spaceAddress as `0x${string}`, userAddress as `0x${string}`)
+	const userQueryAddress = userAddress ? userAddress as `0x${string}` : '0x0000000000000000000000000000000000000000'
+
+	const contract: ReadContractParameters = contractsGetSpace(spaceAddress as `0x${string}`, userQueryAddress)
 
 	const { data: spaceData, isLoading, isError, error } = useReadContract(contract)
 
@@ -74,25 +76,13 @@ export function Space({ spaceAddress }: SpaceProps) {
 	const space = spaceData as unknown as SpaceView
 
 	return (
-		<div className="main-container">
-			{/* <SpaceBackToSpacesButton /> */}
-			<SpaceHeader
-				name={space.data.name}
-				description={space.data.description}
-				points={BigInt(space.points.user.currentBalance)}
-				symbol={space.points.data.symbol}
-				imageUrl={space.data.imageUrl}
-			/>
-			<SpaceQuestionsList
-				questions={space.questions}
-				canCreateQuestion={space.user.permissions.CreateFixedQuestion || space.user.permissions.CreateOpenQuestion}
-				spaceAddress={spaceAddress}
-			/>
-			<SpaceLeaderboard members={mockLeaderboard} />
-			<SpaceInformation
-				contractAddress={space.data.contractAddress}
-				creationDate={BigInt(space.data.creationTimestamp)}
-			/>
-		</div>
+		<SpaceProvider value={{ space, isLoading, isError, error }}>
+			<div className="main-container">
+				<SpaceHeader />
+				<SpaceQuestionsList />
+				<SpaceLeaderboard members={mockLeaderboard} />
+				<SpaceInformation />
+			</div>
+		</SpaceProvider>
 	)
 } 

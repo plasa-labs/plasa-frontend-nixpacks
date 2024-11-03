@@ -10,13 +10,15 @@ import { formatPoints } from '@/lib/utils/formatters'
 
 interface SpaceQuestionCardProps {
 	question: QuestionPreview
-	spaceAddress: string
 }
 
 export function SpaceQuestionCard({ question }: SpaceQuestionCardProps) {
 	const router = useRouter()
+
 	const isActive = question.data.isActive
 	const canVote = question.user.canVote
+	const title = question.data.title
+	const voteCount = BigInt(question.data.voteCount)
 	const deadlineTimestamp = Number(question.data.deadline)
 	const timeRemaining = new Date(deadlineTimestamp * 1000).getTime() - Date.now()
 	const daysRemaining = Math.ceil(timeRemaining / (1000 * 60 * 60 * 24))
@@ -29,7 +31,7 @@ export function SpaceQuestionCard({ question }: SpaceQuestionCardProps) {
 		<Card className="mb-4">
 			<CardHeader>
 				<div className="flex justify-between items-start">
-					<CardTitle className="text-lg">{question.data.title}</CardTitle>
+					<CardTitle className="text-lg">{title}</CardTitle>
 					<Badge variant={isActive ? "default" : "secondary"}>
 						{isActive ? 'Activa' : 'Cerrada'}
 					</Badge>
@@ -40,7 +42,7 @@ export function SpaceQuestionCard({ question }: SpaceQuestionCardProps) {
 					<span>
 						{isActive ? `Quedan ${daysRemaining} días` : `Terminó hace ${Math.abs(daysRemaining)} días`}
 					</span>
-					<span>{BigInt(question.data.voteCount).toString()} votos</span>
+					<span>{voteCount.toString()} votos</span>
 				</div>
 				<div className="flex justify-between items-center">
 					<span className="text-sm font-medium">
