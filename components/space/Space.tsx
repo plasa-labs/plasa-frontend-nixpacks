@@ -34,9 +34,7 @@ interface SpaceProps {
 export function Space({ spaceAddress }: SpaceProps) {
 	const { address: userAddress } = useAccount()
 
-	const userQueryAddress = userAddress ? userAddress as `0x${string}` : '0x0000000000000000000000000000000000000000'
-
-	const contract: ReadContractParameters = contractsGetSpace(spaceAddress as `0x${string}`, userQueryAddress)
+	const contract: ReadContractParameters = contractsGetSpace(spaceAddress as `0x${string}`, userAddress)
 
 	const { data: spaceData, isLoading, isError, error } = useReadContract(contract)
 

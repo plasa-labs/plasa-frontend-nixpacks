@@ -16,7 +16,7 @@ export const contractsVote = (questionAddress: `0x${string}`, optionIndex: numbe
 
 
 
-export const contractsGetQuestion = (questionAddress: `0x${string}`, userAddress: `0x${string}`) => {
+export const contractsGetQuestion = (questionAddress: `0x${string}`, userAddress: `0x${string}` | undefined) => {
 	return {
 		address: questionAddress,
 		abi: fixedQuestionAbi as Abi,
@@ -25,7 +25,7 @@ export const contractsGetQuestion = (questionAddress: `0x${string}`, userAddress
 	} as ReadContractParameters
 }
 
-export const contractsGetSpace = (spaceAddress: `0x${string}`, userAddress: `0x${string}`) => {
+export const contractsGetSpace = (spaceAddress: `0x${string}`, userAddress: `0x${string}` | undefined) => {
 	return {
 		address: spaceAddress,
 		abi: spaceAbi as Abi,
