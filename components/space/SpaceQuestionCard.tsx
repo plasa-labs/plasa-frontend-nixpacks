@@ -32,7 +32,7 @@ export function SpaceQuestionCard({ question }: SpaceQuestionCardProps) {
 			<CardHeader>
 				<div className="flex justify-between items-start">
 					<CardTitle className="text-lg">{title}</CardTitle>
-					<Badge variant={isActive ? "default" : "secondary"}>
+					<Badge variant={isActive ? "default" : "secondary"} className="ml-2">
 						{isActive ? 'Activa' : 'Cerrada'}
 					</Badge>
 				</div>
