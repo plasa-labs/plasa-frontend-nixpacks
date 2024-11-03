@@ -6,6 +6,8 @@ import { useSpace } from '@/contexts/SpaceContext'
 
 export function SpaceInformation() {
 	const { space } = useSpace()
+	if (!space) return null
+
 	const { contractAddress, creationTimestamp } = space.data
 
 	return (

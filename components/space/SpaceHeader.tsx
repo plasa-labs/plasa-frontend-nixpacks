@@ -6,6 +6,9 @@ import { useSpace } from '@/contexts/SpaceContext'
 
 export function SpaceHeader() {
 	const { space } = useSpace()
+
+	if (!space) return null
+
 	const { name, description, imageUrl } = space.data
 	const { symbol } = space.points.points.data
 	const points = BigInt(space.points.points.user.currentBalance)

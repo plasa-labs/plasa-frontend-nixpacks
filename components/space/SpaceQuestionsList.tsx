@@ -8,6 +8,7 @@ import { useSpace } from '@/contexts/SpaceContext'
 
 export function SpaceQuestionsList() {
 	const { space } = useSpace()
+	if (!space) return null
 	const canCreateQuestion = space.user.permissions.CreateFixedQuestion ||
 		space.user.permissions.CreateOpenQuestion
 	const questions = space.questions
