@@ -2,7 +2,7 @@
 
 import { useAccount, useReadContract } from 'wagmi'
 import { contractsGetPlasa } from '@/lib/onchain/contracts'
-import { PlasaView } from '@/lib/onchain/types/plasa'
+import { PlasaView } from '@/lib/onchain/types/interfaces'
 
 export const usePlasaData = () => {
 	const { address: userAddress } = useAccount()

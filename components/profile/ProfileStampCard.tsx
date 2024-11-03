@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { contractsMintStamp } from '@/lib/onchain/contracts'
 import type { UserData } from '@/lib/api/interfaces'
-import type { StampView } from '@/lib/onchain/types/stamps'
+import type { StampView } from '@/lib/onchain/types/interfaces'
 
 interface ProfileStampCardProps {
 	stamp: StampView
