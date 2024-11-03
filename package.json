@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@coinbase/onchainkit": "^0.35.2",
+    "@privy-io/react-auth": "^1.92.6",
     "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-context": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.2",
