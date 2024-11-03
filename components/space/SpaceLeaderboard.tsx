@@ -10,6 +10,7 @@ export function SpaceLeaderboard() {
 	if (!space) return null
 
 	const { top10Holders } = space.points.points.data
+	const symbol = space.points.points.data.symbol
 
 	return (
 		<Card className="mb-6">
@@ -28,7 +29,7 @@ export function SpaceLeaderboard() {
 					top10Holders.map((holder, index) => (
 						<div key={index} className="flex justify-between items-center py-2 border-b last:border-b-0">
 							<span><AddressLink address={holder.user} /></span>
-							<Badge variant="secondary">{formatPoints(holder.balance)} puntos</Badge>
+							<Badge variant="secondary">{formatPoints(holder.balance)} {symbol}</Badge>
 						</div>
 					))
 				)}
