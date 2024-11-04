@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 // import { ConnectWallet, Wallet, WalletDropdown, WalletDropdownBasename, WalletDropdownDisconnect, WalletDropdownLink } from '@coinbase/onchainkit/wallet'
 // import { Name } from '@coinbase/onchainkit/identity'
-import NavUserButton from './NavUserButton'
+import { NavUserButton } from './NavUserButton'
 
 import { ThemeToggle } from '@/components/common/ThemeToggle'
 import { Public_Sans } from 'next/font/google'

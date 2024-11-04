@@ -8,7 +8,7 @@ interface NavUserButtonProps {
 	className?: string
 }
 
-export default function NavUserButton({ className }: NavUserButtonProps) {
+export function NavUserButton({ className }: NavUserButtonProps) {
 	const { authenticated } = usePrivy()
 
 	return authenticated ? (

@@ -23,12 +23,11 @@ export function SpaceQuestionCard({ question }: SpaceQuestionCardProps) {
 	const timeRemaining = new Date(deadlineTimestamp * 1000).getTime() - Date.now()
 	const daysRemaining = Math.ceil(timeRemaining / (1000 * 60 * 60 * 24))
 
-	const handleQuestionClick = () => {
-		router.push(`/question/${question.data.contractAddress}`)
-	}
-
 	return (
-		<Card className="mb-4">
+		<Card
+			className="mb-4 cursor-pointer hover:shadow-md transition-shadow"
+			onClick={() => router.push(`/question/${question.data.contractAddress}`)}
+		>
 			<CardHeader>
 				<div className="flex justify-between items-start">
 					<CardTitle className="text-lg">{title}</CardTitle>
@@ -49,11 +48,11 @@ export function SpaceQuestionCard({ question }: SpaceQuestionCardProps) {
 						Tus puntos: {formatPoints(question.user.pointsAtDeadline)}
 					</span>
 					{canVote && isActive ? (
-						<Button variant="default" size="sm" onClick={handleQuestionClick}>
+						<Button variant="default" size="sm" onClick={() => router.push(`/question/${question.data.contractAddress}`)}>
 							Votar
 						</Button>
 					) : (
-						<Button variant="outline" size="sm" onClick={handleQuestionClick}>
+						<Button variant="outline" size="sm" onClick={() => router.push(`/question/${question.data.contractAddress}`)}>
 							<Eye className="mr-2 h-4 w-4" /> Ver
 						</Button>
 					)}
