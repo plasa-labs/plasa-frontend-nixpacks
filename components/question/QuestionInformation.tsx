@@ -1,28 +1,17 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { QuestionView } from '@/lib/onchain/types/interfaces'
 import { formatDate } from '@/lib/utils/formatters'
 import { AddressLink } from '@/components/common/AddressLink'
+import { useQuestion } from "@/contexts/QuestionContext"
+import { useSpace } from "@/contexts/SpaceContext"
 
-interface QuestionInformationProps {
-	spaceData: {
-		name: string
-		contractAddress: string
-	}
-	question: QuestionView
-}
+export function QuestionInformation() {
+	const { question } = useQuestion()
+	if (!question) return null
 
-// const getQuestionTypeString = (questionType: QuestionType): string => {
-// 	switch (questionType) {
-// 		case QuestionType.Open:
-// 			return "Abierta"
-// 		case QuestionType.Fixed:
-// 			return "Cerrado"
-// 		default:
-// 			return "Cerrado"
-// 	}
-// }
+	const { space } = useSpace()
+	const spaceAddress = space?.data.contractAddress as string
 
-export function QuestionInformation({ spaceData, question }: QuestionInformationProps) {
+
 	return (
 		<>
 			<Card>
@@ -37,10 +26,6 @@ export function QuestionInformation({ spaceData, question }: QuestionInformation
 				</CardHeader>
 				<CardContent>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-						{/* <div>
-						<p className="font-semibold">Espacio</p>
-						<p className="text-muted-foreground">{spaceData.name}</p>
-					</div> */}
 						<div>
 							<p className="font-semibold">Total de Votos</p>
 							<p className="text-muted-foreground">{question.data.voteCount.toString()}</p>
@@ -61,14 +46,12 @@ export function QuestionInformation({ spaceData, question }: QuestionInformation
 							<p className="font-semibold">Creador</p>
 							<AddressLink address={question.data.creator} />
 						</div>
-						{/* <div>
-						<p className="font-semibold">Tipo de Tema</p>
-						<p className="text-muted-foreground">{getQuestionTypeString(question.data.questionType)}</p>
-					</div> */}
-						<div>
-							<p className="font-semibold">Contrato del Espacio</p>
-							<AddressLink address={spaceData.contractAddress} />
-						</div>
+						{space && (
+							<div>
+								<p className="font-semibold">Contrato del Espacio</p>
+								<AddressLink address={spaceAddress} />
+							</div>
+						)}
 					</div>
 				</CardContent>
 			</Card>

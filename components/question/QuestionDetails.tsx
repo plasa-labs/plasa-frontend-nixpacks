@@ -5,21 +5,17 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from '@/components/ui/button'
 import { formatPoints } from '@/lib/utils/formatters'
 import { usePrivy } from '@privy-io/react-auth'
+import { useQuestion } from "@/contexts/QuestionContext"
 
-interface QuestionDetailsProps {
-	description: string
-	totalPoints: bigint
-	canVote: boolean
-	userPointsAtDeadline: bigint
-}
-
-export const QuestionDetails = ({
-	description,
-	totalPoints,
-	canVote,
-	userPointsAtDeadline,
-}: QuestionDetailsProps) => {
+export const QuestionDetails = () => {
 	const { authenticated } = usePrivy()
+	const { question } = useQuestion()
+	if (!question) return null
+
+	const { description } = question.data
+	const totalPoints = question.user.pointsAtDeadline
+	const canVote = question.user.canVote
+	const userPointsAtDeadline = question.user.pointsAtDeadline
 
 	return (
 		<Card className="mb-6">

@@ -1,13 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { OptionView } from '@/lib/onchain/types/interfaces'
 import { formatPoints } from "@/lib/utils/formatters"
+import { useQuestion } from "@/contexts/QuestionContext"
 
-interface QuestionVotingProgressProps {
-	options: OptionView[]
-}
+export const QuestionVotingProgress = () => {
+	const { question } = useQuestion()
+	if (!question) return null
 
-export const QuestionVotingProgress = ({ options }: QuestionVotingProgressProps) => {
+	const { options } = question
 	const totalPoints = options.slice(1).reduce((sum, option) => sum + Number(option.data.pointsAtDeadline), 0)
 
 	return (

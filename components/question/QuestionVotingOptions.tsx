@@ -2,26 +2,19 @@ import { CheckCircle2 } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { TransactionButton } from "@/components/common/TransactionButton"
-import { OptionView } from '@/lib/onchain/types/interfaces'
 import { contractsVote } from '@/lib/onchain/contracts'
+import { useQuestion } from "@/contexts/QuestionContext"
 
-interface QuestionVotingOptionsProps {
-	options: OptionView[]
-	onVote: (index: number) => void
-	canVote: boolean
-	active: boolean
-	questionAddress: string
-	userPointsAtDeadline: bigint
-}
+export const QuestionVotingOptions = () => {
+	const { question, refetch } = useQuestion()
+	if (!question) return null
 
-export const QuestionVotingOptions = ({
-	options,
-	onVote,
-	canVote,
-	active,
-	questionAddress,
-	userPointsAtDeadline
-}: QuestionVotingOptionsProps) => {
+	const { options } = question
+	const canVote = question.user.canVote
+	const active = question.data.isActive
+	const questionAddress = question.data.contractAddress
+	const userPointsAtDeadline = question.user.pointsAtDeadline
+
 	return (
 		<div className="space-y-4 mb-6">
 			{options.slice(1).map((option, index) => (
@@ -48,7 +41,7 @@ export const QuestionVotingOptions = ({
 										questionAddress as `0x${string}`,
 										index + 1
 									)}
-									onSuccess={() => onVote(index + 1)}
+									onSuccess={() => refetch()}
 								/>
 							</div>
 						)}
