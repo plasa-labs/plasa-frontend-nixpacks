@@ -5,7 +5,6 @@ import followerSinceStampAbi from './abi/follower-since-stamp.json'
 
 import {
 	type Abi,
-	type ContractFunctionParameters,
 	type ReadContractParameters,
 	encodeFunctionData,
 } from 'viem'
