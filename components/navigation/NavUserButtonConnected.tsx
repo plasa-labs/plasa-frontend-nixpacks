@@ -16,8 +16,6 @@ interface NavUserButtonConnectedProps {
 
 export default function NavUserButtonConnected({ className }: NavUserButtonConnectedProps) {
 	const { logout } = usePrivy()
-	// const displayName = useUsername()
-	// const { theme, setTheme } = useTheme()
 
 	const handleDisconnect = async () => {
 		await logout()
