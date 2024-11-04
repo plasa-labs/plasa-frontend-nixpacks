@@ -5,11 +5,12 @@ import type { Metadata } from "next"
 import { headers } from 'next/headers'
 import { type ReactNode } from 'react'
 import { cookieToInitialState } from 'wagmi'
+import { OnchainProviders } from '@/providers/OnchainProviders'
 
 import { Inter } from 'next/font/google'
 
 import { getConfig } from '@/lib/onchain/wagmi'
-import { Providers } from '@/providers/OnchainProviders'
+// import { Providers } from '@/providers/OnchainProviders'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 import { ThemeProvider } from '@/providers/ThemeProvider'
@@ -44,13 +45,13 @@ export default async function RootLayout({
 					enableSystem
 					disableTransitionOnChange
 				>
-					<Providers initialState={initialState}>
+					<OnchainProviders initialState={initialState}>
 						<SpaceProvider>
 							<Navbar />
 							<main>{children}</main>
 							<Footer />
 						</SpaceProvider>
-					</Providers>
+					</OnchainProviders>
 				</ThemeProvider>
 			</body>
 		</html>
