@@ -45,7 +45,7 @@ export function SpaceQuestionCard({ question }: SpaceQuestionCardProps) {
 				</div>
 				<div className="flex justify-between items-center">
 					<span className="text-sm font-medium">
-						Tus puntos: {formatPoints(question.user.pointsAtDeadline)}
+						Tus puntos para esta votación: {formatPoints(question.user.pointsAtDeadline)}
 					</span>
 					{canVote && isActive ? (
 						<Button variant="default" size="sm" onClick={() => router.push(`/question/${question.data.contractAddress}`)}>
