@@ -11,7 +11,7 @@ import { Inter } from 'next/font/google'
 
 import { getConfig } from '@/lib/onchain/wagmi'
 // import { Providers } from '@/providers/OnchainProviders'
-import { Navbar } from '@/components/Navbar'
+import { Navbar } from '@/components/navigation/Navbar'
 import { Footer } from '@/components/Footer'
 import { ThemeProvider } from '@/providers/ThemeProvider'
 import { SpaceProvider } from '@/contexts/SpaceContext'
