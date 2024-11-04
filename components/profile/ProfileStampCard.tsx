@@ -1,13 +1,12 @@
 import Link from 'next/link'
 import { AlertTriangle, ExternalLink } from 'lucide-react'
-import { usePrivy } from '@privy-io/react-auth'
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { contractsMintStamp } from '@/lib/onchain/contracts'
+import { TransactionButton } from "@/components/common/TransactionButton"
 import type { UserData } from '@/lib/api/interfaces'
 import type { StampView } from '@/lib/onchain/types/interfaces'
-import { useSmartWallets } from '@privy-io/react-auth/smart-wallets'
 
 interface ProfileStampCardProps {
 	stamp: StampView
@@ -19,9 +18,6 @@ interface ProfileStampCardProps {
 }
 
 export function ProfileStampCard({ stamp, onMint, owned, since, authentic, userFirestore }: ProfileStampCardProps) {
-	const { sendTransaction } = usePrivy()
-	const { client } = useSmartWallets()
-
 	const formattedDate = (timestamp: number) => {
 		const date = new Date(timestamp * 1000)
 		return date.toLocaleDateString('es-AR', {
@@ -35,49 +31,6 @@ export function ProfileStampCard({ stamp, onMint, owned, since, authentic, userF
 	const stampFirestoreData = userFirestore?.availableStamps?.find(
 		s => s.stamp.contractAddress === stamp.data.contractAddress
 	)
-
-	const handleMint = async () => {
-		if (!stampFirestoreData || !client) {
-			console.log('Mint aborted: Missing required data')
-			return
-		}
-
-		try {
-			console.log('Starting mint process for stamp:', {
-				contractAddress: stamp.data.contractAddress,
-				since: stampFirestoreData.since,
-				deadline: stampFirestoreData.deadline,
-				signature: stampFirestoreData.signature
-			})
-
-			const { to, data } = contractsMintStamp(
-				stamp.data.contractAddress as `0x${string}`,
-				stampFirestoreData.since,
-				stampFirestoreData.deadline,
-				stampFirestoreData.signature as `0x${string}`
-			)
-
-			const txReceipt = await client.sendTransaction({
-				to,
-				data,
-				account: client.account
-			})
-
-			console.log('Mint transaction successful:', {
-				receipt: txReceipt,
-				stampName: stamp.data.name
-			})
-			if (onMint) onMint()
-		} catch (error) {
-			console.error('Mint transaction failed:', {
-				error,
-				stampData: {
-					contractAddress: stamp.data.contractAddress,
-					name: stamp.data.name
-				}
-			})
-		}
-	}
 
 	return (
 		<Card className="overflow-hidden flex flex-col h-full">
@@ -115,13 +68,17 @@ export function ProfileStampCard({ stamp, onMint, owned, since, authentic, userF
 						</Link>
 					</Button>
 				) : onMint && stampFirestoreData && (
-					<Button
-						size="sm"
-						className="w-full mt-2"
-						onClick={handleMint}
-					>
-						Obtener sello
-					</Button>
+					<TransactionButton
+						text="Obtener sello"
+						className="w-full"
+						transactionData={contractsMintStamp(
+							stamp.data.contractAddress as `0x${string}`,
+							stampFirestoreData.since,
+							stampFirestoreData.deadline,
+							stampFirestoreData.signature as `0x${string}`
+						)}
+						onSuccess={onMint}
+					/>
 				)}
 			</CardContent>
 		</Card>
