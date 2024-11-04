@@ -6,12 +6,12 @@ import Link from 'next/link'
 import { ConnectWallet, Wallet, WalletDropdown, WalletDropdownBasename, WalletDropdownDisconnect, WalletDropdownLink } from '@coinbase/onchainkit/wallet'
 import { Name } from '@coinbase/onchainkit/identity'
 
-import { ThemeToggle } from '@/components/common/ThemeToggle'
+import { ThemeToggle } from './ThemeToggle'
 import { Public_Sans } from 'next/font/google'
 
 const publicSans = Public_Sans({ subsets: ['latin'] })
 
-export function Navbar() {
+export function Navbar2() {
 	return (
 		<nav className="border-b border-border">
 			<div className="container-base flex justify-between items-center py-4">

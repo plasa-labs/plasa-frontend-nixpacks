@@ -2,8 +2,9 @@
 
 import { createContext, useContext, ReactNode, useState, useEffect } from 'react'
 import { SpaceView } from '@/lib/onchain/types/interfaces'
-import { useAccount, useReadContract } from 'wagmi'
+import { useReadContract } from 'wagmi'
 import { contractsGetSpace } from '@/lib/onchain/contracts'
+import { usePrivy } from '@privy-io/react-auth'
 
 interface SpaceContextType {
 	space: SpaceView | null
@@ -22,7 +23,10 @@ export function SpaceProvider({ children }: { children: ReactNode }) {
 	const [isError, setIsError] = useState(false)
 	const [error, setError] = useState<Error | null>(null)
 
-	const { address: userAddress } = useAccount()
+	const { user } = usePrivy()
+
+	const userAddress = user?.smartWallet?.address as `0x${string}`
+
 	const spaceAddress = process.env.NEXT_PUBLIC_SPACE_ADDRESS as `0x${string}`
 
 	const contract = contractsGetSpace(spaceAddress, userAddress)

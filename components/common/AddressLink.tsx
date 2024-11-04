@@ -6,14 +6,16 @@ interface AddressLinkProps {
 	className?: string
 }
 
-export const AddressLink = ({ address, className = "" }: AddressLinkProps) => (
-	<a
-		href={scanLink(address)}
-		target="_blank"
-		rel="noopener noreferrer"
-		className={`text-primary hover:underline inline-flex items-center ${className}`}
-	>
-		{abbreviateAddress(address)}
-		<ExternalLink className="h-3 w-3 ml-1" />
-	</a>
-)
+export function AddressLink({ address, className = "" }: AddressLinkProps) {
+	return (
+		<a
+			href={scanLink(address)}
+			target="_blank"
+			rel="noopener noreferrer"
+			className={`text-primary hover:underline inline-flex items-center ${className}`}
+		>
+			{abbreviateAddress(address)}
+			<ExternalLink className="h-3 w-3 ml-1" />
+		</a>
+	)
+}

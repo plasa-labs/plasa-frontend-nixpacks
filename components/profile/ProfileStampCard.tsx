@@ -1,10 +1,10 @@
 import Link from 'next/link'
 import { AlertTriangle, ExternalLink } from 'lucide-react'
-import { Transaction, TransactionButton, TransactionStatus, TransactionStatusLabel, TransactionStatusAction } from '@coinbase/onchainkit/transaction'
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { contractsMintStamp } from '@/lib/onchain/contracts'
+import { TransactionButton } from "@/components/common/TransactionButton"
 import type { UserData } from '@/lib/api/interfaces'
 import type { StampView } from '@/lib/onchain/types/interfaces'
 
@@ -68,28 +68,17 @@ export function ProfileStampCard({ stamp, onMint, owned, since, authentic, userF
 						</Link>
 					</Button>
 				) : onMint && stampFirestoreData && (
-					<Transaction
-						chainId={84532}
-						contracts={contractsMintStamp(
+					<TransactionButton
+						text="Obtener sello"
+						className="w-full"
+						transactionData={contractsMintStamp(
 							stamp.data.contractAddress as `0x${string}`,
 							stampFirestoreData.since,
 							stampFirestoreData.deadline,
 							stampFirestoreData.signature as `0x${string}`
 						)}
-						onSuccess={(response) => {
-							console.log('Mint transaction successful:', response)
-							onMint()
-						}}
-						onError={(error) => {
-							console.error('Mint transaction failed:', error)
-						}}
-					>
-						<TransactionButton text="Obtener sello" />
-						<TransactionStatus>
-							<TransactionStatusLabel />
-							<TransactionStatusAction />
-						</TransactionStatus>
-					</Transaction>
+						onSuccess={onMint}
+					/>
 				)}
 			</CardContent>
 		</Card>
