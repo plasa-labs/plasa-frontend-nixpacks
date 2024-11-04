@@ -15,7 +15,7 @@ export default function NavUserButtonConnect({ className }: NavUserButtonConnect
 	const handleConnect = async () => {
 		setIsLoading(true)
 		try {
-			await login()
+			login()
 		} finally {
 			setIsLoading(false)
 		}
