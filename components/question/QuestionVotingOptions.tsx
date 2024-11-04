@@ -1,10 +1,9 @@
 import { CheckCircle2 } from "lucide-react"
-import { Transaction, TransactionButton, TransactionStatus, TransactionStatusAction, TransactionStatusLabel } from '@coinbase/onchainkit/transaction'
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { TransactionButton } from "@/components/common/TransactionButton"
 import { OptionView } from '@/lib/onchain/types/interfaces'
 import { contractsVote } from '@/lib/onchain/contracts'
-import { usePrivy } from '@privy-io/react-auth'
 
 interface QuestionVotingOptionsProps {
 	options: OptionView[]
@@ -23,8 +22,6 @@ export const QuestionVotingOptions = ({
 	questionAddress,
 	userPointsAtDeadline
 }: QuestionVotingOptionsProps) => {
-	const { authenticated } = usePrivy()
-
 	return (
 		<div className="space-y-4 mb-6">
 			{options.slice(1).map((option, index) => (
@@ -42,24 +39,18 @@ export const QuestionVotingOptions = ({
 								</Badge>
 							)}
 						</div>
-						{canVote && active && authenticated && userPointsAtDeadline > BigInt(0) && (
-							<Transaction
-								chainId={84532}
-								contracts={contractsVote(questionAddress as `0x${string}`, index + 1)}
-								onSuccess={(response) => {
-									console.log('Vote transaction successful:', response)
-									onVote(index + 1)
-								}}
-								onError={(error) => {
-									console.error('Vote transaction failed:', error)
-								}}
-							>
-								<TransactionButton text="Votar por esta opción" />
-								<TransactionStatus>
-									<TransactionStatusLabel />
-									<TransactionStatusAction />
-								</TransactionStatus>
-							</Transaction>
+						{canVote && active && userPointsAtDeadline > BigInt(0) && (
+							<div className="relative">
+								<TransactionButton
+									text="Votar por esta opción"
+									className="w-full"
+									transactionData={contractsVote(
+										questionAddress as `0x${string}`,
+										index + 1
+									)}
+									onSuccess={() => onVote(index + 1)}
+								/>
+							</div>
 						)}
 					</CardContent>
 				</Card>

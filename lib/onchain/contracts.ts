@@ -60,13 +60,21 @@ export const contractsMintStamp = (
 	}
 }
 
-export const contractsVote = (questionAddress: `0x${string}`, optionIndex: number): ContractFunctionParameters[] => {
-	return [{
-		address: questionAddress,
+export const contractsVote = (
+	questionAddress: `0x${string}`,
+	optionIndex: number
+): { to: `0x${string}`, data: `0x${string}`, chain: Chain } => {
+	const data = encodeFunctionData({
 		abi: fixedQuestionAbi as Abi,
 		functionName: 'vote',
-		args: [optionIndex],
-	}]
+		args: [optionIndex]
+	})
+
+	return {
+		to: questionAddress,
+		data,
+		chain: baseSepolia
+	}
 }
 
 // Utils
