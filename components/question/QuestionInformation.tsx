@@ -6,11 +6,11 @@ import { useSpace } from "@/contexts/SpaceContext"
 
 export function QuestionInformation() {
 	const { question } = useQuestion()
+	const { space } = useSpace()
+
 	if (!question) return null
 
-	const { space } = useSpace()
 	const spaceAddress = space?.data.contractAddress as string
-
 
 	return (
 		<>
