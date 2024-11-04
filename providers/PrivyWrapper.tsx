@@ -9,9 +9,15 @@ export function PrivyWrapper({
 }: {
 	children: React.ReactNode
 }) {
+	const privyAppId = process.env.NEXT_PUBLIC_PRIVY_APP_ID
+
+	if (!privyAppId) {
+		throw new Error('NEXT_PUBLIC_PRIVY_APP_ID is not defined')
+	}
+
 	return (
 		<PrivyProvider
-			appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID!}
+			appId={privyAppId}
 			config={{
 				loginMethods: ['google'],
 				appearance: {
