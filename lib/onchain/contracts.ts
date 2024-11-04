@@ -3,9 +3,13 @@ import spaceAbi from './abi/space.json'
 import plasaAbi from './abi/plasa'
 import followerSinceStampAbi from './abi/follower-since-stamp.json'
 
-import { Abi, ContractFunctionParameters, ReadContractParameters, encodeFunctionData } from 'viem'
-import type { UnsignedTransactionRequest } from '@privy-io/react-auth'
-
+import {
+	type Abi,
+	type ContractFunctionParameters,
+	type ReadContractParameters,
+	encodeFunctionData,
+} from 'viem'
+import { baseSepolia, type Chain } from 'viem/chains'
 // Read contracts
 
 export const contractsGetPlasa = (userAddress: `0x${string}` | undefined): ReadContractParameters => {
@@ -37,7 +41,12 @@ export const contractsGetQuestion = (questionAddress: `0x${string}`, userAddress
 
 // Write contracts
 
-export const contractsMintStamp = (stampAddress: `0x${string}`, since: number, deadline: number, signature: `0x${string}`): UnsignedTransactionRequest => {
+export const contractsMintStamp = (
+	stampAddress: `0x${string}`,
+	since: number,
+	deadline: number,
+	signature: `0x${string}`
+): { to: `0x${string}`, data: `0x${string}`, chain: Chain } => {
 	const data = encodeFunctionData({
 		abi: followerSinceStampAbi as Abi,
 		functionName: 'mintStamp',
@@ -47,6 +56,7 @@ export const contractsMintStamp = (stampAddress: `0x${string}`, since: number, d
 	return {
 		to: stampAddress,
 		data,
+		chain: baseSepolia
 	}
 }
 

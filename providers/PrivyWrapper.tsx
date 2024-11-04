@@ -1,7 +1,7 @@
 "use client"
 
 import { PrivyProvider } from '@privy-io/react-auth'
-import { sepolia, baseSepolia } from 'viem/chains'
+import { baseSepolia } from 'viem/chains'
 import { SmartWalletsProvider } from '@privy-io/react-auth/smart-wallets'
 
 export function PrivyWrapper({
@@ -30,8 +30,8 @@ export function PrivyWrapper({
 				intl: {
 					defaultCountry: 'AR',
 				},
-				supportedChains: [sepolia, baseSepolia],
-				defaultChain: sepolia,
+				supportedChains: [baseSepolia],
+				defaultChain: baseSepolia,
 				embeddedWallets: {
 					createOnLogin: 'all-users',
 				}
