@@ -34,10 +34,12 @@ export default function NavUserButtonConnected({ className }: NavUserButtonConne
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
-				<DropdownMenuItem>
-					<User className="mr-2 h-4 w-4" />
-					<Link href="/profile">Mi Perfil</Link>
-				</DropdownMenuItem>
+				<Link href="/profile" className="w-full">
+					<DropdownMenuItem>
+						<User className="mr-2 h-4 w-4" />
+						<span>Mi Perfil</span>
+					</DropdownMenuItem>
+				</Link>
 				<DropdownMenuItem>
 					<Settings className="mr-2 h-4 w-4" />
 					<span>Configuración</span>
