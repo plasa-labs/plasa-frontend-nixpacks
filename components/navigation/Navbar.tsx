@@ -7,7 +7,7 @@ import Link from 'next/link'
 // import { Name } from '@coinbase/onchainkit/identity'
 import { NavUserButton } from './NavUserButton'
 
-import { ThemeToggle } from '@/components/common/ThemeToggle'
+import { ThemeToggle } from './ThemeToggle'
 import { Public_Sans } from 'next/font/google'
 
 const publicSans = Public_Sans({ subsets: ['latin'] })
