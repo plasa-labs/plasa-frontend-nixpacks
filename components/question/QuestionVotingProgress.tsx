@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { OptionView } from '@/lib/onchain/types/interfaces'
+import { formatPoints } from "@/lib/utils/formatters"
 
 interface QuestionVotingProgressProps {
 	options: OptionView[]
@@ -27,7 +28,7 @@ export const QuestionVotingProgress = ({ options }: QuestionVotingProgressProps)
 								<div className="flex mb-2 items-center justify-between">
 									<div>
 										<span className="text-lg font-semibold inline-block text-primary">
-											{Math.floor(Number(option.data.pointsAtDeadline) / 1e15).toLocaleString()} puntos
+											{formatPoints(option.data.pointsAtDeadline)} puntos
 										</span>
 									</div>
 									<div className="text-right">
