@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { OptionView } from '@/lib/onchain/types/interfaces'
 import { contractsVote } from '@/lib/onchain/contracts'
+import { usePrivy } from '@privy-io/react-auth'
 
 interface QuestionVotingOptionsProps {
 	options: OptionView[]
@@ -11,7 +12,6 @@ interface QuestionVotingOptionsProps {
 	canVote: boolean
 	active: boolean
 	questionAddress: string
-	isConnected: boolean
 	userPointsAtDeadline: bigint
 }
 
@@ -21,9 +21,10 @@ export const QuestionVotingOptions = ({
 	canVote,
 	active,
 	questionAddress,
-	isConnected,
 	userPointsAtDeadline
 }: QuestionVotingOptionsProps) => {
+	const { authenticated } = usePrivy()
+
 	return (
 		<div className="space-y-4 mb-6">
 			{options.slice(1).map((option, index) => (
@@ -41,7 +42,7 @@ export const QuestionVotingOptions = ({
 								</Badge>
 							)}
 						</div>
-						{canVote && active && isConnected && userPointsAtDeadline > BigInt(0) && (
+						{canVote && active && authenticated && userPointsAtDeadline > BigInt(0) && (
 							<Transaction
 								chainId={84532}
 								contracts={contractsVote(questionAddress as `0x${string}`, index + 1)}

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useAccount } from 'wagmi'
 import { useSpace } from '@/contexts/SpaceContext'
+import { usePrivy } from '@privy-io/react-auth'
 
 // Types and interfaces
 import type { UserData } from '@/lib/api/interfaces'
@@ -19,15 +20,17 @@ import { ProfileStampsCard } from './ProfileStampsCard'
 import { ProfileSkeletonLoader } from './ProfileSkeletonLoader'
 
 export function Profile() {
-	const { address } = useAccount()
+	const { user, authenticated } = usePrivy()
 	const [userFirestore, setUserFirestore] = useState<UserData | null>(null)
 	const [loading, setLoading] = useState(true)
+
+	const userAddress = user?.smartWallet?.address as `0x${string}`
 
 	const { space, isLoading: spaceLoading, refetch: refetchSpace } = useSpace()
 
 	useEffect(() => {
-		if (space && address) {
-			fetchUser(address)
+		if (space && userAddress) {
+			fetchUser(userAddress)
 				.then(data => {
 					setUserFirestore(data)
 					setLoading(false)
@@ -37,9 +40,9 @@ export function Profile() {
 					setLoading(false)
 				})
 		}
-	}, [space, address])
+	}, [space, userAddress])
 
-	if (!address) {
+	if (!authenticated) {
 		return <ProfileNotConnectedCard />
 	}
 
@@ -47,7 +50,7 @@ export function Profile() {
 		setLoading(true)
 		try {
 			const processedUsername = username.toLowerCase().replace(/\s+/g, '').replace('@', '')
-			const updatedUserData = await setInstagramUsername(address, processedUsername)
+			const updatedUserData = await setInstagramUsername(userAddress, processedUsername)
 			setUserFirestore(updatedUserData)
 		} catch (error) {
 			console.error('Error connecting Instagram:', error)

@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { useAccount, useReadContract } from 'wagmi'
+import { useReadContract } from 'wagmi'
 import { Button } from '@/components/ui/button'
+import { usePrivy } from '@privy-io/react-auth'
 
 import { QuestionHeader } from './QuestionHeader'
 import { QuestionDetails } from './QuestionDetails'
@@ -22,10 +23,13 @@ interface QuestionProps {
 }
 
 export function Question({ spaceAddress, questionAddress }: QuestionProps) {
-	const { address: userAddress, isConnected } = useAccount()
+	const { user } = usePrivy()
+
+	const userAddress = user?.smartWallet?.address as `0x${string}`
+
 	const [timeLeft, setTimeLeft] = useState<string>('')
 
-	const contract = contractsGetQuestion(questionAddress as `0x${string}`, userAddress as `0x${string}`)
+	const contract = contractsGetQuestion(questionAddress as `0x${string}`, userAddress)
 	const { data: questionData, isLoading, isError } = useReadContract(contract)
 
 	useEffect(() => {
@@ -73,7 +77,7 @@ export function Question({ spaceAddress, questionAddress }: QuestionProps) {
 
 	return (
 		<div className='main-container'>
-			<Link href={`/space/${spaceAddress}`} passHref>
+			<Link href={`/ space / ${spaceAddress}`} passHref>
 				<Button variant='outline' className='mb-6'>
 					<ArrowLeft className='mr-2 h-4 w-4' />
 					Volver a Temas
@@ -93,7 +97,6 @@ export function Question({ spaceAddress, questionAddress }: QuestionProps) {
 						totalPoints={question.user.pointsAtDeadline}
 						canVote={question.user.canVote}
 						userPointsAtDeadline={question.user.pointsAtDeadline}
-						isConnected={isConnected}
 					/>
 					<QuestionVotingOptions
 						options={question.options}
@@ -101,7 +104,6 @@ export function Question({ spaceAddress, questionAddress }: QuestionProps) {
 						canVote={question.user.canVote}
 						active={question.data.isActive}
 						questionAddress={questionAddress}
-						isConnected={isConnected}
 						userPointsAtDeadline={question.user.pointsAtDeadline}
 					/>
 					<QuestionVotingProgress options={question.options} />
