@@ -1,11 +1,18 @@
 "use client"
 
+// External dependencies
 import { createContext, useContext, ReactNode, useState, useEffect } from 'react'
-import { SpaceView } from '@/lib/onchain/types/interfaces'
-import { useReadContract } from 'wagmi'
-import { contractsGetSpace } from '@/lib/onchain/contracts'
 import { usePrivy } from '@privy-io/react-auth'
+import { useReadContract } from 'wagmi'
 
+// Internal dependencies
+import { SpaceView } from '@/lib/onchain/types/interfaces'
+import { contractsGetSpace } from '@/lib/onchain/contracts'
+
+/**
+ * Interface defining the shape of the Space context
+ * @interface SpaceContextType
+ */
 interface SpaceContextType {
 	space: SpaceView | null
 	isLoading: boolean
@@ -15,9 +22,23 @@ interface SpaceContextType {
 	setSpace: (space: SpaceView) => void
 }
 
+/**
+ * Props interface for the SpaceProvider component
+ * @interface SpaceProviderProps
+ */
+interface SpaceProviderProps {
+	children: ReactNode
+}
+
+// Create context with undefined as initial value
 const SpaceContext = createContext<SpaceContextType | undefined>(undefined)
 
-export function SpaceProvider({ children }: { children: ReactNode }) {
+/**
+ * SpaceProvider component that manages the space state and provides it to children
+ * @param {SpaceProviderProps} props - The component props
+ * @returns {JSX.Element} Provider component wrapping children
+ */
+function SpaceProvider({ children }: SpaceProviderProps): JSX.Element {
 	const [space, setSpace] = useState<SpaceView | null>(null)
 	const [isLoading, setIsLoading] = useState(true)
 	const [isError, setIsError] = useState(false)
@@ -54,10 +75,17 @@ export function SpaceProvider({ children }: { children: ReactNode }) {
 	return <SpaceContext.Provider value={value}>{children}</SpaceContext.Provider>
 }
 
-export function useSpace() {
+/**
+ * Custom hook to access the space context
+ * @throws {Error} If used outside of SpaceProvider
+ * @returns {SpaceContextType} The space context value
+ */
+function useSpace(): SpaceContextType {
 	const context = useContext(SpaceContext)
 	if (context === undefined) {
 		throw new Error('useSpace must be used within a SpaceProvider')
 	}
 	return context
-} 
+}
+
+export { SpaceProvider, useSpace } 

@@ -5,6 +5,9 @@ import { contractsGetQuestion } from '@/lib/onchain/contracts'
 import { usePrivy } from '@privy-io/react-auth'
 import { useSpace } from './SpaceContext'
 
+/**
+ * Interface defining the shape of the Question context
+ */
 interface QuestionContextType {
 	question: QuestionView | null
 	isLoading: boolean
@@ -15,15 +18,22 @@ interface QuestionContextType {
 	timeLeft: string
 }
 
-const QuestionContext = createContext<QuestionContextType | undefined>(undefined)
-
-export function QuestionProvider({
-	children,
-	questionAddress
-}: {
+/**
+ * Interface for QuestionProvider props
+ */
+interface QuestionProviderProps {
 	children: ReactNode
 	questionAddress: string
-}) {
+}
+
+// Create the Question context
+const QuestionContext = createContext<QuestionContextType | undefined>(undefined)
+
+/**
+ * QuestionProvider component that manages the state and logic for a question
+ * Handles loading question data, countdown timer, and error states
+ */
+export function QuestionProvider({ children, questionAddress }: QuestionProviderProps) {
 	const { isLoading: isLoadingSpace } = useSpace()
 
 	const [question, setQuestion] = useState<QuestionView | null>(null)
@@ -88,6 +98,11 @@ export function QuestionProvider({
 	return <QuestionContext.Provider value={value}>{children}</QuestionContext.Provider>
 }
 
+/**
+ * Custom hook to access the Question context
+ * @throws {Error} If used outside of QuestionProvider
+ * @returns {QuestionContextType} The question context value
+ */
 export function useQuestion() {
 	const context = useContext(QuestionContext)
 	if (context === undefined) {

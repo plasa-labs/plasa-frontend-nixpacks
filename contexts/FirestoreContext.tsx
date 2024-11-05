@@ -1,10 +1,16 @@
 "use client"
 
+// External imports
 import { createContext, useContext, ReactNode, useState, useEffect } from 'react'
 import { usePrivy } from '@privy-io/react-auth'
+
+// Internal imports
 import type { UserData } from '@/lib/api/interfaces'
 import { fetchUser } from '@/lib/api/endpoints'
 
+/**
+ * Interface defining the shape of the Firestore context
+ */
 interface FirestoreContextType {
 	userFirestore: UserData | null
 	isLoading: boolean
@@ -15,9 +21,25 @@ interface FirestoreContextType {
 	updateUserData: (updates: Partial<UserData>) => Promise<void>
 }
 
+/**
+ * Props interface for the FirestoreProvider component
+ */
+interface FirestoreProviderProps {
+	children: ReactNode
+}
+
+// Create context with undefined as initial value
 const FirestoreContext = createContext<FirestoreContextType | undefined>(undefined)
 
-export function FirestoreProvider({ children }: { children: ReactNode }) {
+/**
+ * FirestoreProvider component that manages user data state and provides
+ * methods to interact with Firestore data throughout the application.
+ *
+ * @component
+ * @param {FirestoreProviderProps} props - The component props
+ * @returns {JSX.Element} Provider component wrapping children with Firestore context
+ */
+export function FirestoreProvider({ children }: FirestoreProviderProps) {
 	const [userFirestore, setUserFirestore] = useState<UserData | null>(null)
 	const [isLoading, setIsLoading] = useState(true)
 	const [isError, setIsError] = useState(false)
@@ -77,6 +99,12 @@ export function FirestoreProvider({ children }: { children: ReactNode }) {
 	return <FirestoreContext.Provider value={value}>{children}</FirestoreContext.Provider>
 }
 
+/**
+ * Custom hook to access the Firestore context
+ *
+ * @throws {Error} If used outside of FirestoreProvider
+ * @returns {FirestoreContextType} The Firestore context value
+ */
 export function useFirestore() {
 	const context = useContext(FirestoreContext)
 	if (context === undefined) {
