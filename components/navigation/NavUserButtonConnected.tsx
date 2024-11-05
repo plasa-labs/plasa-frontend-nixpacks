@@ -19,6 +19,9 @@ interface NavUserButtonConnectedProps {
 	className?: string
 }
 
+// Contexts
+import { usePlasa } from '@/contexts/PlasaContext'
+
 /**
  * NavUserButtonConnected - A navigation button component for authenticated users
  * 
@@ -30,7 +33,7 @@ interface NavUserButtonConnectedProps {
  */
 export default function NavUserButtonConnected({ className }: NavUserButtonConnectedProps) {
 	const { logout } = usePrivy()
-
+	const { displayName } = usePlasa()
 	/**
 	 * Handles user logout action
 	 */
@@ -46,7 +49,7 @@ export default function NavUserButtonConnected({ className }: NavUserButtonConne
 					className={`transition-all duration-200 hover:scale-105 ${className}`}
 				>
 					<User className='mr-2 h-4 w-4' />
-					<span className='max-w-[150px] truncate'>user</span>
+					<span className='max-w-[150px] truncate'>{displayName}</span>
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align='end'>
