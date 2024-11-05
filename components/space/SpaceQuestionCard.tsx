@@ -4,19 +4,14 @@
 import { useRouter } from 'next/navigation'
 
 // Third-party imports
-import { Eye, InfoIcon } from 'lucide-react'
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger,
-} from "@/components/ui/tooltip"
+import { Eye, Vote } from 'lucide-react'
 
 // UI Component imports
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-
+import PointsToolpit from '@/components/common/PointsToolpit'
+import QuestionTags from '@/components/common/QuestionTags'
+import QuestionStatus from '@/components/common/QuestionStatus'
 // Types and utilities
 import { QuestionPreview } from '@/lib/onchain/types/interfaces'
 import { formatPoints } from '@/lib/utils/formatters'
@@ -63,17 +58,9 @@ export default function SpaceQuestionCard({ question }: SpaceQuestionCardProps) 
 			<CardHeader>
 				<div className="flex justify-between items-start">
 					<CardTitle className="text-lg">{title}</CardTitle>
-					<Badge variant={isActive ? "default" : "secondary"} className="ml-2">
-						{isActive ? 'Activa' : 'Cerrada'}
-					</Badge>
+					<QuestionStatus isActive={isActive} className="ml-2" />
 				</div>
-				<div className="flex flex-wrap gap-2 mb-4">
-					{tags?.map((tag, index) => (
-						<Badge key={index} variant="outline" className="mt-1">
-							{tag}
-						</Badge>
-					))}
-				</div>
+				<QuestionTags tags={tags} />
 			</CardHeader>
 			<CardContent>
 				<div className="flex justify-between items-center text-sm text-gray-500 mb-4">
@@ -85,26 +72,19 @@ export default function SpaceQuestionCard({ question }: SpaceQuestionCardProps) 
 				<div className="flex justify-between items-center">
 					<span className="text-sm font-medium flex items-center gap-2">
 						Tus puntos para esta votación: {formatPoints(question.user.pointsAtDeadline)}
-						<TooltipProvider>
-							<Tooltip>
-								<TooltipTrigger>
-									<InfoIcon className="h-4 w-4 text-muted-foreground" />
-								</TooltipTrigger>
-								<TooltipContent>
-									<p>Cuenta la cantidad de puntos que tendrás al finalizar la votación.</p>
-								</TooltipContent>
-							</Tooltip>
-						</TooltipProvider>
+						<PointsToolpit className="mr-10" />
 					</span>
-					{canVote && isActive ? (
-						<Button variant="default" size="sm" onClick={() => router.push(`/question/${question.data.contractAddress}`)}>
-							Votar
-						</Button>
-					) : (
-						<Button variant="outline" size="sm" onClick={() => router.push(`/question/${question.data.contractAddress}`)}>
-							<Eye className="mr-2 h-4 w-4" /> Ver
-						</Button>
-					)}
+					<div className="flex items-center">
+						{canVote && isActive ? (
+							<Button variant="default" size="sm" onClick={() => router.push(`/question/${question.data.contractAddress}`)}>
+								<Vote className="mr-2 h-4 w-4" /> Votar
+							</Button>
+						) : (
+							<Button variant="outline" size="sm" onClick={() => router.push(`/question/${question.data.contractAddress}`)}>
+								<Eye className="mr-2 h-4 w-4" /> Ver
+							</Button>
+						)}
+					</div>
 				</div>
 			</CardContent>
 		</Card>
