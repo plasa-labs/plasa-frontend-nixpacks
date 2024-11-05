@@ -1,8 +1,8 @@
 import { Clock, AlertTriangle } from 'lucide-react'
 
-import { Badge } from '@/components/ui/badge'
 import { useQuestion } from '@/contexts/QuestionContext'
-
+import QuestionTags from '@/components/common/QuestionTags'
+import QuestionStatus from '@/components/common/QuestionStatus'
 /**
  * QuestionHeader Component
  * 
@@ -25,15 +25,9 @@ export default function QuestionHeader() {
 		<div className='mb-6'>
 			<div className='flex items-center justify-between mb-2'>
 				<h1 className='text-2xl font-bold'>{title}</h1>
-				<Badge variant={isActive ? 'default' : 'secondary'} className='ml-6'>
-					{isActive ? 'Activa' : 'Finalizada'}
-				</Badge>
+				<QuestionStatus isActive={isActive} />
 			</div>
-			<div className="flex flex-wrap gap-2 mb-4">
-				{question.data.tags?.map((tag, index) => (
-					<Badge key={index} variant="outline">{tag}</Badge>
-				))}
-			</div>
+			<QuestionTags tags={question.data.tags} className="mb-4" />
 			{isActive ? (
 				<div className='flex items-center text-sm text-muted-foreground'>
 					<Clock className='mr-2 h-4 w-4' />
