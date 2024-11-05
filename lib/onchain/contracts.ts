@@ -47,6 +47,15 @@ export const contractsGetNameAvailability = (name: string): ReadContractParamete
 	}
 }
 
+export const contractsGetUserName = (userAddress: `0x${string}`): ReadContractParameters => {
+	return {
+		address: process.env.NEXT_PUBLIC_NAMES_ADDRESS as `0x${string}`,
+		abi: namesAbi as Abi,
+		functionName: 'userToName',
+		args: [getValidAddress(userAddress)]
+	}
+}
+
 // Write contracts
 
 export const contractsMintStamp = (
