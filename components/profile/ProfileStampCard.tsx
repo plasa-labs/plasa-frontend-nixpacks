@@ -26,9 +26,6 @@ import { useFirestore } from '@/contexts/FirestoreContext'
 interface ProfileStampCardProps {
 	stamp: PointsStampView
 	onMint?: () => void
-	owned?: boolean
-	since?: number
-	authentic?: boolean
 }
 
 // Add this helper function after the imports
@@ -43,19 +40,18 @@ const formatStampName = (name: string): string => {
 export default function ProfileStampCard({
 	stamp,
 	onMint,
-	owned,
-	since,
-	authentic,
 }: ProfileStampCardProps) {
 	const { userFirestore } = useFirestore()
 
-	const followerSince: bigint = owned ? BigInt(stamp.user.specific) : BigInt(since || 0)
+	const owned = stamp.user.owns
+	const multiplier = stamp.data.multiplier
 
-	const stampFirestoreData = userFirestore?.availableStamps?.find(
+	const firestoreStamp = userFirestore?.availableStamps?.find(
 		s => s.stamp.contractAddress === stamp.data.contractAddress
 	)
+	const authentic = firestoreStamp?.authentic
 
-	const multiplier = stamp.data.multiplier
+	const followerSince: bigint = owned ? BigInt(stamp.user.specific) : BigInt(firestoreStamp?.since || 0)
 
 	const accumulatedPoints: bigint =
 		(BigInt(Math.floor(Date.now() / 1000)) - followerSince) *
@@ -115,15 +111,15 @@ export default function ProfileStampCard({
 						<AlertTriangle className="h-4 w-4" />
 						No cumplís con los requisitos
 					</Badge>
-				) : onMint && stampFirestoreData && (
+				) : onMint && firestoreStamp && (
 					<TransactionButton
 						text="Obtener sello"
 						className="w-full"
 						transactionData={contractsMintStamp(
 							stamp.data.contractAddress as `0x${string}`,
-							stampFirestoreData.since,
-							stampFirestoreData.deadline,
-							stampFirestoreData.signature as `0x${string}`
+							firestoreStamp?.since,
+							firestoreStamp?.deadline,
+							firestoreStamp?.signature as `0x${string}`
 						)}
 						onSuccess={onMint}
 					/>

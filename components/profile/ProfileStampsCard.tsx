@@ -24,9 +24,7 @@ export default function ProfileStampsCard({ onStampMint }: ProfileStampsCardProp
 
 	const stamps = space.points.stamps
 	const ownedStamps = stamps.filter(stamp => stamp.user.owns)
-	const availableStamps = userFirestore?.availableStamps?.filter(stampSig =>
-		!ownedStamps.some(ownedStamp => ownedStamp.data.contractAddress === stampSig.stamp.contractAddress)
-	) || []
+	const notOwnedStamps = stamps.filter(stamp => !stamp.user.owns)
 
 	if (!userFirestore?.instagram) {
 		return (
@@ -51,7 +49,10 @@ export default function ProfileStampsCard({ onStampMint }: ProfileStampsCardProp
 				{ownedStamps.length > 0 ? (
 					<div className="space-y-4 mb-6">
 						{ownedStamps.map(stamp => (
-							<ProfileStampCard key={stamp.data.contractAddress} stamp={stamp} owned={true} />
+							<ProfileStampCard
+								key={stamp.data.contractAddress}
+								stamp={stamp}
+							/>
 						))}
 					</div>
 				) : (
@@ -59,20 +60,15 @@ export default function ProfileStampsCard({ onStampMint }: ProfileStampsCardProp
 				)}
 
 				<h3 className="font-semibold mb-2">Sellos disponibles</h3>
-				{availableStamps.length > 0 ? (
+				{notOwnedStamps.length > 0 ? (
 					<div className="space-y-4">
-						{availableStamps.map(stampSig => {
-							const stampData = stamps.find(s => s.data.contractAddress === stampSig.stamp.contractAddress)
-							return stampData ? (
-								<ProfileStampCard
-									key={stampData.data.contractAddress}
-									stamp={stampData}
-									onMint={() => onStampMint(stampData.data.contractAddress)}
-									since={stampSig.since}
-									authentic={stampSig.authentic}
-								/>
-							) : null
-						})}
+						{notOwnedStamps.map(stamp => (
+							<ProfileStampCard
+								key={stamp.data.contractAddress}
+								stamp={stamp}
+								onMint={() => onStampMint(stamp.data.contractAddress)}
+							/>
+						))}
 					</div>
 				) : (
 					<p className="text-muted-foreground">No hay sellos disponibles en este momento.</p>
