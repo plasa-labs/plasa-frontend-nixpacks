@@ -29,6 +29,11 @@ export default function QuestionHeader() {
 					{isActive ? 'Activa' : 'Finalizada'}
 				</Badge>
 			</div>
+			<div className="flex flex-wrap gap-2 mb-4">
+				{question.data.tags?.map((tag, index) => (
+					<Badge key={index} variant="outline">{tag}</Badge>
+				))}
+			</div>
 			{isActive ? (
 				<div className='flex items-center text-sm text-muted-foreground'>
 					<Clock className='mr-2 h-4 w-4' />
