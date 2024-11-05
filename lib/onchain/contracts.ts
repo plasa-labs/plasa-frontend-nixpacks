@@ -38,6 +38,15 @@ export const contractsGetQuestion = (questionAddress: `0x${string}`, userAddress
 	}
 }
 
+export const contractsGetNameAvailability = (name: string): ReadContractParameters => {
+	return {
+		address: process.env.NEXT_PUBLIC_NAMES_ADDRESS as `0x${string}`,
+		abi: namesAbi as Abi,
+		functionName: 'isAvailable',
+		args: [name]
+	}
+}
+
 // Write contracts
 
 export const contractsMintStamp = (
