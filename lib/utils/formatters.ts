@@ -25,5 +25,5 @@ export const formatPoints = (points: bigint): string => {
 		minimumFractionDigits: 0,
 	})
 
-	return formatter.format(Math.floor(Number(points) / 1e17))
+	return formatter.format(Math.floor(Number(points) / 1e18))
 }
