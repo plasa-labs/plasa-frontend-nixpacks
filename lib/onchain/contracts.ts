@@ -2,7 +2,7 @@ import fixedQuestionAbi from './abi/fixed-question.json'
 import spaceAbi from './abi/space.json'
 import plasaAbi from './abi/plasa'
 import followerSinceStampAbi from './abi/follower-since-stamp.json'
-
+import namesAbi from './abi/names.json'
 import {
 	type Abi,
 	type ReadContractParameters,
@@ -71,6 +71,22 @@ export const contractsVote = (
 
 	return {
 		to: questionAddress,
+		data,
+		chain: baseSepolia
+	}
+}
+
+export const contractsMintName = (
+	name: string
+): { to: `0x${string}`, data: `0x${string}`, chain: Chain } => {
+	const data = encodeFunctionData({
+		abi: namesAbi as Abi,
+		functionName: 'mintName',
+		args: [name]
+	})
+
+	return {
+		to: process.env.NEXT_PUBLIC_NAMES_ADDRESS as `0x${string}`,
 		data,
 		chain: baseSepolia
 	}
