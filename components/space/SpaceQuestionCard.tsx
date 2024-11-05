@@ -4,7 +4,13 @@
 import { useRouter } from 'next/navigation'
 
 // Third-party imports
-import { Eye } from 'lucide-react'
+import { Eye, InfoIcon } from 'lucide-react'
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 // UI Component imports
 import { Button } from '@/components/ui/button'
@@ -47,6 +53,7 @@ export default function SpaceQuestionCard({ question }: SpaceQuestionCardProps) 
 	const deadlineTimestamp = Number(question.data.deadline)
 	const timeRemaining = new Date(deadlineTimestamp * 1000).getTime() - Date.now()
 	const daysRemaining = Math.ceil(timeRemaining / (1000 * 60 * 60 * 24))
+	const tags = question.data.tags
 
 	return (
 		<Card
@@ -60,6 +67,13 @@ export default function SpaceQuestionCard({ question }: SpaceQuestionCardProps) 
 						{isActive ? 'Activa' : 'Cerrada'}
 					</Badge>
 				</div>
+				<div className="flex flex-wrap gap-2 mb-4">
+					{tags?.map((tag, index) => (
+						<Badge key={index} variant="outline" className="mt-1">
+							{tag}
+						</Badge>
+					))}
+				</div>
 			</CardHeader>
 			<CardContent>
 				<div className="flex justify-between items-center text-sm text-gray-500 mb-4">
@@ -69,8 +83,18 @@ export default function SpaceQuestionCard({ question }: SpaceQuestionCardProps) 
 					<span>{voteCount.toString()} votos</span>
 				</div>
 				<div className="flex justify-between items-center">
-					<span className="text-sm font-medium">
+					<span className="text-sm font-medium flex items-center gap-2">
 						Tus puntos para esta votación: {formatPoints(question.user.pointsAtDeadline)}
+						<TooltipProvider>
+							<Tooltip>
+								<TooltipTrigger>
+									<InfoIcon className="h-4 w-4 text-muted-foreground" />
+								</TooltipTrigger>
+								<TooltipContent>
+									<p>Cuenta la cantidad de puntos que tendrás al finalizar la votación.</p>
+								</TooltipContent>
+							</Tooltip>
+						</TooltipProvider>
 					</span>
 					{canVote && isActive ? (
 						<Button variant="default" size="sm" onClick={() => router.push(`/question/${question.data.contractAddress}`)}>
