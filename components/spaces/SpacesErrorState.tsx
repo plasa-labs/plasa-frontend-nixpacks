@@ -1,3 +1,11 @@
+/**
+ * SpacesErrorState components
+ * Contains reusable error state displays for the Spaces feature
+ */
+
+/**
+ * Displays a generic error message when data loading fails
+ */
 export function SpacesErrorState() {
 	return (
 		<div className="text-center p-4">
@@ -6,6 +14,9 @@ export function SpacesErrorState() {
 	)
 }
 
+/**
+ * Displays a message when no data is available
+ */
 export function SpacesNoDataState() {
 	return (
 		<div className="text-center p-4">

@@ -1,13 +1,23 @@
 'use client'
 
-import { SpacesSpaceCard } from './SpacesSpaceCard'
-import { SpacesLoadingState } from './SpacesLoadingState'
+// Internal component imports
+import SpacesSpaceCard from './SpacesSpaceCard'
+import SpacesLoadingState from './SpacesLoadingState'
 import { SpacesErrorState, SpacesNoDataState } from './SpacesErrorState'
 
+// Hooks and types
 import { usePlasaData } from '@/app/hooks/usePlasaData'
 import { SpacePreview } from '@/lib/onchain/types/interfaces'
 
-export default function SpacesPage() {
+/**
+ * SpacesPage Component
+ * 
+ * Renders a list of space previews fetched from the Plasa platform.
+ * Handles loading, error, and no-data states appropriately.
+ * 
+ * @returns {JSX.Element} The rendered spaces page component
+ */
+export default function SpacesPage(): JSX.Element {
 	const { data: plasaData, isLoading, isError } = usePlasaData()
 
 	if (isLoading) return <SpacesLoadingState />
