@@ -7,7 +7,7 @@ import { Alert } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-
+import PointsToolpit from '@/components/common/PointsToolpit'
 // Context imports
 import { useQuestion } from '@/contexts/QuestionContext'
 
@@ -69,8 +69,9 @@ export default function QuestionDetails() {
 					</Alert>
 				) : (
 					<div className="flex justify-between items-center bg-muted p-3 rounded-lg">
-						<p className="text-sm font-medium">
-							Tus puntos: <span className="text-primary">{formatPoints(totalPoints)}</span>
+						<p className="text-sm font-medium flex items-center gap-2">
+							Tus puntos: <span className="tetext-sm font-medium flex items-center gap-2xt-primary">{formatPoints(totalPoints)}</span>
+							<PointsToolpit />
 						</p>
 						{canVote ? (
 							<Badge variant="outline" className="bg-primary text-primary-foreground">
@@ -78,7 +79,7 @@ export default function QuestionDetails() {
 							</Badge>
 						) : (
 							<Badge variant="outline" className="bg-secondary text-secondary-foreground">
-								Ya has votado
+								Ya votaste
 							</Badge>
 						)}
 					</div>
