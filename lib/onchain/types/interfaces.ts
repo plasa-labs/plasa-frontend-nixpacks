@@ -1,22 +1,39 @@
+// Plasa Types
+interface PlasaData {
+	contractAddress: string  // address
+	namesContract: string   // address
+}
+
+interface PlasaUser {
+	isRegistered: boolean
+	username: string
+}
+
+interface PlasaView {
+	data: PlasaData
+	user: PlasaUser
+}
+
 // Points Types
-export interface Holder {
+interface HolderData {
 	user: string  // address
+	name: string
 	balance: bigint
 }
 
-export interface PointsData {
+interface PointsData {
 	contractAddress: string  // address
 	name: string
 	symbol: string
 	totalSupply: bigint
-	top10Holders: Holder[]
+	top10Holders: HolderData[]
 }
 
-export interface PointsUser {
+interface PointsUser {
 	currentBalance: bigint
 }
 
-export interface PointsView {
+interface PointsView {
 	data: PointsData
 	user: PointsUser
 }
@@ -28,7 +45,7 @@ enum QuestionType {
 	Fixed
 }
 
-export interface QuestionData {
+interface QuestionData {
 	contractAddress: string  // address
 	questionType: QuestionType
 	title: string
@@ -41,12 +58,12 @@ export interface QuestionData {
 	voteCount: bigint
 }
 
-export interface QuestionUser {
+interface QuestionUser {
 	canVote: boolean
 	pointsAtDeadline: bigint
 }
 
-export interface OptionData {
+interface OptionData {
 	title: string
 	description: string
 	proposer: string  // address
@@ -54,22 +71,22 @@ export interface OptionData {
 	pointsAtDeadline: bigint
 }
 
-export interface OptionUser {
+interface OptionUser {
 	voted: boolean
 }
 
-export interface OptionView {
+interface OptionView {
 	data: OptionData
 	user: OptionUser
 }
 
-export interface QuestionPreview {
+interface QuestionPreview {
 	data: QuestionData
 	user: QuestionUser
 	points: PointsView
 }
 
-export interface QuestionView {
+interface QuestionView {
 	data: QuestionData
 	user: QuestionUser
 	options: OptionView[]
@@ -83,7 +100,7 @@ enum StampType {
 	FollowerSince
 }
 
-export interface StampData {
+interface StampData {
 	contractAddress: string  // address
 	stampType: StampType
 	name: string
@@ -92,25 +109,25 @@ export interface StampData {
 	specific: string  // bytes in hex
 }
 
-export interface StampUser {
+interface StampUser {
 	owns: boolean
 	stampId: bigint
 	mintingTimestamp: bigint
 	specific: string  // bytes in hex
 }
 
-export interface StampView {
+interface StampView {
 	data: StampData
 	user: StampUser
 }
 
 // Points Stamp Types
-export interface PointsStampData extends StampData {
+interface PointsStampData extends StampData {
 	multiplier: bigint
 }
 
 // Space Types
-export interface SpaceData {
+interface SpaceData {
 	contractAddress: string  // address
 	name: string
 	description: string
@@ -118,13 +135,13 @@ export interface SpaceData {
 	creationTimestamp: bigint
 }
 
-export interface RolesUser {
+interface RolesUser {
 	superAdmin: boolean
 	admin: boolean
 	mod: boolean
 }
 
-export interface PermissionsUser {
+interface PermissionsUser {
 	UpdateSpaceInfo: boolean
 	UpdateSpacePoints: boolean
 	UpdateQuestionInfo: boolean
@@ -141,27 +158,27 @@ export interface PermissionsUser {
 	AddOpenQuestionOption: boolean
 }
 
-export interface SpaceUser {
+interface SpaceUser {
 	roles: RolesUser
 	permissions: PermissionsUser
 }
 
-export interface SpacePreview {
+interface SpacePreview {
 	data: SpaceData
 	user: SpaceUser
 }
 
-export interface PointsStampView {
+interface PointsStampView {
 	data: PointsStampData
 	user: StampUser
 }
 
-export interface MultipleFollowerSincePointsView {
+interface MultipleFollowerSincePointsView {
 	points: PointsView
 	stamps: PointsStampView[]
 }
 
-export interface SpaceView {
+interface SpaceView {
 	data: SpaceData
 	user: SpaceUser
 	points: MultipleFollowerSincePointsView
@@ -169,17 +186,17 @@ export interface SpaceView {
 }
 
 // Plasa Types
-export interface PlasaData {
+interface PlasaData {
 	contractAddress: string  // address
 	chainId: bigint
 	version: string
 }
 
-export interface PlasaUser {
+interface PlasaUser {
 	username: string
 }
 
-export interface PlasaView {
+interface PlasaView {
 	data: PlasaData
 	user: PlasaUser
 	stamps: StampView[]
