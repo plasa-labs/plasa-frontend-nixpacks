@@ -9,8 +9,8 @@ import TransactionButton from '@/components/common/TransactionButton'
 
 // Utils & Types
 import { contractsMintStamp } from '@/lib/onchain/contracts'
-import type { StampView } from '@/lib/onchain/types/interfaces'
-import { formatDate } from '@/lib/utils/formatters'
+import type { PointsStampView } from '@/lib/onchain/types/interfaces'
+import { formatDate, formatPoints } from '@/lib/utils/formatters'
 
 // Contexts
 import { useFirestore } from '@/contexts/FirestoreContext'
@@ -24,7 +24,7 @@ import { useFirestore } from '@/contexts/FirestoreContext'
  * @property {boolean} [authentic] - Whether the stamp is authentic or simulated
  */
 interface ProfileStampCardProps {
-	stamp: StampView
+	stamp: PointsStampView
 	onMint?: () => void
 	owned?: boolean
 	since?: number
@@ -44,9 +44,20 @@ export default function ProfileStampCard({
 }: ProfileStampCardProps) {
 	const { userFirestore } = useFirestore()
 
+	const followerSince: bigint = owned ? BigInt(stamp.user.specific) : BigInt(since || 0)
+
 	const stampFirestoreData = userFirestore?.availableStamps?.find(
 		s => s.stamp.contractAddress === stamp.data.contractAddress
 	)
+
+	const multiplier = stamp.data.multiplier
+
+	const accumulatedPoints: bigint =
+		(BigInt(Math.floor(Date.now() / 1000)) - followerSince) *
+		BigInt(1e18) *
+		BigInt(multiplier) /
+		BigInt(86400)
+
 
 	return (
 		<Card className="overflow-hidden flex flex-col h-full">
@@ -54,15 +65,26 @@ export default function ProfileStampCard({
 				<h4 className="font-semibold mb-2 truncate">@{stamp.data.name}</h4>
 				<div className="flex-grow">
 					{owned ? (
-						<p className="text-xs text-muted-foreground mb-2">
-							Desde {formatDate(BigInt(stamp.user.specific))}
-						</p>
+						<>
+							<p className="text-xs text-muted-foreground mb-2">
+								Desde {formatDate(followerSince)}
+							</p>
+							<p className="text-xs text-muted-foreground mb-2">
+								{multiplier} {multiplier > 1 ? 'puntos' : 'punto'} por día
+							</p>
+							<p className="text-xs text-muted-foreground mb-2">
+								{formatPoints(accumulatedPoints)} puntos acumulados
+							</p>
+						</>
 					) : (
 						<>
 							{since && (
-								<p className="text-xs text-muted-foreground mb-2">
-									Desde {formatDate(BigInt(since))}
-								</p>
+								<>
+									<p className="text-xs text-muted-foreground mb-2">
+										Desde {formatDate(followerSince)}
+									</p>
+
+								</>
 							)}
 							{authentic === false && (
 								<Badge variant="outline" className="mb-2 bg-yellow-100 text-yellow-800 border-yellow-300">

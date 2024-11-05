@@ -20,6 +20,7 @@ import ProfileUsernameCard from './ProfileUsernameCard'
 import ProfileConnectionsCard from './ProfileConnectionsCard'
 import ProfileStampsCard from './ProfileStampsCard'
 import ProfileSkeletonLoader from './ProfileSkeletonLoader'
+import ProfilePointsCard from './ProfilePointsCard'
 
 /**
  * Profile component handles user profile management including:
@@ -67,6 +68,7 @@ export default function Profile(): ReactElement {
 			<div className="grid gap-6 md:grid-cols-2">
 				<div>
 					<ProfileUsernameCard />
+					<ProfilePointsCard />
 					<ProfileConnectionsCard
 						onConnectInstagram={handleConnectInstagram}
 					/>
