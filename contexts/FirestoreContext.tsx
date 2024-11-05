@@ -79,6 +79,9 @@ export function FirestoreProvider({ children }: FirestoreProviderProps) {
 	useEffect(() => {
 		if (authenticated && userAddress) {
 			fetchUserData()
+		} else {
+			// Reset user data when not authenticated
+			setUserFirestore(null)
 		}
 	}, [authenticated, userAddress])
 

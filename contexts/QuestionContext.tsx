@@ -102,6 +102,13 @@ export function QuestionProvider({ children, questionAddress }: QuestionProvider
 		return () => clearInterval(timer)
 	}, [questionData])
 
+	// Add useEffect to refetch when user auth changes
+	useEffect(() => {
+		if (user) {
+			refetch()
+		}
+	}, [user, refetch])
+
 	const value = {
 		question,
 		isLoading,

@@ -44,7 +44,7 @@ function SpaceProvider({ children }: SpaceProviderProps): JSX.Element {
 	const [isError, setIsError] = useState(false)
 	const [error, setError] = useState<Error | null>(null)
 
-	const { user } = usePrivy()
+	const { user, authenticated } = usePrivy()
 
 	const userAddress = user?.smartWallet?.address as `0x${string}`
 
@@ -71,6 +71,12 @@ function SpaceProvider({ children }: SpaceProviderProps): JSX.Element {
 		if (isErrorContract !== isError) setIsError(isErrorContract)
 		if (contractError !== error) setError(contractError as Error | null)
 	}, [spaceData, isLoadingContract, isErrorContract, contractError])
+
+	useEffect(() => {
+		if (authenticated) {
+			contractRefetch()
+		}
+	}, [authenticated, contractRefetch])
 
 	const value = {
 		space,
