@@ -1,8 +1,6 @@
 'use client'
 
-import { OnchainKitProvider } from '@coinbase/onchainkit'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { baseSepolia } from 'viem/chains'
 import { type ReactNode, useState } from 'react'
 import { type State, WagmiProvider } from 'wagmi'
 import { PrivyWrapper } from '@/providers/PrivyWrapper'
@@ -21,14 +19,9 @@ export function OnchainProviders(props: {
 		<PrivyWrapper>
 			<WagmiProvider config={config} initialState={props.initialState}>
 				<QueryClientProvider client={queryClient}>
-					<OnchainKitProvider
-						apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
-						chain={baseSepolia}
-					>
-						{props.children}
-					</OnchainKitProvider>
+					{props.children}
 				</QueryClientProvider>
 			</WagmiProvider>
-		</PrivyWrapper>
+		</PrivyWrapper >
 	)
 }
