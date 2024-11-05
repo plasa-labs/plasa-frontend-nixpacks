@@ -31,6 +31,11 @@ interface ProfileStampCardProps {
 	authentic?: boolean
 }
 
+// Add this helper function after the imports
+const formatStampName = (name: string): string => {
+	return name.replace(/^(.*) Instagram Follower$/, 'Seguidor de @$1 en Instagram')
+}
+
 /**
  * ProfileStampCard component displays information about a stamp and provides
  * functionality to either view or mint the stamp depending on ownership status.
@@ -62,7 +67,7 @@ export default function ProfileStampCard({
 	return (
 		<Card className="overflow-hidden flex flex-col h-full">
 			<CardContent className="p-4 flex-grow flex flex-col">
-				<h4 className="font-semibold mb-2 truncate">@{stamp.data.name}</h4>
+				<h4 className="font-semibold mb-2 truncate">{formatStampName(stamp.data.name)}</h4>
 				<div className="flex-grow">
 					{/* Title is always shown above */}
 
@@ -106,13 +111,10 @@ export default function ProfileStampCard({
 						</Link>
 					</Button>
 				) : authentic === false ? (
-					<Button
-						size="sm"
-						className="w-full mt-2"
-						disabled
-					>
-						No cumplís con los requisitos para obtener este sello.
-					</Button>
+					<Badge variant="outline" className="w-full flex items-center justify-center gap-2 mb-2 bg-yellow-100 text-yellow-800 border-yellow-300">
+						<AlertTriangle className="h-4 w-4" />
+						No cumplís con los requisitos
+					</Badge>
 				) : onMint && stampFirestoreData && (
 					<TransactionButton
 						text="Obtener sello"
