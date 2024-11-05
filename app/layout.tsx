@@ -5,15 +5,12 @@ import { Inter } from 'next/font/google'
 import type { Metadata } from 'next'
 
 // Third-party imports
-import '@coinbase/onchainkit/styles.css'
 import { cookieToInitialState } from 'wagmi'
 
 // Providers and contexts
 import { OnchainProviders } from '@/providers/OnchainProviders'
+import { ContextProviders } from '@/providers/ContextProviders'
 import { ThemeProvider } from '@/providers/ThemeProvider'
-import { SpaceProvider } from '@/contexts/SpaceContext'
-import { FirestoreProvider } from '@/contexts/FirestoreContext'
-import { PlasaProvider } from '@/contexts/PlasaContext'
 
 // Components
 import Navbar from '@/components/navigation/Navbar'
@@ -58,7 +55,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 	)
 
 	return (
-		<html lang='en' suppressHydrationWarning>
+		<html lang='es' suppressHydrationWarning>
 			<head />
 			<body className={`${inter.className} antialiased min-h-screen flex flex-col`}>
 				<ThemeProvider
@@ -68,15 +65,11 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 					disableTransitionOnChange
 				>
 					<OnchainProviders initialState={initialState}>
-						<PlasaProvider>
-							<SpaceProvider>
-								<FirestoreProvider>
-									<Navbar />
-									<main>{children}</main>
-									<Footer />
-								</FirestoreProvider>
-							</SpaceProvider>
-						</PlasaProvider>
+						<ContextProviders>
+							<Navbar />
+							<main>{children}</main>
+							<Footer />
+						</ContextProviders>
 					</OnchainProviders>
 				</ThemeProvider>
 			</body>
