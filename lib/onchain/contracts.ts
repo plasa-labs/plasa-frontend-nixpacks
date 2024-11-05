@@ -2,7 +2,7 @@ import fixedQuestionAbi from './abi/fixed-question.json'
 import spaceAbi from './abi/space.json'
 import plasaAbi from './abi/plasa'
 import followerSinceStampAbi from './abi/follower-since-stamp.json'
-
+import namesAbi from './abi/names.json'
 import {
 	type Abi,
 	type ReadContractParameters,
@@ -35,6 +35,24 @@ export const contractsGetQuestion = (questionAddress: `0x${string}`, userAddress
 		abi: fixedQuestionAbi as Abi,
 		functionName: 'getQuestionView',
 		args: [getValidAddress(userAddress)],
+	}
+}
+
+export const contractsGetNameAvailability = (name: string): ReadContractParameters => {
+	return {
+		address: process.env.NEXT_PUBLIC_NAMES_ADDRESS as `0x${string}`,
+		abi: namesAbi as Abi,
+		functionName: 'isAvailable',
+		args: [name]
+	}
+}
+
+export const contractsGetUserName = (userAddress: `0x${string}`): ReadContractParameters => {
+	return {
+		address: process.env.NEXT_PUBLIC_NAMES_ADDRESS as `0x${string}`,
+		abi: namesAbi as Abi,
+		functionName: 'userToName',
+		args: [getValidAddress(userAddress)]
 	}
 }
 
@@ -71,6 +89,22 @@ export const contractsVote = (
 
 	return {
 		to: questionAddress,
+		data,
+		chain: baseSepolia
+	}
+}
+
+export const contractsMintName = (
+	name: string
+): { to: `0x${string}`, data: `0x${string}`, chain: Chain } => {
+	const data = encodeFunctionData({
+		abi: namesAbi as Abi,
+		functionName: 'mintName',
+		args: [name]
+	})
+
+	return {
+		to: process.env.NEXT_PUBLIC_NAMES_ADDRESS as `0x${string}`,
 		data,
 		chain: baseSepolia
 	}

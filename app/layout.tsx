@@ -13,6 +13,7 @@ import { OnchainProviders } from '@/providers/OnchainProviders'
 import { ThemeProvider } from '@/providers/ThemeProvider'
 import { SpaceProvider } from '@/contexts/SpaceContext'
 import { FirestoreProvider } from '@/contexts/FirestoreContext'
+import { PlasaProvider } from '@/contexts/PlasaContext'
 
 // Components
 import Navbar from '@/components/navigation/Navbar'
@@ -67,13 +68,15 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 					disableTransitionOnChange
 				>
 					<OnchainProviders initialState={initialState}>
-						<SpaceProvider>
-							<FirestoreProvider>
-								<Navbar />
-								<main>{children}</main>
-								<Footer />
-							</FirestoreProvider>
-						</SpaceProvider>
+						<PlasaProvider>
+							<SpaceProvider>
+								<FirestoreProvider>
+									<Navbar />
+									<main>{children}</main>
+									<Footer />
+								</FirestoreProvider>
+							</SpaceProvider>
+						</PlasaProvider>
 					</OnchainProviders>
 				</ThemeProvider>
 			</body>
