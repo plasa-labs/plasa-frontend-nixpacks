@@ -43,7 +43,7 @@ export default function SpaceCard({ space }: SpaceCardProps) {
 					<CardTitle className='mb-2'>{space.data.name}</CardTitle>
 					<p className='text-sm text-gray-600'>{space.data.description}</p>
 				</div>
-				<Link href={`/space/${space.data.contractAddress}`} passHref>
+				<Link href={`/space/${space.data.contractAddress}`} passHref prefetch={true}>
 					<Button className='ml-4'>Entrar</Button>
 				</Link>
 			</div>

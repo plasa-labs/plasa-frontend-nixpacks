@@ -21,7 +21,7 @@ export default function Navbar() {
 	return (
 		<nav className="border-b border-border">
 			<div className="container-base flex justify-between items-center py-4">
-				<Link href="/" className="flex-shrink-0">
+				<Link href="/" className="flex-shrink-0" prefetch={true}>
 					<h1 className={`text-4xl font-medium tracking-tighter ${publicSans.className}`}>plasa</h1>
 				</Link>
 				<div className="flex items-center gap-4">

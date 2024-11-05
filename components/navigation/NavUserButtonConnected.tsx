@@ -3,7 +3,7 @@
 // External dependencies
 import Link from 'next/link'
 import { usePrivy } from '@privy-io/react-auth'
-import { User, Settings, LogOut } from 'lucide-react'
+import { User, LogOut } from 'lucide-react'
 
 // Internal UI components
 import { Button } from '@/components/ui/button'
@@ -53,16 +53,16 @@ export default function NavUserButtonConnected({ className }: NavUserButtonConne
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align='end'>
-				<Link href='/profile' className='w-full'>
+				<Link href='/profile' className='w-full' prefetch={true}>
 					<DropdownMenuItem>
 						<User className='mr-2 h-4 w-4' />
 						<span>Mi Perfil</span>
 					</DropdownMenuItem>
 				</Link>
-				<DropdownMenuItem>
+				{/* <DropdownMenuItem>
 					<Settings className='mr-2 h-4 w-4' />
 					<span>Configuración</span>
-				</DropdownMenuItem>
+				</DropdownMenuItem> */}
 				<DropdownMenuItem onClick={handleDisconnect} className='text-red-500'>
 					<LogOut className='mr-2 h-4 w-4' />
 					<span>Desconectar</span>

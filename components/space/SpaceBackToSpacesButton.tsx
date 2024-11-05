@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button'
  */
 export default function SpaceBackToSpacesButton() {
 	return (
-		<Link href="/" passHref>
+		<Link href="/" passHref prefetch={true}>
 			<Button variant="outline" className="mb-6">
 				<ArrowLeft className="mr-2 h-4 w-4" />
 				Volver a Espacios

@@ -53,7 +53,7 @@ function QuestionContent() {
 
 	return (
 		<div className='main-container'>
-			<Link href='/' passHref>
+			<Link href='/' passHref prefetch={true}>
 				<Button variant='outline' className='mb-6'>
 					<ArrowLeft className='mr-2 h-4 w-4' />
 					Volver a {space?.data.name ? space.data.name : 'Espacio'}

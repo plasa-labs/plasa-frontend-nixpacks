@@ -102,7 +102,7 @@ export default function ProfileStampCard({
 						size="sm"
 						className="w-full mt-2"
 					>
-						<Link href={`https://sepolia.basescan.org/token/${stamp.data.contractAddress}?a=${stamp.user.stampId}`} target="_blank" rel="noopener noreferrer">
+						<Link href={`https://sepolia.basescan.org/token/${stamp.data.contractAddress}?a=${stamp.user.stampId}`} target="_blank" rel="noopener noreferrer" prefetch={true}>
 							Ver mi sello <ExternalLink className="ml-2 h-4 w-4" />
 						</Link>
 					</Button>
