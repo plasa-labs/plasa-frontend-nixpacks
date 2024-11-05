@@ -1,10 +1,22 @@
+// External imports
 import { Calendar, ReceiptText } from 'lucide-react'
+
+// Internal UI components
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { AddressLink } from '@/components/common/AddressLink'
+import AddressLink from '@/components/common/AddressLink'
+
+// Utils and hooks
 import { formatDate } from '@/lib/utils/formatters'
 import { useSpace } from '@/contexts/SpaceContext'
 
-export function SpaceInformation() {
+/**
+ * SpaceInformation component displays basic information about a space,
+ * including its contract address and creation date.
+ * 
+ * Uses the SpaceContext to access space data.
+ * Returns null if no space data is available.
+ */
+export default function SpaceInformation() {
 	const { space } = useSpace()
 	if (!space) return null
 

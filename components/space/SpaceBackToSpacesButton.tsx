@@ -1,10 +1,17 @@
 'use client'
 
-import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { Button } from "@/components/ui/button"
+import Link from 'next/link'
 
-export function SpaceBackToSpacesButton() {
+import { Button } from '@/components/ui/button'
+
+/**
+ * SpaceBackToSpacesButton Component
+ * 
+ * A navigation button component that redirects users back to the spaces overview page.
+ * Includes a left arrow icon and "Volver a Espacios" (Back to Spaces) text.
+ */
+export default function SpaceBackToSpacesButton() {
 	return (
 		<Link href="/" passHref>
 			<Button variant="outline" className="mb-6">

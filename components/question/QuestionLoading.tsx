@@ -1,6 +1,13 @@
 import { Skeleton } from '@/components/ui/skeleton'
 
-export function QuestionLoading() {
+/**
+ * QuestionLoading Component
+ * 
+ * A loading placeholder component that displays skeleton elements to indicate
+ * content is being loaded. Mimics the layout of the main question page with
+ * responsive grid layout and various content blocks.
+ */
+export default function QuestionLoading() {
 	return (
 		<div className='container mx-auto px-4 py-8 space-y-4'>
 			<Skeleton className='h-12 w-3/4' />

@@ -4,21 +4,44 @@ import { usePrivy } from '@privy-io/react-auth'
 import { useSmartWallets } from '@privy-io/react-auth/smart-wallets'
 import { useState } from 'react'
 
+/**
+ * Interface for transaction data structure
+ */
+interface TransactionData {
+	to: string
+	data: string
+}
+
+/**
+ * Props interface for the TransactionButton component
+ */
 interface TransactionButtonProps {
+	/** Main button text */
 	text: string
+	/** Text to display while transaction is processing */
 	loadingText?: string
+	/** Additional CSS classes */
 	className?: string
+	/** Disable button state */
 	disabled?: boolean
-	// New props for transaction details
-	transactionData: {
-		to: string
-		data: string
-	}
+	/** Transaction details including destination and data */
+	transactionData: TransactionData
+	/** Callback function on successful transaction */
 	onSuccess?: () => void
+	/** Callback function on transaction error */
 	onError?: (error: Error) => void
 }
 
-export const TransactionButton = ({
+/**
+ * TransactionButton Component
+ * 
+ * A button component that handles blockchain transactions using Privy smart wallets.
+ * Displays different states (idle, processing, completed) and handles transaction flow.
+ * 
+ * @param props - TransactionButtonProps
+ * @returns React component
+ */
+export default function TransactionButton({
 	text,
 	loadingText = "Procesando...",
 	className = "",
@@ -26,7 +49,7 @@ export const TransactionButton = ({
 	transactionData,
 	onSuccess,
 	onError
-}: TransactionButtonProps) => {
+}: TransactionButtonProps) {
 	const [isProcessing, setIsProcessing] = useState(false)
 	const [isProcessed, setIsProcessed] = useState(false)
 	const { authenticated } = usePrivy()

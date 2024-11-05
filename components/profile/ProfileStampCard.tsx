@@ -1,13 +1,26 @@
 import Link from 'next/link'
 import { AlertTriangle, ExternalLink } from 'lucide-react'
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+
+// UI Components
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import TransactionButton from '@/components/common/TransactionButton'
+
+// Utils & Types
 import { contractsMintStamp } from '@/lib/onchain/contracts'
-import { TransactionButton } from "@/components/common/TransactionButton"
 import type { UserData } from '@/lib/api/interfaces'
 import type { StampView } from '@/lib/onchain/types/interfaces'
 
+/**
+ * Interface for ProfileStampCard component props
+ * @property {StampView} stamp - The stamp data to display
+ * @property {() => void} [onMint] - Optional callback function when stamp is minted
+ * @property {boolean} [owned] - Whether the stamp is owned by the user
+ * @property {number} [since] - Timestamp indicating when the stamp was acquired
+ * @property {boolean} [authentic] - Whether the stamp is authentic or simulated
+ * @property {UserData | null} userFirestore - User's Firestore data
+ */
 interface ProfileStampCardProps {
 	stamp: StampView
 	onMint?: () => void
@@ -17,7 +30,23 @@ interface ProfileStampCardProps {
 	userFirestore: UserData | null
 }
 
-export function ProfileStampCard({ stamp, onMint, owned, since, authentic, userFirestore }: ProfileStampCardProps) {
+/**
+ * ProfileStampCard component displays information about a stamp and provides
+ * functionality to either view or mint the stamp depending on ownership status.
+ */
+export default function ProfileStampCard({
+	stamp,
+	onMint,
+	owned,
+	since,
+	authentic,
+	userFirestore
+}: ProfileStampCardProps) {
+	/**
+	 * Formats a timestamp into a localized date string
+	 * @param {number} timestamp - Unix timestamp in seconds
+	 * @returns {string} Formatted date string
+	 */
 	const formattedDate = (timestamp: number) => {
 		const date = new Date(timestamp * 1000)
 		return date.toLocaleDateString('es-AR', {

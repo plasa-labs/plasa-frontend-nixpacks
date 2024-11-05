@@ -1,11 +1,19 @@
 import { CheckCircle2 } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { TransactionButton } from "@/components/common/TransactionButton"
+import TransactionButton from "@/components/common/TransactionButton"
 import { contractsVote } from '@/lib/onchain/contracts'
 import { useQuestion } from "@/contexts/QuestionContext"
 
-export const QuestionVotingOptions = () => {
+/**
+ * QuestionVotingOptions Component
+ * 
+ * Renders a list of voting options for a question, allowing users to vote if they meet
+ * the required conditions (can vote, question is active, and have points at deadline).
+ * Each option displays its title, description, and a voting button if applicable.
+ * Also shows a badge indicating if the user has already voted for that option.
+ */
+export default function QuestionVotingOptions() {
 	const { question, refetch } = useQuestion()
 	if (!question) return null
 

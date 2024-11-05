@@ -1,22 +1,39 @@
 'use client'
 
-import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { User, Settings, LogOut } from 'lucide-react'
-import { usePrivy } from '@privy-io/react-auth'
-// import useUsername from '@/app/hooks/useUsername'
+// External dependencies
 import Link from 'next/link'
-// import { useTheme } from 'next-themes'
-// import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-// import { Moon, Sun, Laptop } from 'lucide-react'
+import { usePrivy } from '@privy-io/react-auth'
+import { User, Settings, LogOut } from 'lucide-react'
 
+// Internal UI components
+import { Button } from '@/components/ui/button'
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+
+// Types
 interface NavUserButtonConnectedProps {
 	className?: string
 }
 
+/**
+ * NavUserButtonConnected - A navigation button component for authenticated users
+ * 
+ * Displays a dropdown menu with user-related actions like profile access,
+ * settings, and logout functionality.
+ * 
+ * @param {NavUserButtonConnectedProps} props - Component props
+ * @param {string} [props.className] - Optional CSS classes to apply to the button
+ */
 export default function NavUserButtonConnected({ className }: NavUserButtonConnectedProps) {
 	const { logout } = usePrivy()
 
+	/**
+	 * Handles user logout action
+	 */
 	const handleDisconnect = async () => {
 		await logout()
 	}
@@ -25,41 +42,26 @@ export default function NavUserButtonConnected({ className }: NavUserButtonConne
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<Button
-					variant="outline"
+					variant='outline'
 					className={`transition-all duration-200 hover:scale-105 ${className}`}
 				>
-					<User className="mr-2 h-4 w-4" />
-					{/* <span className="max-w-[150px] truncate">{displayName}</span> */}
-					<span className="max-w-[150px] truncate">user</span>
+					<User className='mr-2 h-4 w-4' />
+					<span className='max-w-[150px] truncate'>user</span>
 				</Button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent align="end">
-				<Link href="/profile" className="w-full">
+			<DropdownMenuContent align='end'>
+				<Link href='/profile' className='w-full'>
 					<DropdownMenuItem>
-						<User className="mr-2 h-4 w-4" />
+						<User className='mr-2 h-4 w-4' />
 						<span>Mi Perfil</span>
 					</DropdownMenuItem>
 				</Link>
 				<DropdownMenuItem>
-					<Settings className="mr-2 h-4 w-4" />
+					<Settings className='mr-2 h-4 w-4' />
 					<span>Configuración</span>
 				</DropdownMenuItem>
-				{/* <DropdownMenuItem>
-					<span className="mr-2">Tema:</span>
-					<ToggleGroup type="single" value={theme} onValueChange={setTheme} className="flex justify-center space-x-1">
-						<ToggleGroupItem value="light" aria-label="Light mode">
-							<Sun className="h-4 w-4" />
-						</ToggleGroupItem>
-						<ToggleGroupItem value="dark" aria-label="Dark mode">
-							<Moon className="h-4 w-4" />
-						</ToggleGroupItem>
-						<ToggleGroupItem value="system" aria-label="System theme">
-							<Laptop className="h-4 w-4" />
-						</ToggleGroupItem>
-					</ToggleGroup>
-				</DropdownMenuItem> */}
-				<DropdownMenuItem onClick={handleDisconnect} className="text-red-500">
-					<LogOut className="mr-2 h-4 w-4" />
+				<DropdownMenuItem onClick={handleDisconnect} className='text-red-500'>
+					<LogOut className='mr-2 h-4 w-4' />
 					<span>Desconectar</span>
 				</DropdownMenuItem>
 			</DropdownMenuContent>

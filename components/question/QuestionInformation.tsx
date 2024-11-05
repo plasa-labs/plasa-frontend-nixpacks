@@ -1,10 +1,21 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { formatDate } from '@/lib/utils/formatters'
-import { AddressLink } from '@/components/common/AddressLink'
+import AddressLink from '@/components/common/AddressLink'
 import { useQuestion } from "@/contexts/QuestionContext"
 import { useSpace } from "@/contexts/SpaceContext"
 
-export function QuestionInformation() {
+/**
+ * QuestionInformation Component
+ * 
+ * Displays detailed information about a voting question including:
+ * - Total vote count
+ * - Start and end dates
+ * - Contract addresses
+ * - Creator information
+ * 
+ * Uses data from QuestionContext and SpaceContext
+ */
+export default function QuestionInformation() {
 	const { question } = useQuestion()
 	const { space } = useSpace()
 

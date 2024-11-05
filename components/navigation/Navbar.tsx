@@ -1,18 +1,23 @@
 'use client'
 
+// External dependencies
 import Link from 'next/link'
-// import Image from 'next/image'
-
-// import { ConnectWallet, Wallet, WalletDropdown, WalletDropdownBasename, WalletDropdownDisconnect, WalletDropdownLink } from '@coinbase/onchainkit/wallet'
-// import { Name } from '@coinbase/onchainkit/identity'
-import { NavUserButton } from './NavUserButton'
-
-import { ThemeToggle } from './ThemeToggle'
 import { Public_Sans } from 'next/font/google'
 
+// Internal components
+import NavUserButton from './NavUserButton'
+import ThemeToggle from './ThemeToggle'
+
+// Font configuration
 const publicSans = Public_Sans({ subsets: ['latin'] })
 
-export function Navbar() {
+/**
+ * Navbar Component
+ * 
+ * Main navigation component that displays the site logo, user authentication button,
+ * and theme toggle. Renders at the top of the application layout.
+ */
+export default function Navbar() {
 	return (
 		<nav className="border-b border-border">
 			<div className="container-base flex justify-between items-center py-4">

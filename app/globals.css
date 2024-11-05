@@ -1,19 +1,27 @@
+/* Base Tailwind imports */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
+/* Basic text balance utility */
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
 
+/* Global font family definition */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Theme configuration
+ * Defines color scheme variables for both light and dark modes
+ * Uses HSL color format: hue saturation lightness
+ */
 @layer base {
   :root {
+    /* Light theme variables */
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
@@ -40,7 +48,9 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
+    /* Dark theme variables */
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
@@ -68,6 +78,7 @@ body {
   }
 }
 
+/* Base styles applied to all elements */
 @layer base {
   * {
     @apply border-border;
@@ -77,8 +88,12 @@ body {
   }
 }
 
+/* Reusable component styles */
 @layer components {
-  /* Define a shared container style that can be used across components */
+  /* Container styles for consistent layout across the application
+   * container-base: Base container with horizontal padding and max-width constraints
+   * main-container: Extended container style for main content areas
+   */
   .container-base {
     @apply container mx-auto px-4 lg:px-8;
     max-width: min(100vw - 2rem, theme('screens.2xl'));

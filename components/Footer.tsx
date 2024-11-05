@@ -1,6 +1,10 @@
 import Link from 'next/link'
 
-export function Footer() {
+/**
+ * Footer component that displays copyright information and social media links
+ * Renders at the bottom of the page with a border top and responsive layout
+ */
+export default function Footer() {
 	return (
 		<footer className="border-t border-border mt-auto">
 			<div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">

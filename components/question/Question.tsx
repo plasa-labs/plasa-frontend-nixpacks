@@ -1,24 +1,37 @@
 'use client'
 
+// External imports
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
+
+// Internal UI components
 import { Button } from '@/components/ui/button'
 
-import { QuestionHeader } from './QuestionHeader'
-import { QuestionDetails } from './QuestionDetails'
-import { QuestionVotingOptions } from './QuestionVotingOptions'
-import { QuestionVotingProgress } from './QuestionVotingProgress'
-import { QuestionInformation } from './QuestionInformation'
-import { QuestionLoading } from './QuestionLoading'
+// Question-specific components
+import QuestionHeader from './QuestionHeader'
+import QuestionDetails from './QuestionDetails'
+import QuestionVotingOptions from './QuestionVotingOptions'
+import QuestionVotingProgress from './QuestionVotingProgress'
+import QuestionInformation from './QuestionInformation'
+import QuestionLoading from './QuestionLoading'
 
+// Contexts
 import { useSpace } from '@/contexts/SpaceContext'
 import { QuestionProvider, useQuestion } from '@/contexts/QuestionContext'
 
+/**
+ * Props interface for the Question component
+ */
 interface QuestionProps {
 	questionAddress: string
 }
 
-export function Question({ questionAddress }: QuestionProps) {
+/**
+ * Main Question component that wraps the content with the QuestionProvider
+ * @param {QuestionProps} props - Component props containing the question address
+ * @returns {JSX.Element} Rendered Question component
+ */
+export default function Question({ questionAddress }: QuestionProps) {
 	return (
 		<QuestionProvider questionAddress={questionAddress}>
 			<QuestionContent />
@@ -26,6 +39,11 @@ export function Question({ questionAddress }: QuestionProps) {
 	)
 }
 
+/**
+ * Internal component that handles the main question content and layout
+ * Manages loading states and error handling
+ * @returns {JSX.Element} Rendered question content
+ */
 function QuestionContent() {
 	const { question, isLoading, isError } = useQuestion()
 	const { space } = useSpace()
@@ -35,7 +53,7 @@ function QuestionContent() {
 
 	return (
 		<div className='main-container'>
-			<Link href={`/`} passHref>
+			<Link href='/' passHref>
 				<Button variant='outline' className='mb-6'>
 					<ArrowLeft className='mr-2 h-4 w-4' />
 					Volver a {space?.data.name ? space.data.name : 'Espacio'}
@@ -56,4 +74,4 @@ function QuestionContent() {
 			</div>
 		</div>
 	)
-} 
+}

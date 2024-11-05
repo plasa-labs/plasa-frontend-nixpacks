@@ -1,22 +1,29 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ProfileStampCard } from './ProfileStampCard'
-// import type { PlasaView } from '@/lib/onchain/types/interfaces'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import ProfileStampCard from './ProfileStampCard'
 import { useSpace } from '@/contexts/SpaceContext'
 import { useFirestore } from '@/contexts/FirestoreContext'
 
 interface ProfileStampsCardProps {
+	/** Callback function triggered when a stamp is minted */
 	onStampMint: (address: string) => void
 }
 
-export function ProfileStampsCard({ onStampMint }: ProfileStampsCardProps) {
+/**
+ * ProfileStampsCard displays a user's owned and available stamps
+ * 
+ * @component
+ * @param {ProfileStampsCardProps} props - Component props
+ * @param {Function} props.onStampMint - Callback function when a stamp is minted
+ * @returns {React.ReactElement | null} The rendered component or null if space is not available
+ */
+export default function ProfileStampsCard({ onStampMint }: ProfileStampsCardProps) {
 	const { space } = useSpace()
 	const { userFirestore } = useFirestore()
+
 	if (!space) return null
 
 	const stamps = space.points.stamps
-
 	const ownedStamps = stamps.filter(stamp => stamp.user.owns)
-
 	const availableStamps = userFirestore?.availableStamps?.filter(stampSig =>
 		!ownedStamps.some(ownedStamp => ownedStamp.data.contractAddress === stampSig.stamp.contractAddress)
 	) || []

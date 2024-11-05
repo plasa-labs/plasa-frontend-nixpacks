@@ -1,21 +1,36 @@
 'use client'
 
-import { useSpace } from '@/contexts/SpaceContext'
+// React/Next.js imports
+import { type ReactElement } from 'react'
+
+// External dependencies
 import { usePrivy } from '@privy-io/react-auth'
+
+// Internal contexts
+import { useSpace } from '@/contexts/SpaceContext'
 import { useFirestore } from '@/contexts/FirestoreContext'
+
+// Internal utilities and types
 import { setInstagramUsername } from '@/lib/api/endpoints'
-
-// Components
-import { ProfileNotConnectedCard } from './ProfileNotConnectedCard'
-import { ProfileUsernameCard } from './ProfileUsernameCard'
-import { ProfileConnectionsCard } from './ProfileConnectionsCard'
-import { ProfileStampsCard } from './ProfileStampsCard'
-import { ProfileSkeletonLoader } from './ProfileSkeletonLoader'
-
-// Types
 import type { UserData } from '@/lib/api/interfaces'
 
-export function Profile() {
+// Internal components
+import ProfileNotConnectedCard from './ProfileNotConnectedCard'
+import ProfileUsernameCard from './ProfileUsernameCard'
+import ProfileConnectionsCard from './ProfileConnectionsCard'
+import ProfileStampsCard from './ProfileStampsCard'
+import ProfileSkeletonLoader from './ProfileSkeletonLoader'
+
+/**
+ * Profile component handles user profile management including:
+ * - Instagram connection
+ * - Profile stamps
+ * - User connections
+ * - Username management
+ * 
+ * @returns {ReactElement} The rendered Profile component
+ */
+export default function Profile(): ReactElement {
 	const { user, authenticated } = usePrivy()
 	const { isLoading: firestoreLoading, updateUserData } = useFirestore()
 	const userAddress = user?.smartWallet?.address as `0x${string}`

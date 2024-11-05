@@ -1,20 +1,45 @@
 'use client'
 
+// React and Next.js imports
 import { useRouter } from 'next/navigation'
+
+// Third-party imports
 import { Eye } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+
+// UI Component imports
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+
+// Types and utilities
 import { QuestionPreview } from '@/lib/onchain/types/interfaces'
 import { formatPoints } from '@/lib/utils/formatters'
 
+/**
+ * Props interface for the SpaceQuestionCard component
+ */
 interface SpaceQuestionCardProps {
 	question: QuestionPreview
 }
 
-export function SpaceQuestionCard({ question }: SpaceQuestionCardProps) {
+/**
+ * SpaceQuestionCard Component
+ * 
+ * Displays a card with question information including:
+ * - Question title
+ * - Active/Closed status
+ * - Time remaining or time since closure
+ * - Vote count
+ * - User's voting points
+ * - Action button (Vote or View)
+ * 
+ * @param {SpaceQuestionCardProps} props - Component props
+ * @returns {JSX.Element} Rendered card component
+ */
+export default function SpaceQuestionCard({ question }: SpaceQuestionCardProps) {
 	const router = useRouter()
 
+	// Extract question data
 	const isActive = question.data.isActive
 	const canVote = question.user.canVote
 	const title = question.data.title

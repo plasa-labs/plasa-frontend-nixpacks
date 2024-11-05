@@ -1,13 +1,34 @@
-import { AlertCircle, ExternalLink } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Alert } from "@/components/ui/alert"
-import { Badge } from "@/components/ui/badge"
-import { Button } from '@/components/ui/button'
-import { formatPoints } from '@/lib/utils/formatters'
+// External library imports
 import { usePrivy } from '@privy-io/react-auth'
-import { useQuestion } from "@/contexts/QuestionContext"
+import { AlertCircle, ExternalLink } from 'lucide-react'
 
-export const QuestionDetails = () => {
+// Internal component imports
+import { Alert } from '@/components/ui/alert'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+
+// Context imports
+import { useQuestion } from '@/contexts/QuestionContext'
+
+// Utility imports
+import { formatPoints } from '@/lib/utils/formatters'
+
+/**
+ * QuestionDetails Component
+ * 
+ * Displays the details of a question including:
+ * - Question description
+ * - Authentication status alerts
+ * - User voting points
+ * - Voting eligibility status
+ * 
+ * The component handles three states:
+ * 1. User not authenticated
+ * 2. User authenticated but has no points
+ * 3. User authenticated with points (can vote or has already voted)
+ */
+export default function QuestionDetails() {
 	const { authenticated } = usePrivy()
 	const { question } = useQuestion()
 	if (!question) return null
