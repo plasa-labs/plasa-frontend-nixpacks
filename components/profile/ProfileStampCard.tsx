@@ -9,8 +9,11 @@ import TransactionButton from '@/components/common/TransactionButton'
 
 // Utils & Types
 import { contractsMintStamp } from '@/lib/onchain/contracts'
-import type { UserData } from '@/lib/api/interfaces'
 import type { StampView } from '@/lib/onchain/types/interfaces'
+import { formatDate } from '@/lib/utils/formatters'
+
+// Contexts
+import { useFirestore } from '@/contexts/FirestoreContext'
 
 /**
  * Interface for ProfileStampCard component props
@@ -19,7 +22,6 @@ import type { StampView } from '@/lib/onchain/types/interfaces'
  * @property {boolean} [owned] - Whether the stamp is owned by the user
  * @property {number} [since] - Timestamp indicating when the stamp was acquired
  * @property {boolean} [authentic] - Whether the stamp is authentic or simulated
- * @property {UserData | null} userFirestore - User's Firestore data
  */
 interface ProfileStampCardProps {
 	stamp: StampView
@@ -27,7 +29,6 @@ interface ProfileStampCardProps {
 	owned?: boolean
 	since?: number
 	authentic?: boolean
-	userFirestore: UserData | null
 }
 
 /**
@@ -40,22 +41,8 @@ export default function ProfileStampCard({
 	owned,
 	since,
 	authentic,
-	userFirestore
 }: ProfileStampCardProps) {
-	/**
-	 * Formats a timestamp into a localized date string
-	 * @param {number} timestamp - Unix timestamp in seconds
-	 * @returns {string} Formatted date string
-	 */
-	const formattedDate = (timestamp: number) => {
-		const date = new Date(timestamp * 1000)
-		return date.toLocaleDateString('es-AR', {
-			day: '2-digit',
-			month: '2-digit',
-			year: 'numeric',
-			timeZone: 'America/Argentina/Buenos_Aires'
-		})
-	}
+	const { userFirestore } = useFirestore()
 
 	const stampFirestoreData = userFirestore?.availableStamps?.find(
 		s => s.stamp.contractAddress === stamp.data.contractAddress
@@ -68,13 +55,13 @@ export default function ProfileStampCard({
 				<div className="flex-grow">
 					{owned ? (
 						<p className="text-xs text-muted-foreground mb-2">
-							Desde {formattedDate(Number(stamp.user.specific))}
+							Desde {formatDate(BigInt(stamp.user.specific))}
 						</p>
 					) : (
 						<>
 							{since && (
 								<p className="text-xs text-muted-foreground mb-2">
-									Desde {formattedDate(since)}
+									Desde {formatDate(BigInt(since))}
 								</p>
 							)}
 							{authentic === false && (

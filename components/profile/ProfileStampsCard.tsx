@@ -51,7 +51,7 @@ export default function ProfileStampsCard({ onStampMint }: ProfileStampsCardProp
 				{ownedStamps.length > 0 ? (
 					<div className="space-y-4 mb-6">
 						{ownedStamps.map(stamp => (
-							<ProfileStampCard key={stamp.data.contractAddress} stamp={stamp} owned={true} userFirestore={userFirestore} />
+							<ProfileStampCard key={stamp.data.contractAddress} stamp={stamp} owned={true} />
 						))}
 					</div>
 				) : (
@@ -70,7 +70,6 @@ export default function ProfileStampsCard({ onStampMint }: ProfileStampsCardProp
 									onMint={() => onStampMint(stampData.data.contractAddress)}
 									since={stampSig.since}
 									authentic={stampSig.authentic}
-									userFirestore={userFirestore}
 								/>
 							) : null
 						})}
