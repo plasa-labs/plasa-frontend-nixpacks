@@ -1,21 +1,30 @@
+// Third-party imports
 import '@coinbase/onchainkit/styles.css'
-import "./globals.css"
-import type { Metadata } from "next"
-// import localFont from "next/font/local"
+import { Inter } from 'next/font/google'
 import { headers } from 'next/headers'
 import { type ReactNode } from 'react'
 import { cookieToInitialState } from 'wagmi'
+
+// Styles
+import "./globals.css"
+
+// Types
+import type { Metadata } from "next"
+
+// Providers and contexts
 import { OnchainProviders } from '@/providers/OnchainProviders'
-
-import { Inter } from 'next/font/google'
-
-import { getConfig } from '@/lib/onchain/wagmi'
-// import { Providers } from '@/providers/OnchainProviders'
-import { Navbar } from '@/components/navigation/Navbar'
-import { Footer } from '@/components/Footer'
 import { ThemeProvider } from '@/providers/ThemeProvider'
 import { SpaceProvider } from '@/contexts/SpaceContext'
+import { FirestoreProvider } from '@/contexts/FirestoreContext'
 
+// Components
+import { Navbar } from '@/components/navigation/Navbar'
+import { Footer } from '@/components/Footer'
+
+// Utils
+import { getConfig } from '@/lib/onchain/wagmi'
+
+// Font configuration
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -47,9 +56,11 @@ export default async function RootLayout({
 				>
 					<OnchainProviders initialState={initialState}>
 						<SpaceProvider>
-							<Navbar />
-							<main>{children}</main>
-							<Footer />
+							<FirestoreProvider>
+								<Navbar />
+								<main>{children}</main>
+								<Footer />
+							</FirestoreProvider>
 						</SpaceProvider>
 					</OnchainProviders>
 				</ThemeProvider>
