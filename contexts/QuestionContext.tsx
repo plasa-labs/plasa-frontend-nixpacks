@@ -56,20 +56,33 @@ export function QuestionProvider({ children, questionAddress }: QuestionProvider
 	useEffect(() => {
 		if (!questionData) return
 
-		const question = questionData as unknown as QuestionView
-		setQuestion(question)
+		const newQuestion = questionData as unknown as QuestionView
+		const isDifferent = !question ||
+			Object.keys(newQuestion).some(key => {
+				const newVal = newQuestion[key as keyof QuestionView]
+				const oldVal = question[key as keyof QuestionView]
+				return newVal !== oldVal
+			})
 
-		if (!question.data.isActive) {
-			setTimeLeft('Votación finalizada')
+		if (isDifferent) {
+			setQuestion(newQuestion)
+		}
+
+		if (!newQuestion.data.isActive) {
+			if (timeLeft !== 'Votación finalizada') {
+				setTimeLeft('Votación finalizada')
+			}
 			return
 		}
 
 		const updateTimeLeft = () => {
 			const now = Date.now()
-			const remaining = Number(question.data.deadline) * 1000 - now
+			const remaining = Number(newQuestion.data.deadline) * 1000 - now
 
 			if (remaining <= 0) {
-				setTimeLeft('Votación finalizada')
+				if (timeLeft !== 'Votación finalizada') {
+					setTimeLeft('Votación finalizada')
+				}
 				return
 			}
 
@@ -77,13 +90,17 @@ export function QuestionProvider({ children, questionAddress }: QuestionProvider
 			const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
 			const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60))
 			const seconds = Math.floor((remaining % (1000 * 60)) / 1000)
-			setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`)
+			const newTimeLeft = `${days}d ${hours}h ${minutes}m ${seconds}s`
+
+			if (newTimeLeft !== timeLeft) {
+				setTimeLeft(newTimeLeft)
+			}
 		}
 
 		updateTimeLeft()
 		const timer = setInterval(updateTimeLeft, 1000)
 		return () => clearInterval(timer)
-	}, [questionData, questionAddress])
+	}, [questionData])
 
 	const value = {
 		question,

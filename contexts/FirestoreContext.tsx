@@ -54,12 +54,19 @@ export function FirestoreProvider({ children }: FirestoreProviderProps) {
 			return
 		}
 
+		if (userFirestore?.address === userAddress) {
+			setIsLoading(false)
+			return
+		}
+
 		setIsLoading(true)
 		try {
 			const data = await fetchUser(userAddress)
-			setUserFirestore(data)
-			setIsError(false)
-			setError(null)
+			if (JSON.stringify(data) !== JSON.stringify(userFirestore)) {
+				setUserFirestore(data)
+				setIsError(false)
+				setError(null)
+			}
 		} catch (err) {
 			setIsError(true)
 			setError(err as Error)
@@ -70,7 +77,9 @@ export function FirestoreProvider({ children }: FirestoreProviderProps) {
 	}
 
 	useEffect(() => {
-		fetchUserData()
+		if (authenticated && userAddress) {
+			fetchUserData()
+		}
 	}, [authenticated, userAddress])
 
 	const updateUserData = async (updates: Partial<UserData>) => {

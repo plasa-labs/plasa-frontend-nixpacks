@@ -55,12 +55,21 @@ function SpaceProvider({ children }: SpaceProviderProps): JSX.Element {
 
 	useEffect(() => {
 		if (spaceData) {
-			const space = spaceData as unknown as SpaceView
-			setSpace(space)
+			const serializedSpaceData = JSON.parse(JSON.stringify(spaceData, (_, value) =>
+				typeof value === 'bigint' ? value.toString() : value
+			))
+			const serializedSpace = space ? JSON.parse(JSON.stringify(space, (_, value) =>
+				typeof value === 'bigint' ? value.toString() : value
+			)) : null
+
+			if (JSON.stringify(serializedSpaceData) !== JSON.stringify(serializedSpace)) {
+				const newSpace = spaceData as unknown as SpaceView
+				setSpace(newSpace)
+			}
 		}
-		setIsLoading(isLoadingContract)
-		setIsError(isErrorContract)
-		setError(contractError as Error | null)
+		if (isLoadingContract !== isLoading) setIsLoading(isLoadingContract)
+		if (isErrorContract !== isError) setIsError(isErrorContract)
+		if (contractError !== error) setError(contractError as Error | null)
 	}, [spaceData, isLoadingContract, isErrorContract, contractError])
 
 	const value = {
