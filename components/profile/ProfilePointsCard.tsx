@@ -35,7 +35,7 @@ export default function ProfilePointsCard(): JSX.Element {
 			</CardHeader>
 			<CardContent>
 				<div>
-					<h2 className='text-2xl font-bold tracking-tight'>{formatPoints(space.points.points.user.currentBalance)}</h2>
+					<h2 className='text-2xl font-bold tracking-tight'>{formatPoints(points)}</h2>
 				</div>
 			</CardContent>
 			<CardFooter>
