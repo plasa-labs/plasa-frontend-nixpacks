@@ -1,16 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ProfileStampCard } from './ProfileStampCard'
-import type { UserData } from '@/lib/api/interfaces'
 // import type { PlasaView } from '@/lib/onchain/types/interfaces'
 import { useSpace } from '@/contexts/SpaceContext'
+import { useFirestore } from '@/contexts/FirestoreContext'
 
 interface ProfileStampsCardProps {
-	userFirestore: UserData | null
 	onStampMint: (address: string) => void
 }
 
-export function ProfileStampsCard({ userFirestore, onStampMint }: ProfileStampsCardProps) {
+export function ProfileStampsCard({ onStampMint }: ProfileStampsCardProps) {
 	const { space } = useSpace()
+	const { userFirestore } = useFirestore()
 	if (!space) return null
 
 	const stamps = space.points.stamps

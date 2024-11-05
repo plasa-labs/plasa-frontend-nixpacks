@@ -4,15 +4,15 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import type { UserData } from '@/lib/api/interfaces'
+import { useFirestore } from '@/contexts/FirestoreContext'
 
 interface ProfileConnectionsCardProps {
-	userFirestore: UserData | null
 	onConnectInstagram: (username: string) => void
 }
 
-export function ProfileConnectionsCard({ userFirestore, onConnectInstagram }: ProfileConnectionsCardProps) {
+export function ProfileConnectionsCard({ onConnectInstagram }: ProfileConnectionsCardProps) {
 	const [instagramUsername, setInstagramUsername] = useState('')
+	const { userFirestore } = useFirestore()
 
 	return (
 		<Card className="mb-6">
