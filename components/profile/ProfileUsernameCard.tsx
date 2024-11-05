@@ -1,8 +1,3 @@
-// External imports
-import { useAccount } from 'wagmi'
-import { useName } from '@coinbase/onchainkit/identity'
-import { baseSepolia } from 'viem/chains'
-
 // Internal imports
 import {
 	Card,
