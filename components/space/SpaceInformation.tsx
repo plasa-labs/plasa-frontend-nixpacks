@@ -1,5 +1,5 @@
 // External imports
-import { Calendar, ReceiptText } from 'lucide-react'
+// import { Calendar, ReceiptText } from 'lucide-react'
 
 // Internal UI components
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -27,15 +27,19 @@ export default function SpaceInformation() {
 			<CardHeader>
 				<CardTitle>Información del Espacio</CardTitle>
 			</CardHeader>
-			<CardContent>
-				<div className="flex items-center mb-2">
-					<ReceiptText className="mr-2 h-4 w-4" />
-					<span className="text-sm">Dirección del contrato: </span>
-					<AddressScanLink address={contractAddress} className="ml-2 text-sm" />
+			<CardContent className="space-y-2">
+				<div className="flex items-center gap-2">
+					{/* <Calendar className="mr-2 h-4 w-4" /> */}
+					<span className="text-sm">Fecha de creación:</span>
+					<span className="text-sm">{formatDate(creationTimestamp)}</span>
 				</div>
-				<div className="flex items-center">
-					<Calendar className="mr-2 h-4 w-4" />
-					<span className="text-sm">Fecha de creación: {formatDate(creationTimestamp)}</span>
+				<div className="flex items-center gap-2">
+					<span className="text-sm">Contrato del espacio: </span>
+					<AddressScanLink address={contractAddress} className="text-sm" />
+				</div>
+				<div className="flex items-center gap-2">
+					<span className="text-sm">Contrato de los puntos: </span>
+					<AddressScanLink address={space.points.points.data.contractAddress} className="text-sm" />
 				</div>
 			</CardContent>
 		</Card>
