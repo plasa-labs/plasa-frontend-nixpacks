@@ -100,6 +100,7 @@ export default function ProfileStampCard({
 					<Button
 						asChild
 						size="sm"
+						variant="outline"
 						className="w-full mt-2"
 					>
 						<Link href={`https://sepolia.basescan.org/token/${stamp.data.contractAddress}?a=${stamp.user.stampId}`} target="_blank" rel="noopener noreferrer" prefetch={true}>
@@ -114,7 +115,7 @@ export default function ProfileStampCard({
 				) : onMint && firestoreStamp && (
 					<TransactionButton
 						text="Obtener sello"
-						className="w-full"
+						className="w-full mt-2"
 						transactionData={contractsMintStamp(
 							stamp.data.contractAddress as `0x${string}`,
 							firestoreStamp?.since,
