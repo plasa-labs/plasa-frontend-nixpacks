@@ -20,7 +20,7 @@ interface ScanLinkProps {
  */
 export function ScanLink({ address, route, className }: ScanLinkProps) {
 	const shortAddress = `${address.slice(0, 6)}...${address.slice(-4)}`
-	const explorerUrl = `https://sepolia.basescan.org${route}}`
+	const explorerUrl = `https://sepolia.basescan.org${route}`
 
 	return (
 		<a
