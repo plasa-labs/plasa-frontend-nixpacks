@@ -1,6 +1,6 @@
 import fixedQuestionAbi from './abi/fixed-question.json'
 import spaceAbi from './abi/space.json'
-import plasaAbi from './abi/plasa'
+import plasaAbi from './abi/plasa.json'
 import followerSinceStampAbi from './abi/follower-since-stamp.json'
 import namesAbi from './abi/names.json'
 import {
@@ -39,9 +39,9 @@ export const contractsGetQuestion = (questionAddress: `0x${string}`, userAddress
 	}
 }
 
-export const contractsGetNameAvailability = (name: string, namesContractAddress: `0x${string}`): ReadContractParameters => {
+export const contractsGetNameAvailability = (name: string, namesAddress: `0x${string}`): ReadContractParameters => {
 	return {
-		address: namesContractAddress,
+		address: namesAddress,
 		abi: namesAbi as Abi,
 		functionName: 'isAvailable',
 		args: [name]
@@ -96,6 +96,7 @@ export const contractsVote = (
 }
 
 export const contractsMintName = (
+	namesAddress: `0x${string}`,
 	name: string
 ): { to: `0x${string}`, data: `0x${string}`, chain: Chain } => {
 	const data = encodeFunctionData({
@@ -105,7 +106,7 @@ export const contractsMintName = (
 	})
 
 	return {
-		to: process.env.NEXT_PUBLIC_NAMES_ADDRESS as `0x${string}`,
+		to: namesAddress,
 		data,
 		chain: baseSepolia
 	}
