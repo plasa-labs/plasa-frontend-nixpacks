@@ -21,10 +21,8 @@ export default function SpaceLeaderboard() {
 	const { space } = useSpace()
 	if (!space) return null
 
-	const { top10Holders } = space.points.points.data
-	const symbol = space.points.points.data.symbol
+	const { top10Holders, symbol } = space.points.points.data
 	const filteredTop10Holders = top10Holders.filter(holder => holder.balance > 0)
-	const pointsAddress = space.points.points.data.contractAddress
 
 	return (
 		<Card className='mb-6'>

@@ -3,7 +3,6 @@ import { formatDate } from '@/lib/utils/formatters'
 import { AddressScanLink } from '@/components/common/ScanLink'
 import { useQuestion } from "@/contexts/QuestionContext"
 import { useSpace } from "@/contexts/SpaceContext"
-import { AddressLookupTableAccount } from '@solana/web3.js'
 
 /**
  * QuestionInformation Component
