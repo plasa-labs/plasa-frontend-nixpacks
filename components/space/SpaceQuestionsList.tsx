@@ -30,9 +30,11 @@ export default function SpaceQuestionsList() {
 			<CardHeader>
 				<div className="flex justify-between items-center">
 					<CardTitle>Votaciones</CardTitle>
-					<Button size="sm" disabled={!canCreateQuestion}>
-						<PlusCircle className="mr-2 h-4 w-4" /> Nueva votación
-					</Button>
+					{canCreateQuestion && (
+						<Button size="sm" disabled={!canCreateQuestion}>
+							<PlusCircle className="mr-2 h-4 w-4" /> Nueva votación
+						</Button>
+					)}
 				</div>
 			</CardHeader>
 			<CardContent>
