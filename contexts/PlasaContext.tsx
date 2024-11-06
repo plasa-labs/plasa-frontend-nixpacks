@@ -6,14 +6,17 @@ import { usePrivy } from '@privy-io/react-auth'
 import { useReadContract } from 'wagmi'
 
 // Internal dependencies
-import { contractsGetUserName } from '@/lib/onchain/contracts'
+import { contractsGetPlasa } from '@/lib/onchain/contracts'
 import { abbreviateAddress } from '@/lib/utils/formatters'
+import { PlasaView } from '@/lib/onchain/types/interfaces'
 
 /**
  * Interface defining the shape of the Plasa context
  */
 interface PlasaContextType {
+	plasa: PlasaView | null
 	username: string | null
+	isRegistered: boolean
 	isLoading: boolean
 	isError: boolean
 	error: Error | null
@@ -39,6 +42,8 @@ const PlasaContext = createContext<PlasaContextType | undefined>(undefined)
  */
 function PlasaProvider({ children }: PlasaProviderProps): JSX.Element {
 	const [username, setUsername] = useState<string | null>(null)
+	const [plasa, setPlasa] = useState<PlasaView | null>(null)
+	const [isRegistered, setIsRegistered] = useState(false)
 	const [isLoading, setIsLoading] = useState(true)
 	const [isError, setIsError] = useState(false)
 	const [error, setError] = useState<Error | null>(null)
@@ -46,7 +51,7 @@ function PlasaProvider({ children }: PlasaProviderProps): JSX.Element {
 	const userAddress = user?.smartWallet?.address as `0x${string}`
 
 	// Initialize displayName with a default value
-	const [displayName, setDisplayName] = useState<string>('displayname')
+	const [displayName, setDisplayName] = useState<string>('user')
 
 	// Update displayName whenever userAddress changes
 	useEffect(() => {
@@ -57,9 +62,9 @@ function PlasaProvider({ children }: PlasaProviderProps): JSX.Element {
 		}
 	}, [userAddress, username])
 
-	const contract = contractsGetUserName(userAddress)
+	const contract = contractsGetPlasa(userAddress)
 	const {
-		data: usernameData,
+		data: plasaData,
 		isLoading: isLoadingContract,
 		isError: isErrorContract,
 		error: contractError,
@@ -67,18 +72,20 @@ function PlasaProvider({ children }: PlasaProviderProps): JSX.Element {
 	} = useReadContract(contract)
 
 	useEffect(() => {
-		if (usernameData) {
-			const newUsername = usernameData as string
-			if (!newUsername.trim()) {
-				setUsername(null)
-			} else if (newUsername !== username) {
-				setUsername(newUsername)
-			}
+		if (plasaData) {
+			setPlasa(plasaData as PlasaView)
 		}
 		if (isLoadingContract !== isLoading) setIsLoading(isLoadingContract)
 		if (isErrorContract !== isError) setIsError(isErrorContract)
 		if (contractError !== error) setError(contractError as Error | null)
-	}, [usernameData, isLoadingContract, isErrorContract, contractError, userAddress, username])
+	}, [plasaData, isLoadingContract, isErrorContract, contractError, userAddress])
+
+	useEffect(() => {
+		if (plasa) {
+			setIsRegistered(plasa.user.isRegistered)
+			setUsername(plasa.user.username)
+		}
+	}, [plasa])
 
 	useEffect(() => {
 		if (authenticated) {
@@ -87,7 +94,9 @@ function PlasaProvider({ children }: PlasaProviderProps): JSX.Element {
 	}, [authenticated, contractRefetch])
 
 	const value = {
+		plasa,
 		username,
+		isRegistered,
 		isLoading,
 		isError,
 		error,
