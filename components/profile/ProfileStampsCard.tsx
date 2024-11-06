@@ -45,7 +45,7 @@ export default function ProfileStampsCard({ onStampMint }: ProfileStampsCardProp
 				<CardTitle>Sellos</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<h3 className="font-semibold mb-2">Mis sellos</h3>
+				<h3 className="font-semibold mb-4">Mis sellos</h3>
 				{ownedStamps.length > 0 ? (
 					<div className="space-y-4 mb-6">
 						{ownedStamps.map(stamp => (
@@ -59,7 +59,7 @@ export default function ProfileStampsCard({ onStampMint }: ProfileStampsCardProp
 					<p className="text-muted-foreground mb-6">Aún no tienes sellos.</p>
 				)}
 
-				<h3 className="font-semibold mb-2">Sellos disponibles</h3>
+				<h3 className="font-semibold mb-4 mt-10">Sellos disponibles</h3>
 				{notOwnedStamps.length > 0 ? (
 					<div className="space-y-4">
 						{notOwnedStamps.map(stamp => (
