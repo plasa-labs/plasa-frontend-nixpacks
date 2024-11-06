@@ -24,6 +24,8 @@ export default function SpaceLeaderboard() {
 	const { top10Holders } = space.points.points.data
 	const symbol = space.points.points.data.symbol
 
+	const filteredTop10Holders = top10Holders.filter(holder => holder.balance > 0)
+
 	return (
 		<Card className='mb-6'>
 			<CardHeader>
@@ -33,13 +35,14 @@ export default function SpaceLeaderboard() {
 				</CardTitle>
 			</CardHeader>
 			<CardContent>
-				{top10Holders.length === 0 ? (
+				{filteredTop10Holders.length === 0 ? (
 					<div className='text-center text-muted-foreground'>
 						Aún no hay miembros en este espacio
 					</div>
 				) : (
-					top10Holders.map((holder, index) => (
+					filteredTop10Holders.map((holder, index) => (
 						<div key={index} className='flex justify-between items-center py-2 border-b last:border-b-0'>
+							<span>{holder.name || 'user'}</span>
 							<span><AddressLink address={holder.user} /></span>
 							<Badge variant='secondary'>{formatPoints(holder.balance)} {symbol}</Badge>
 						</div>
