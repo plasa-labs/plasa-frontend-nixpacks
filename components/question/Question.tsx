@@ -14,6 +14,7 @@ import QuestionVotingOptions from './QuestionVotingOptions'
 import QuestionVotingProgress from './QuestionVotingProgress'
 import QuestionInformation from './QuestionInformation'
 import QuestionLoading from './QuestionLoading'
+import QuestionRecentVotes from './QuestionRecentVotes'
 
 // Contexts
 import { useSpace } from '@/contexts/SpaceContext'
@@ -70,6 +71,7 @@ function QuestionContent() {
 				</div>
 				<div className='space-y-6'>
 					<QuestionInformation />
+					<QuestionRecentVotes />
 				</div>
 			</div>
 		</div>
