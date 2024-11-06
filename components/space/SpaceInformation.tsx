@@ -3,7 +3,7 @@ import { Calendar, ReceiptText } from 'lucide-react'
 
 // Internal UI components
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import AddressLink from '@/components/common/AddressLink'
+import { AddressScanLink } from '@/components/common/ScanLink'
 
 // Utils and hooks
 import { formatDate } from '@/lib/utils/formatters'
@@ -31,7 +31,7 @@ export default function SpaceInformation() {
 				<div className="flex items-center mb-2">
 					<ReceiptText className="mr-2 h-4 w-4" />
 					<span className="text-sm">Dirección del contrato: </span>
-					<AddressLink address={contractAddress} className="ml-2 text-sm" />
+					<AddressScanLink address={contractAddress} className="ml-2 text-sm" />
 				</div>
 				<div className="flex items-center">
 					<Calendar className="mr-2 h-4 w-4" />

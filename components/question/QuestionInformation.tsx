@@ -1,8 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { formatDate } from '@/lib/utils/formatters'
-import AddressLink from '@/components/common/AddressLink'
+import { AddressScanLink } from '@/components/common/ScanLink'
 import { useQuestion } from "@/contexts/QuestionContext"
 import { useSpace } from "@/contexts/SpaceContext"
+import { AddressLookupTableAccount } from '@solana/web3.js'
 
 /**
  * QuestionInformation Component
@@ -51,16 +52,16 @@ export default function QuestionInformation() {
 						</div>
 						<div>
 							<p className="font-semibold">Contrato de la votación</p>
-							<AddressLink address={question.data.contractAddress} />
+							<AddressScanLink address={question.data.contractAddress} />
 						</div>
 						<div>
 							<p className="font-semibold">Creador</p>
-							<AddressLink address={question.data.creator} />
+							<AddressScanLink address={question.data.creator} />
 						</div>
 						{space && (
 							<div>
 								<p className="font-semibold">Contrato del Espacio</p>
-								<AddressLink address={spaceAddress} />
+								<AddressScanLink address={spaceAddress} />
 							</div>
 						)}
 					</div>
