@@ -91,12 +91,15 @@ export default function TransactionButton({
 	return (
 		<Button
 			onClick={handleTransaction}
-			className={className}
+			className={`relative ${className}`}
 			disabled={disabled || isProcessing || !authenticated || !client || isProcessed}
 		>
 			{isProcessing ? (
 				<>
-					<Progress value={100} className="absolute inset-0 h-full rounded-md" />
+					<Progress
+						value={100}
+						className="absolute inset-0 h-full w-full rounded-md"
+					/>
 					<span className="relative z-10">{loadingText}</span>
 				</>
 			) : isProcessed ? (
