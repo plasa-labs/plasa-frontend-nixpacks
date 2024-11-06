@@ -51,7 +51,7 @@ function PlasaProvider({ children }: PlasaProviderProps): JSX.Element {
 	const userAddress = user?.smartWallet?.address as `0x${string}`
 
 	// Initialize displayName with a default value
-	const [displayName, setDisplayName] = useState<string>('user')
+	const [displayName, setDisplayName] = useState<string>('')
 
 	// Update displayName whenever userAddress changes
 	useEffect(() => {
@@ -69,25 +69,48 @@ function PlasaProvider({ children }: PlasaProviderProps): JSX.Element {
 		isError: isErrorContract,
 		error: contractError,
 		refetch: contractRefetch
-	} = useReadContract(contract)
+	} = useReadContract(contract) as {
+		data: PlasaView | undefined
+		isLoading: boolean
+		isError: boolean
+		error: Error | null
+		refetch: () => void
+	}
 
+	// Log initial contract data
 	useEffect(() => {
 		if (plasaData) {
-			setPlasa(plasaData as PlasaView)
+			console.log('📦 Contract data received:', plasaData)
+			setPlasa(plasaData)
 		}
-		if (isLoadingContract !== isLoading) setIsLoading(isLoadingContract)
-		if (isErrorContract !== isError) setIsError(isErrorContract)
-		if (contractError !== error) setError(contractError as Error | null)
-	}, [plasaData, isLoadingContract, isErrorContract, contractError, userAddress])
+	}, [plasaData])
 
+	// Log loading and error states
+	useEffect(() => {
+		console.log('🔄 Loading state:', isLoadingContract)
+		if (isErrorContract) {
+			console.error('❌ Contract error:', contractError)
+		}
+		setIsLoading(isLoadingContract)
+		setIsError(isErrorContract)
+		setError(contractError as Error | null)
+	}, [isLoadingContract, isErrorContract, contractError])
+
+	// Log registration and username updates
 	useEffect(() => {
 		if (plasa) {
+			console.log('👤 User data:', {
+				isRegistered: plasa.user.isRegistered,
+				username: plasa.user.username
+			})
 			setIsRegistered(plasa.user.isRegistered)
 			setUsername(plasa.user.username)
 		}
 	}, [plasa])
 
+	// Log authentication and refetch
 	useEffect(() => {
+		console.log('🔐 Authentication state:', authenticated)
 		if (authenticated) {
 			contractRefetch()
 		}

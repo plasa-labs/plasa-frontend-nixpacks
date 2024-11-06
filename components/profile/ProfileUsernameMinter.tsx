@@ -63,6 +63,7 @@ export default function ProfileUsernameMinter() {
 	const cacheExpirationTime = 5 * 60 * 1000 // 5 minutes
 
 	const namesContractAddress = plasa?.data.namesContract as `0x${string}`
+
 	const contract = contractsGetNameAvailability(pretendedUsername, namesContractAddress)
 	const { data: isAvailableData } = useReadContract(contract)
 
@@ -138,7 +139,7 @@ export default function ProfileUsernameMinter() {
 			<TransactionButton
 				text="Obtener nombre de usuario"
 				disabled={!isUsernameValid || !isUsernameAvailable || isCheckingUsername}
-				transactionData={contractsMintName(pretendedUsername)}
+				transactionData={contractsMintName(namesContractAddress, pretendedUsername)}
 				className="w-full"
 				onSuccess={() => onNameMint(pretendedUsername)}
 			/>
