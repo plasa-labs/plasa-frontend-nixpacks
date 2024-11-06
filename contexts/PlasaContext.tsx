@@ -80,17 +80,12 @@ function PlasaProvider({ children }: PlasaProviderProps): JSX.Element {
 	// Log initial contract data
 	useEffect(() => {
 		if (plasaData) {
-			console.log('📦 Contract data received:', plasaData)
 			setPlasa(plasaData)
 		}
 	}, [plasaData])
 
 	// Log loading and error states
 	useEffect(() => {
-		console.log('🔄 Loading state:', isLoadingContract)
-		if (isErrorContract) {
-			console.error('❌ Contract error:', contractError)
-		}
 		setIsLoading(isLoadingContract)
 		setIsError(isErrorContract)
 		setError(contractError as Error | null)
@@ -99,10 +94,6 @@ function PlasaProvider({ children }: PlasaProviderProps): JSX.Element {
 	// Log registration and username updates
 	useEffect(() => {
 		if (plasa) {
-			console.log('👤 User data:', {
-				isRegistered: plasa.user.isRegistered,
-				username: plasa.user.username
-			})
 			setIsRegistered(plasa.user.isRegistered)
 			setUsername(plasa.user.username)
 		}
@@ -110,7 +101,6 @@ function PlasaProvider({ children }: PlasaProviderProps): JSX.Element {
 
 	// Log authentication and refetch
 	useEffect(() => {
-		console.log('🔐 Authentication state:', authenticated)
 		if (authenticated) {
 			contractRefetch()
 		}
