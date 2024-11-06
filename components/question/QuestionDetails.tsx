@@ -75,7 +75,7 @@ export default function QuestionDetails() {
 						</p>
 						{canVote ? (
 							<Badge variant="outline" className="bg-primary text-primary-foreground">
-								Puedes votar
+								Podés votar
 							</Badge>
 						) : (
 							<Badge variant="outline" className="bg-secondary text-secondary-foreground">
