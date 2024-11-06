@@ -14,7 +14,7 @@ import { usePlasa } from '@/contexts/PlasaContext'
 const forbiddenStrings = ['admin', 'moderator', 'mod', 'staff', 'support', 'plasa', 'ddfundacion']
 
 export default function ProfileUsernameMinter() {
-	const { setUsername } = usePlasa()
+	const { setUsername, plasa } = usePlasa()
 
 	const [pretendedUsername, setPretendedUsername] = useState('')
 	const [isUsernameValid, setIsUsernameValid] = useState(false)
@@ -62,7 +62,8 @@ export default function ProfileUsernameMinter() {
 	const usernameCache = useRef(new Map<string, boolean>())
 	const cacheExpirationTime = 5 * 60 * 1000 // 5 minutes
 
-	const contract = contractsGetNameAvailability(pretendedUsername)
+	const namesContractAddress = plasa?.data.namesContract as `0x${string}`
+	const contract = contractsGetNameAvailability(pretendedUsername, namesContractAddress)
 	const { data: isAvailableData } = useReadContract(contract)
 
 	const checkUsernameAvailability = useCallback(async () => {
