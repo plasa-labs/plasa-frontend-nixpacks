@@ -1,0 +1,634 @@
+{
+  "abi": [
+    {
+      "type": "constructor",
+      "inputs": [
+        { "name": "_owner", "type": "address", "internalType": "address" },
+        {
+          "name": "_namesContract",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "getPlasaView",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "tuple",
+          "internalType": "struct IPlasaView.PlasaView",
+          "components": [
+            {
+              "name": "data",
+              "type": "tuple",
+              "internalType": "struct IPlasaView.PlasaData",
+              "components": [
+                {
+                  "name": "contractAddress",
+                  "type": "address",
+                  "internalType": "address"
+                },
+                {
+                  "name": "namesContract",
+                  "type": "address",
+                  "internalType": "address"
+                }
+              ]
+            },
+            {
+              "name": "user",
+              "type": "tuple",
+              "internalType": "struct IPlasaView.PlasaUser",
+              "components": [
+                {
+                  "name": "isRegistered",
+                  "type": "bool",
+                  "internalType": "bool"
+                },
+                {
+                  "name": "username",
+                  "type": "string",
+                  "internalType": "string"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "getUsername",
+      "inputs": [
+        { "name": "user", "type": "address", "internalType": "address" }
+      ],
+      "outputs": [{ "name": "", "type": "string", "internalType": "string" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "getUsernameData",
+      "inputs": [
+        { "name": "user", "type": "address", "internalType": "address" }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "tuple",
+          "internalType": "struct IPlasa.UsernameData",
+          "components": [
+            { "name": "user", "type": "address", "internalType": "address" },
+            { "name": "name", "type": "string", "internalType": "string" }
+          ]
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "getUsernames",
+      "inputs": [
+        { "name": "users", "type": "address[]", "internalType": "address[]" }
+      ],
+      "outputs": [
+        { "name": "", "type": "string[]", "internalType": "string[]" }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "getUsernamesData",
+      "inputs": [
+        { "name": "users", "type": "address[]", "internalType": "address[]" }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "tuple[]",
+          "internalType": "struct IPlasa.UsernameData[]",
+          "components": [
+            { "name": "user", "type": "address", "internalType": "address" },
+            { "name": "name", "type": "string", "internalType": "string" }
+          ]
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "isRegistered",
+      "inputs": [
+        { "name": "user", "type": "address", "internalType": "address" }
+      ],
+      "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "names",
+      "inputs": [],
+      "outputs": [
+        { "name": "", "type": "address", "internalType": "contract INames" }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "owner",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "renounceOwnership",
+      "inputs": [],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "setNamesContract",
+      "inputs": [
+        {
+          "name": "_namesContract",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "transferOwnership",
+      "inputs": [
+        { "name": "newOwner", "type": "address", "internalType": "address" }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "event",
+      "name": "OwnershipTransferred",
+      "inputs": [
+        {
+          "name": "previousOwner",
+          "type": "address",
+          "indexed": true,
+          "internalType": "address"
+        },
+        {
+          "name": "newOwner",
+          "type": "address",
+          "indexed": true,
+          "internalType": "address"
+        }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "error",
+      "name": "OwnableInvalidOwner",
+      "inputs": [
+        { "name": "owner", "type": "address", "internalType": "address" }
+      ]
+    },
+    {
+      "type": "error",
+      "name": "OwnableUnauthorizedAccount",
+      "inputs": [
+        { "name": "account", "type": "address", "internalType": "address" }
+      ]
+    }
+  ],
+  "bytecode": {
+    "object": "0x608060405234801561001057600080fd5b50604051610b3a380380610b3a83398101604081905261002f916100fa565b816001600160a01b03811661005e57604051631e4fbdf760e01b81526000600482015260240160405180910390fd5b6100678161008e565b50600180546001600160a01b0319166001600160a01b03929092169190911790555061012d565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b80516001600160a01b03811681146100f557600080fd5b919050565b6000806040838503121561010d57600080fd5b610116836100de565b9150610124602084016100de565b90509250929050565b6109fe8061013c6000396000f3fe608060405234801561001057600080fd5b50600436106100a95760003560e01c80638da5cb5b116100715780638da5cb5b1461013b578063c3c5a5471461014c578063ce43c0321461016f578063e0a78bf61461018f578063f2fde38b146101a4578063f5ab196e146101b757600080fd5b8063056da048146100ae5780630c3d8e54146100de57806349d89876146100f3578063715018a614610113578063801d79431461011b575b600080fd5b6001546100c1906001600160a01b031681565b6040516001600160a01b0390911681526020015b60405180910390f35b6100f16100ec36600461062e565b6101d7565b005b61010661010136600461062e565b610201565b6040516100d591906106cf565b6100f1610241565b61012e610129366004610729565b610255565b6040516100d591906107dd565b6000546001600160a01b03166100c1565b61015f61015a36600461062e565b610316565b60405190151581526020016100d5565b61018261017d36600461062e565b61038f565b6040516100d59190610842565b610197610408565b6040516100d59190610855565b6100f16101b236600461062e565b610465565b6101ca6101c5366004610729565b6104a8565b6040516100d591906108aa565b6101df61054f565b600180546001600160a01b0319166001600160a01b0392909216919091179055565b6040805180820190915260008152606060208201526040518060400160405280836001600160a01b031681526020016102398461038f565b905292915050565b61024961054f565b610253600061057c565b565b60606000825167ffffffffffffffff811115610273576102736106e2565b6040519080825280602002602001820160405280156102b957816020015b6040805180820190915260008152606060208201528152602001906001900390816102915790505b50905060005b835181101561030f576102ea8482815181106102dd576102dd610903565b6020026020010151610201565b8282815181106102fc576102fc610903565b60209081029190910101526001016102bf565b5092915050565b6001546040516370a0823160e01b81526001600160a01b03838116600483015260009283929116906370a0823190602401602060405180830381865afa158015610364573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906103889190610919565b1192915050565b600154604051630ec9a2bb60e41b81526001600160a01b038381166004830152606092169063ec9a2bb090602401600060405180830381865afa1580156103da573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f191682016040526104029190810190610932565b92915050565b6104106105cc565b60408051608081018252308183019081526001546001600160a01b03166060830152815281518083019092529060208201908061044c33610316565b1515815260200161045c3361038f565b90529052919050565b61046d61054f565b6001600160a01b03811661049c57604051631e4fbdf760e01b8152600060048201526024015b60405180910390fd5b6104a58161057c565b50565b60606000825167ffffffffffffffff8111156104c6576104c66106e2565b6040519080825280602002602001820160405280156104f957816020015b60608152602001906001900390816104e45790505b50905060005b835181101561030f5761052a84828151811061051d5761051d610903565b602002602001015161038f565b82828151811061053c5761053c610903565b60209081029190910101526001016104ff565b6000546001600160a01b031633146102535760405163118cdaa760e01b8152336004820152602401610493565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6040805160808101825260009181018281526060820192909252908190815260200161060d6040518060400160405280600015158152602001606081525090565b905290565b80356001600160a01b038116811461062957600080fd5b919050565b60006020828403121561064057600080fd5b61064982610612565b9392505050565b60005b8381101561066b578181015183820152602001610653565b50506000910152565b6000815180845261068c816020860160208601610650565b601f01601f19169290920160200192915050565b60018060a01b03815116825260006020820151604060208501526106c76040850182610674565b949350505050565b60208152600061064960208301846106a0565b634e487b7160e01b600052604160045260246000fd5b604051601f8201601f1916810167ffffffffffffffff81118282101715610721576107216106e2565b604052919050565b60006020828403121561073b57600080fd5b813567ffffffffffffffff81111561075257600080fd5b8201601f8101841361076357600080fd5b803567ffffffffffffffff81111561077d5761077d6106e2565b8060051b61078d602082016106f8565b918252602081840181019290810190878411156107a957600080fd5b6020850194505b838510156107d2576107c185610612565b8252602094850194909101906107b0565b979650505050505050565b6000602082016020835280845180835260408501915060408160051b86010192506020860160005b8281101561083657603f198786030184526108218583516106a0565b94506020938401939190910190600101610805565b50929695505050505050565b6020815260006106496020830184610674565b6020808252825180516001600160a01b03908116848401529082015116604080840191909152838201516060808501528051151560808501529091015160a08301919091526000906106c760c0840182610674565b6000602082016020835280845180835260408501915060408160051b86010192506020860160005b8281101561083657603f198786030184526108ee858351610674565b945060209384019391909101906001016108d2565b634e487b7160e01b600052603260045260246000fd5b60006020828403121561092b57600080fd5b5051919050565b60006020828403121561094457600080fd5b815167ffffffffffffffff81111561095b57600080fd5b8201601f8101841361096c57600080fd5b805167ffffffffffffffff811115610986576109866106e2565b610999601f8201601f19166020016106f8565b8181528560208385010111156109ae57600080fd5b6109bf826020830160208601610650565b9594505050505056fea2646970667358221220a1ee1377c99e5731e37d82314a19feaa097936ce73cfc4c8777d8b5b9eee3c3564736f6c634300081a0033",
+    "sourceMap": "460:3102:50:-:0;;;792:106;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;852:6;-1:-1:-1;;;;;1273:26:21;;1269:95;;1322:31;;-1:-1:-1;;;1322:31:21;;1350:1;1322:31;;;640:51:79;613:18;;1322:31:21;;;;;;;1269:95;1373:32;1392:12;1373:18;:32::i;:::-;-1:-1:-1;864:5:50::1;:30:::0;;-1:-1:-1;;;;;;864:30:50::1;-1:-1:-1::0;;;;;864:30:50;;;::::1;::::0;;;::::1;::::0;;-1:-1:-1;460:3102:50;;2912:187:21;2985:16;3004:6;;-1:-1:-1;;;;;3020:17:21;;;-1:-1:-1;;;;;;3020:17:21;;;;;;3052:40;;3004:6;;;;;;;3052:40;;2985:16;3052:40;2975:124;2912:187;:::o;14:177:79:-;93:13;;-1:-1:-1;;;;;135:31:79;;125:42;;115:70;;181:1;178;171:12;115:70;14:177;;;:::o;196:293::-;275:6;283;336:2;324:9;315:7;311:23;307:32;304:52;;;352:1;349;342:12;304:52;375:40;405:9;375:40;:::i;:::-;365:50;;434:49;479:2;468:9;464:18;434:49;:::i;:::-;424:59;;196:293;;;;;:::o;494:203::-;460:3102:50;;;;;;",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x608060405234801561001057600080fd5b50600436106100a95760003560e01c80638da5cb5b116100715780638da5cb5b1461013b578063c3c5a5471461014c578063ce43c0321461016f578063e0a78bf61461018f578063f2fde38b146101a4578063f5ab196e146101b757600080fd5b8063056da048146100ae5780630c3d8e54146100de57806349d89876146100f3578063715018a614610113578063801d79431461011b575b600080fd5b6001546100c1906001600160a01b031681565b6040516001600160a01b0390911681526020015b60405180910390f35b6100f16100ec36600461062e565b6101d7565b005b61010661010136600461062e565b610201565b6040516100d591906106cf565b6100f1610241565b61012e610129366004610729565b610255565b6040516100d591906107dd565b6000546001600160a01b03166100c1565b61015f61015a36600461062e565b610316565b60405190151581526020016100d5565b61018261017d36600461062e565b61038f565b6040516100d59190610842565b610197610408565b6040516100d59190610855565b6100f16101b236600461062e565b610465565b6101ca6101c5366004610729565b6104a8565b6040516100d591906108aa565b6101df61054f565b600180546001600160a01b0319166001600160a01b0392909216919091179055565b6040805180820190915260008152606060208201526040518060400160405280836001600160a01b031681526020016102398461038f565b905292915050565b61024961054f565b610253600061057c565b565b60606000825167ffffffffffffffff811115610273576102736106e2565b6040519080825280602002602001820160405280156102b957816020015b6040805180820190915260008152606060208201528152602001906001900390816102915790505b50905060005b835181101561030f576102ea8482815181106102dd576102dd610903565b6020026020010151610201565b8282815181106102fc576102fc610903565b60209081029190910101526001016102bf565b5092915050565b6001546040516370a0823160e01b81526001600160a01b03838116600483015260009283929116906370a0823190602401602060405180830381865afa158015610364573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906103889190610919565b1192915050565b600154604051630ec9a2bb60e41b81526001600160a01b038381166004830152606092169063ec9a2bb090602401600060405180830381865afa1580156103da573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f191682016040526104029190810190610932565b92915050565b6104106105cc565b60408051608081018252308183019081526001546001600160a01b03166060830152815281518083019092529060208201908061044c33610316565b1515815260200161045c3361038f565b90529052919050565b61046d61054f565b6001600160a01b03811661049c57604051631e4fbdf760e01b8152600060048201526024015b60405180910390fd5b6104a58161057c565b50565b60606000825167ffffffffffffffff8111156104c6576104c66106e2565b6040519080825280602002602001820160405280156104f957816020015b60608152602001906001900390816104e45790505b50905060005b835181101561030f5761052a84828151811061051d5761051d610903565b602002602001015161038f565b82828151811061053c5761053c610903565b60209081029190910101526001016104ff565b6000546001600160a01b031633146102535760405163118cdaa760e01b8152336004820152602401610493565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6040805160808101825260009181018281526060820192909252908190815260200161060d6040518060400160405280600015158152602001606081525090565b905290565b80356001600160a01b038116811461062957600080fd5b919050565b60006020828403121561064057600080fd5b61064982610612565b9392505050565b60005b8381101561066b578181015183820152602001610653565b50506000910152565b6000815180845261068c816020860160208601610650565b601f01601f19169290920160200192915050565b60018060a01b03815116825260006020820151604060208501526106c76040850182610674565b949350505050565b60208152600061064960208301846106a0565b634e487b7160e01b600052604160045260246000fd5b604051601f8201601f1916810167ffffffffffffffff81118282101715610721576107216106e2565b604052919050565b60006020828403121561073b57600080fd5b813567ffffffffffffffff81111561075257600080fd5b8201601f8101841361076357600080fd5b803567ffffffffffffffff81111561077d5761077d6106e2565b8060051b61078d602082016106f8565b918252602081840181019290810190878411156107a957600080fd5b6020850194505b838510156107d2576107c185610612565b8252602094850194909101906107b0565b979650505050505050565b6000602082016020835280845180835260408501915060408160051b86010192506020860160005b8281101561083657603f198786030184526108218583516106a0565b94506020938401939190910190600101610805565b50929695505050505050565b6020815260006106496020830184610674565b6020808252825180516001600160a01b03908116848401529082015116604080840191909152838201516060808501528051151560808501529091015160a08301919091526000906106c760c0840182610674565b6000602082016020835280845180835260408501915060408160051b86010192506020860160005b8281101561083657603f198786030184526108ee858351610674565b945060209384019391909101906001016108d2565b634e487b7160e01b600052603260045260246000fd5b60006020828403121561092b57600080fd5b5051919050565b60006020828403121561094457600080fd5b815167ffffffffffffffff81111561095b57600080fd5b8201601f8101841361096c57600080fd5b805167ffffffffffffffff811115610986576109866106e2565b610999601f8201601f19166020016106f8565b8181528560208385010111156109ae57600080fd5b6109bf826020830160208601610650565b9594505050505056fea2646970667358221220a1ee1377c99e5731e37d82314a19feaa097936ce73cfc4c8777d8b5b9eee3c3564736f6c634300081a0033",
+    "sourceMap": "460:3102:50:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;554:19;;;;;-1:-1:-1;;;;;554:19:50;;;;;;-1:-1:-1;;;;;194:32:79;;;176:51;;164:2;149:18;554:19:50;;;;;;;;1029:107;;;;;;:::i;:::-;;:::i;:::-;;2514:149;;;;;;:::i;:::-;;:::i;:::-;;;;;;;:::i;2293:101:21:-;;;:::i;2949:293:50:-;;;;;;:::i;:::-;;:::i;:::-;;;;;;;:::i;1638:85:21:-;1684:7;1710:6;-1:-1:-1;;;;;1710:6:21;1638:85;;1345:103:50;;;;;;:::i;:::-;;:::i;:::-;;;4279:14:79;;4272:22;4254:41;;4242:2;4227:18;1345:103:50;4114:187:79;1658:108:50;;;;;;:::i;:::-;;:::i;:::-;;;;;;;:::i;3273:287::-;;;:::i;:::-;;;;;;;:::i;2543:215:21:-;;;;;;:::i;:::-;;:::i;2025:258:50:-;;;;;;:::i;:::-;;:::i;:::-;;;;;;;:::i;1029:107::-;1531:13:21;:11;:13::i;:::-;1102:5:50::1;:30:::0;;-1:-1:-1;;;;;;1102:30:50::1;-1:-1:-1::0;;;;;1102:30:50;;;::::1;::::0;;;::::1;::::0;;1029:107::o;2514:149::-;-1:-1:-1;;;;;;;;;;;;;;;;;2606:53:50;;;;;;;;2627:4;-1:-1:-1;;;;;2606:53:50;;;;;2639:17;2651:4;2639:11;:17::i;:::-;2606:53;;2599:60;2514:149;-1:-1:-1;;2514:149:50:o;2293:101:21:-;1531:13;:11;:13::i;:::-;2357:30:::1;2384:1;2357:18;:30::i;:::-;2293:101::o:0;2949:293:50:-;3020:21;3047:34;3103:5;:12;3084:32;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;;;;;;;;;;;;;;3084:32:50;;;;;;;;;;;;;;;;3047:69;;3125:9;3120:96;3144:5;:12;3140:1;:16;3120:96;;;3186:25;3202:5;3208:1;3202:8;;;;;;;;:::i;:::-;;;;;;;3186:15;:25::i;:::-;3168:12;3181:1;3168:15;;;;;;;;:::i;:::-;;;;;;;;;;:43;3158:3;;3120:96;;;-1:-1:-1;3226:12:50;2949:293;-1:-1:-1;;2949:293:50:o;1345:103::-;1419:5;;:21;;-1:-1:-1;;;1419:21:50;;-1:-1:-1;;;;;194:32:79;;;1419:21:50;;;176:51:79;1402:4:50;;;;1419:5;;;:15;;149:18:79;;1419:21:50;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;:25;;1345:103;-1:-1:-1;;1345:103:50:o;1658:108::-;1740:5;;:22;;-1:-1:-1;;;1740:22:50;;-1:-1:-1;;;;;194:32:79;;;1740:22:50;;;176:51:79;1714:13:50;;1740:5;;:16;;149:18:79;;1740:22:50;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;1740:22:50;;;;;;;;;;;;:::i;:::-;1733:29;1658:108;-1:-1:-1;;1658:108:50:o;3273:287::-;3320:16;;:::i;:::-;3352:204;;;3374:76;;;;;3411:4;3352:204;;;3374:76;;;3441:5;;-1:-1:-1;;;;;3441:5:50;3374:76;;;;3352:204;;3462:88;;;;;;;;3352:204;3374:76;3352:204;;;3462:88;3488:24;3501:10;3488:12;:24::i;:::-;3462:88;;;;;;3524:23;3536:10;3524:11;:23::i;:::-;3462:88;;3352:204;;3342:214;3273:287;-1:-1:-1;3273:287:50:o;2543:215:21:-;1531:13;:11;:13::i;:::-;-1:-1:-1;;;;;2627:22:21;::::1;2623:91;;2672:31;::::0;-1:-1:-1;;;2672:31:21;;2700:1:::1;2672:31;::::0;::::1;176:51:79::0;149:18;;2672:31:21::1;;;;;;;;2623:91;2723:28;2742:8;2723:18;:28::i;:::-;2543:215:::0;:::o;2025:258:50:-;2092:15;2113:25;2154:5;:12;2141:26;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2113:54;;2176:9;2171:89;2195:5;:12;2191:1;:16;2171:89;;;2234:21;2246:5;2252:1;2246:8;;;;;;;;:::i;:::-;;;;;;;2234:11;:21::i;:::-;2219:9;2229:1;2219:12;;;;;;;;:::i;:::-;;;;;;;;;;:36;2209:3;;2171:89;;1796:162:21;1684:7;1710:6;-1:-1:-1;;;;;1710:6:21;735:10:34;1855:23:21;1851:101;;1901:40;;-1:-1:-1;;;1901:40:21;;735:10:34;1901:40:21;;;176:51:79;149:18;;1901:40:21;14:219:79;2912:187:21;2985:16;3004:6;;-1:-1:-1;;;;;3020:17:21;;;-1:-1:-1;;;;;;3020:17:21;;;;;;3052:40;;3004:6;;;;;;;3052:40;;2985:16;3052:40;2975:124;2912:187;:::o;-1:-1:-1:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;238:173:79:-;306:20;;-1:-1:-1;;;;;355:31:79;;345:42;;335:70;;401:1;398;391:12;335:70;238:173;;;:::o;416:186::-;475:6;528:2;516:9;507:7;503:23;499:32;496:52;;;544:1;541;534:12;496:52;567:29;586:9;567:29;:::i;:::-;557:39;416:186;-1:-1:-1;;;416:186:79:o;607:250::-;692:1;702:113;716:6;713:1;710:13;702:113;;;792:11;;;786:18;773:11;;;766:39;738:2;731:10;702:113;;;-1:-1:-1;;849:1:79;831:16;;824:27;607:250::o;862:271::-;904:3;942:5;936:12;969:6;964:3;957:19;985:76;1054:6;1047:4;1042:3;1038:14;1031:4;1024:5;1020:16;985:76;:::i;:::-;1115:2;1094:15;-1:-1:-1;;1090:29:79;1081:39;;;;1122:4;1077:50;;862:271;-1:-1:-1;;862:271:79:o;1138:282::-;1258:1;1254;1249:3;1245:11;1241:19;1233:5;1227:12;1223:38;1218:3;1211:51;1193:3;1308:4;1301:5;1297:16;1291:23;1346:4;1339;1334:3;1330:14;1323:28;1367:47;1408:4;1403:3;1399:14;1385:12;1367:47;:::i;:::-;1360:54;1138:282;-1:-1:-1;;;;1138:282:79:o;1425:275::-;1616:2;1605:9;1598:21;1579:4;1636:58;1690:2;1679:9;1675:18;1667:6;1636:58;:::i;1705:127::-;1766:10;1761:3;1757:20;1754:1;1747:31;1797:4;1794:1;1787:15;1821:4;1818:1;1811:15;1837:275;1908:2;1902:9;1973:2;1954:13;;-1:-1:-1;;1950:27:79;1938:40;;2008:18;1993:34;;2029:22;;;1990:62;1987:88;;;2055:18;;:::i;:::-;2091:2;2084:22;1837:275;;-1:-1:-1;1837:275:79:o;2117:942::-;2201:6;2254:2;2242:9;2233:7;2229:23;2225:32;2222:52;;;2270:1;2267;2260:12;2222:52;2310:9;2297:23;2343:18;2335:6;2332:30;2329:50;;;2375:1;2372;2365:12;2329:50;2398:22;;2451:4;2443:13;;2439:27;-1:-1:-1;2429:55:79;;2480:1;2477;2470:12;2429:55;2520:2;2507:16;2546:18;2538:6;2535:30;2532:56;;;2568:18;;:::i;:::-;2614:6;2611:1;2607:14;2641:28;2665:2;2661;2657:11;2641:28;:::i;:::-;2703:19;;;2747:2;2777:11;;;2773:20;;;2738:12;;;;2805:19;;;2802:39;;;2837:1;2834;2827:12;2802:39;2869:2;2865;2861:11;2850:22;;2881:148;2897:6;2892:3;2889:15;2881:148;;;2963:23;2982:3;2963:23;:::i;:::-;2951:36;;3016:2;2914:12;;;;3007;;;;2881:148;;;3048:5;2117:942;-1:-1:-1;;;;;;;2117:942:79:o;3064:837::-;3268:4;3316:2;3305:9;3301:18;3346:2;3335:9;3328:21;3369:6;3404;3398:13;3435:6;3427;3420:22;3473:2;3462:9;3458:18;3451:25;;3535:2;3525:6;3522:1;3518:14;3507:9;3503:30;3499:39;3485:53;;3573:2;3565:6;3561:15;3594:1;3604:268;3618:6;3615:1;3612:13;3604:268;;;3711:2;3707:7;3695:9;3687:6;3683:22;3679:36;3674:3;3667:49;3739:53;3785:6;3776;3770:13;3739:53;:::i;:::-;3729:63;-1:-1:-1;3827:2:79;3850:12;;;;3815:15;;;;;3640:1;3633:9;3604:268;;;-1:-1:-1;3889:6:79;;3064:837;-1:-1:-1;;;;;;3064:837:79:o;4306:220::-;4455:2;4444:9;4437:21;4418:4;4475:45;4516:2;4505:9;4501:18;4493:6;4475:45;:::i;4531:716::-;4716:2;4698:21;;;4738:13;;4791:9;;-1:-1:-1;;;;;4787:35:79;;;4767:18;;;4760:63;4869:11;;;4863:18;4859:44;4854:2;4839:18;;;4832:72;;;;4939:15;;;4933:22;4993:4;4971:20;;;4964:34;5049:19;;5042:27;5035:35;5029:3;5014:19;;5007:64;5108:21;;;5102:28;4810:3;5146:19;;5139:31;;;;4679:4;;5187:54;5236:3;5221:19;;5102:28;5187:54;:::i;5252:782::-;5414:4;5462:2;5451:9;5447:18;5492:2;5481:9;5474:21;5515:6;5550;5544:13;5581:6;5573;5566:22;5619:2;5608:9;5604:18;5597:25;;5681:2;5671:6;5668:1;5664:14;5653:9;5649:30;5645:39;5631:53;;5719:2;5711:6;5707:15;5740:1;5750:255;5764:6;5761:1;5758:13;5750:255;;;5857:2;5853:7;5841:9;5833:6;5829:22;5825:36;5820:3;5813:49;5885:40;5918:6;5909;5903:13;5885:40;:::i;:::-;5875:50;-1:-1:-1;5960:2:79;5983:12;;;;5948:15;;;;;5786:1;5779:9;5750:255;;6039:127;6100:10;6095:3;6091:20;6088:1;6081:31;6131:4;6128:1;6121:15;6155:4;6152:1;6145:15;6171:184;6241:6;6294:2;6282:9;6273:7;6269:23;6265:32;6262:52;;;6310:1;6307;6300:12;6262:52;-1:-1:-1;6333:16:79;;6171:184;-1:-1:-1;6171:184:79:o;6360:738::-;6440:6;6493:2;6481:9;6472:7;6468:23;6464:32;6461:52;;;6509:1;6506;6499:12;6461:52;6542:9;6536:16;6575:18;6567:6;6564:30;6561:50;;;6607:1;6604;6597:12;6561:50;6630:22;;6683:4;6675:13;;6671:27;-1:-1:-1;6661:55:79;;6712:1;6709;6702:12;6661:55;6745:2;6739:9;6771:18;6763:6;6760:30;6757:56;;;6793:18;;:::i;:::-;6835:57;6882:2;6859:17;;-1:-1:-1;;6855:31:79;6888:2;6851:40;6835:57;:::i;:::-;6915:6;6908:5;6901:21;6963:7;6958:2;6949:6;6945:2;6941:15;6937:24;6934:37;6931:57;;;6984:1;6981;6974:12;6931:57;6997:71;7061:6;7056:2;7049:5;7045:14;7040:2;7036;7032:11;6997:71;:::i;:::-;7087:5;6360:738;-1:-1:-1;;;;;6360:738:79:o",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {
+    "getPlasaView()": "e0a78bf6",
+    "getUsername(address)": "ce43c032",
+    "getUsernameData(address)": "49d89876",
+    "getUsernames(address[])": "f5ab196e",
+    "getUsernamesData(address[])": "801d7943",
+    "isRegistered(address)": "c3c5a547",
+    "names()": "056da048",
+    "owner()": "8da5cb5b",
+    "renounceOwnership()": "715018a6",
+    "setNamesContract(address)": "0c3d8e54",
+    "transferOwnership(address)": "f2fde38b"
+  },
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.26+commit.8a97fa7a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_namesContract\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"OwnableInvalidOwner\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"OwnableUnauthorizedAccount\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"getPlasaView\",\"outputs\":[{\"components\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"contractAddress\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"namesContract\",\"type\":\"address\"}],\"internalType\":\"struct IPlasaView.PlasaData\",\"name\":\"data\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"bool\",\"name\":\"isRegistered\",\"type\":\"bool\"},{\"internalType\":\"string\",\"name\":\"username\",\"type\":\"string\"}],\"internalType\":\"struct IPlasaView.PlasaUser\",\"name\":\"user\",\"type\":\"tuple\"}],\"internalType\":\"struct IPlasaView.PlasaView\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"getUsername\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"getUsernameData\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"}],\"internalType\":\"struct IPlasa.UsernameData\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"users\",\"type\":\"address[]\"}],\"name\":\"getUsernames\",\"outputs\":[{\"internalType\":\"string[]\",\"name\":\"\",\"type\":\"string[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"users\",\"type\":\"address[]\"}],\"name\":\"getUsernamesData\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"}],\"internalType\":\"struct IPlasa.UsernameData[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"isRegistered\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"names\",\"outputs\":[{\"internalType\":\"contract INames\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_namesContract\",\"type\":\"address\"}],\"name\":\"setNamesContract\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"This contract manages user names and their registration status. It is owned by a single entity that can update the names contract.\",\"errors\":{\"OwnableInvalidOwner(address)\":[{\"details\":\"The owner is not a valid owner account. (eg. `address(0)`)\"}],\"OwnableUnauthorizedAccount(address)\":[{\"details\":\"The caller account is not authorized to perform an operation.\"}]},\"kind\":\"dev\",\"methods\":{\"constructor\":{\"details\":\"Constructor to initialize the contract with an owner and names contract address.\",\"params\":{\"_namesContract\":\"The address of the INames contract.\",\"_owner\":\"The address of the contract owner.\"}},\"getPlasaView()\":{\"returns\":{\"_0\":\"PlasaView The Plasa view data.\"}},\"getUsername(address)\":{\"details\":\"Retrieves the username associated with a given user address.\",\"params\":{\"user\":\"The address of the user whose username is to be retrieved.\"},\"returns\":{\"_0\":\"string memory The username of the user.\"}},\"getUsernameData(address)\":{\"details\":\"Retrieves the username data associated with a given user address.\",\"params\":{\"user\":\"The address of the user whose username data is to be retrieved.\"},\"returns\":{\"_0\":\"UsernameData memory The username data of the user.\"}},\"getUsernames(address[])\":{\"details\":\"Retrieves the usernames associated with an array of user addresses.\",\"params\":{\"users\":\"The addresses of the users whose usernames are to be retrieved.\"},\"returns\":{\"_0\":\"string[] memory An array of usernames corresponding to the input addresses.\"}},\"getUsernamesData(address[])\":{\"details\":\"Retrieves the username data associated with an array of user addresses.\",\"params\":{\"users\":\"The addresses of the users whose username data is to be retrieved.\"},\"returns\":{\"_0\":\"UsernameData[] memory An array of UsernameData structures corresponding to the input addresses.\"}},\"isRegistered(address)\":{\"details\":\"Checks if a user is registered based on their balance in the names contract.\",\"params\":{\"user\":\"The address of the user to check.\"},\"returns\":{\"_0\":\"bool indicating whether the user is registered.\"}},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner.\"},\"setNamesContract(address)\":{\"details\":\"Updates the address of the names contract.\",\"params\":{\"_namesContract\":\"The new address of the INames contract.\"}},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}},\"stateVariables\":{\"names\":{\"return\":\"INames Returns the names contract.\",\"returns\":{\"_0\":\"INames Returns the names contract.\"}}},\"title\":\"Plasa Contract\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"getPlasaView()\":{\"notice\":\"Retrieves the Plasa view data.\"},\"names()\":{\"notice\":\"The names contract interface.\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"src/plasa/Plasa.sol\":\"Plasa\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[\":@openzeppelin/=lib/openzeppelin-contracts/\",\":@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/\",\":ds-test/=lib/openzeppelin-contracts/lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/\"]},\"sources\":{\"lib/openzeppelin-contracts/contracts/access/Ownable.sol\":{\"keccak256\":\"0xff6d0bb2e285473e5311d9d3caacb525ae3538a80758c10649a4d61029b017bb\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8ed324d3920bb545059d66ab97d43e43ee85fd3bd52e03e401f020afb0b120f6\",\"dweb:/ipfs/QmfEckWLmZkDDcoWrkEvMWhms66xwTLff9DDhegYpvHo1a\"]},\"lib/openzeppelin-contracts/contracts/token/ERC721/IERC721.sol\":{\"keccak256\":\"0x5ef46daa3b58ef2702279d514780316efaa952915ee1aa3396f041ee2982b0b4\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://2f8f2a76e23b02fc69e8cd24c3cb47da6c7af3a2d6c3a382f8ac25c6e094ade7\",\"dweb:/ipfs/QmPV4ZS4tPVv4mTCf9ejyZ1ai57EEibDRj7mN2ARDCLV5n\"]},\"lib/openzeppelin-contracts/contracts/token/ERC721/extensions/IERC721Enumerable.sol\":{\"keccak256\":\"0x3d6954a93ac198a2ffa384fa58ccf18e7e235263e051a394328002eff4e073de\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1f58c799bd939d3951c94893e83ef86acd56989d1d7db7f9d180c515e29e28ff\",\"dweb:/ipfs/QmTgAxHAAys4kq9ZfU9YB24MWYoHLGAKSxnYUigPFrNW7g\"]},\"lib/openzeppelin-contracts/contracts/utils/Context.sol\":{\"keccak256\":\"0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6a708e8a5bdb1011c2c381c9a5cfd8a9a956d7d0a9dc1bd8bcdaf52f76ef2f12\",\"dweb:/ipfs/Qmax9WHBnVsZP46ZxEMNRQpLQnrdE4dK8LehML1Py8FowF\"]},\"lib/openzeppelin-contracts/contracts/utils/introspection/IERC165.sol\":{\"keccak256\":\"0x4296879f55019b23e135000eb36896057e7101fb7fb859c5ef690cf14643757b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://87b3541437c8c443ccd36795e56a338ed12855eec17f8da624511b8d1a7e14df\",\"dweb:/ipfs/QmeJQCtZrQjtJLr6u7ZHWeH3pBnjtLWzvRrKViAi7UZqxL\"]},\"src/names/INames.sol\":{\"keccak256\":\"0xfbb164aadc1b2b41a06f87ea696effff39326381fd605ac9eb640035336281be\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://512f999d06d7557fb985e4d0e75a4a07ece333fc8438deddd381b28ae9fd7695\",\"dweb:/ipfs/QmPqXUxqxsYD9XW6amypNQcQ1Aspw6aJtaf9aeUQhr1CHL\"]},\"src/plasa/Plasa.sol\":{\"keccak256\":\"0x0f2a42b737ee0b664191b3f9e257aeb05cbedfc03db5dbb259c69446f26ea7bd\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3acaacbcf1e82528a7f1e813cb2e3ed1c5a60d370820d874ff1f7977bd3571a0\",\"dweb:/ipfs/QmVmGAi89QaxJNg9zrPCE6eZ1AeqSaRFzVjWbmY3T5X6pL\"]},\"src/plasa/interfaces/IPlasa.sol\":{\"keccak256\":\"0xb0d9b64fdeab1f9d85f5e0ffe2ca85e455c6b0be7ce8e62ef09abab0bd6725a5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8e1d9a5a362a7294b791ed6c0eaf2dae11b4221f0843a1d0736c1c4caf5f16e3\",\"dweb:/ipfs/QmaiBpudCPxQGAXDziyNCvDqFgWWZp7UKiRRchveb97EE2\"]},\"src/plasa/interfaces/IPlasaView.sol\":{\"keccak256\":\"0xf713804acbd4552a38931e1ad5c109ac84621af36af87db9591ef85f41fe57da\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b84b3189c8520faef1c78d1dfdea418500e87f99b39527519ef9ef95b5cba0dc\",\"dweb:/ipfs/QmZGzrH3SjiGzxnXDB5hHXZQNu2Kci2EG2P4Yt3SvEdEXw\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": { "version": "0.8.26+commit.8a97fa7a" },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [
+            { "internalType": "address", "name": "_owner", "type": "address" },
+            {
+              "internalType": "address",
+              "name": "_namesContract",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "constructor"
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "owner", "type": "address" }
+          ],
+          "type": "error",
+          "name": "OwnableInvalidOwner"
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "account", "type": "address" }
+          ],
+          "type": "error",
+          "name": "OwnableUnauthorizedAccount"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address",
+              "indexed": true
+            },
+            {
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address",
+              "indexed": true
+            }
+          ],
+          "type": "event",
+          "name": "OwnershipTransferred",
+          "anonymous": false
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "getPlasaView",
+          "outputs": [
+            {
+              "internalType": "struct IPlasaView.PlasaView",
+              "name": "",
+              "type": "tuple",
+              "components": [
+                {
+                  "internalType": "struct IPlasaView.PlasaData",
+                  "name": "data",
+                  "type": "tuple",
+                  "components": [
+                    {
+                      "internalType": "address",
+                      "name": "contractAddress",
+                      "type": "address"
+                    },
+                    {
+                      "internalType": "address",
+                      "name": "namesContract",
+                      "type": "address"
+                    }
+                  ]
+                },
+                {
+                  "internalType": "struct IPlasaView.PlasaUser",
+                  "name": "user",
+                  "type": "tuple",
+                  "components": [
+                    {
+                      "internalType": "bool",
+                      "name": "isRegistered",
+                      "type": "bool"
+                    },
+                    {
+                      "internalType": "string",
+                      "name": "username",
+                      "type": "string"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "user", "type": "address" }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "getUsername",
+          "outputs": [
+            { "internalType": "string", "name": "", "type": "string" }
+          ]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "user", "type": "address" }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "getUsernameData",
+          "outputs": [
+            {
+              "internalType": "struct IPlasa.UsernameData",
+              "name": "",
+              "type": "tuple",
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "user",
+                  "type": "address"
+                },
+                { "internalType": "string", "name": "name", "type": "string" }
+              ]
+            }
+          ]
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address[]",
+              "name": "users",
+              "type": "address[]"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "getUsernames",
+          "outputs": [
+            { "internalType": "string[]", "name": "", "type": "string[]" }
+          ]
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address[]",
+              "name": "users",
+              "type": "address[]"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "getUsernamesData",
+          "outputs": [
+            {
+              "internalType": "struct IPlasa.UsernameData[]",
+              "name": "",
+              "type": "tuple[]",
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "user",
+                  "type": "address"
+                },
+                { "internalType": "string", "name": "name", "type": "string" }
+              ]
+            }
+          ]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "user", "type": "address" }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "isRegistered",
+          "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "names",
+          "outputs": [
+            { "internalType": "contract INames", "name": "", "type": "address" }
+          ]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "owner",
+          "outputs": [
+            { "internalType": "address", "name": "", "type": "address" }
+          ]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "renounceOwnership"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "_namesContract",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "setNamesContract"
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "newOwner", "type": "address" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "transferOwnership"
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {
+          "constructor": {
+            "details": "Constructor to initialize the contract with an owner and names contract address.",
+            "params": {
+              "_namesContract": "The address of the INames contract.",
+              "_owner": "The address of the contract owner."
+            }
+          },
+          "getPlasaView()": {
+            "returns": { "_0": "PlasaView The Plasa view data." }
+          },
+          "getUsername(address)": {
+            "details": "Retrieves the username associated with a given user address.",
+            "params": {
+              "user": "The address of the user whose username is to be retrieved."
+            },
+            "returns": { "_0": "string memory The username of the user." }
+          },
+          "getUsernameData(address)": {
+            "details": "Retrieves the username data associated with a given user address.",
+            "params": {
+              "user": "The address of the user whose username data is to be retrieved."
+            },
+            "returns": {
+              "_0": "UsernameData memory The username data of the user."
+            }
+          },
+          "getUsernames(address[])": {
+            "details": "Retrieves the usernames associated with an array of user addresses.",
+            "params": {
+              "users": "The addresses of the users whose usernames are to be retrieved."
+            },
+            "returns": {
+              "_0": "string[] memory An array of usernames corresponding to the input addresses."
+            }
+          },
+          "getUsernamesData(address[])": {
+            "details": "Retrieves the username data associated with an array of user addresses.",
+            "params": {
+              "users": "The addresses of the users whose username data is to be retrieved."
+            },
+            "returns": {
+              "_0": "UsernameData[] memory An array of UsernameData structures corresponding to the input addresses."
+            }
+          },
+          "isRegistered(address)": {
+            "details": "Checks if a user is registered based on their balance in the names contract.",
+            "params": { "user": "The address of the user to check." },
+            "returns": {
+              "_0": "bool indicating whether the user is registered."
+            }
+          },
+          "owner()": { "details": "Returns the address of the current owner." },
+          "renounceOwnership()": {
+            "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
+          },
+          "setNamesContract(address)": {
+            "details": "Updates the address of the names contract.",
+            "params": {
+              "_namesContract": "The new address of the INames contract."
+            }
+          },
+          "transferOwnership(address)": {
+            "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+          }
+        },
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {
+          "getPlasaView()": { "notice": "Retrieves the Plasa view data." },
+          "names()": { "notice": "The names contract interface." }
+        },
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        "@openzeppelin/=lib/openzeppelin-contracts/",
+        "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+        "ds-test/=lib/openzeppelin-contracts/lib/forge-std/lib/ds-test/src/",
+        "erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/",
+        "forge-std/=lib/forge-std/src/",
+        "openzeppelin-contracts/=lib/openzeppelin-contracts/"
+      ],
+      "optimizer": { "enabled": true, "runs": 200 },
+      "metadata": { "bytecodeHash": "ipfs" },
+      "compilationTarget": { "src/plasa/Plasa.sol": "Plasa" },
+      "evmVersion": "paris",
+      "libraries": {}
+    },
+    "sources": {
+      "lib/openzeppelin-contracts/contracts/access/Ownable.sol": {
+        "keccak256": "0xff6d0bb2e285473e5311d9d3caacb525ae3538a80758c10649a4d61029b017bb",
+        "urls": [
+          "bzz-raw://8ed324d3920bb545059d66ab97d43e43ee85fd3bd52e03e401f020afb0b120f6",
+          "dweb:/ipfs/QmfEckWLmZkDDcoWrkEvMWhms66xwTLff9DDhegYpvHo1a"
+        ],
+        "license": "MIT"
+      },
+      "lib/openzeppelin-contracts/contracts/token/ERC721/IERC721.sol": {
+        "keccak256": "0x5ef46daa3b58ef2702279d514780316efaa952915ee1aa3396f041ee2982b0b4",
+        "urls": [
+          "bzz-raw://2f8f2a76e23b02fc69e8cd24c3cb47da6c7af3a2d6c3a382f8ac25c6e094ade7",
+          "dweb:/ipfs/QmPV4ZS4tPVv4mTCf9ejyZ1ai57EEibDRj7mN2ARDCLV5n"
+        ],
+        "license": "MIT"
+      },
+      "lib/openzeppelin-contracts/contracts/token/ERC721/extensions/IERC721Enumerable.sol": {
+        "keccak256": "0x3d6954a93ac198a2ffa384fa58ccf18e7e235263e051a394328002eff4e073de",
+        "urls": [
+          "bzz-raw://1f58c799bd939d3951c94893e83ef86acd56989d1d7db7f9d180c515e29e28ff",
+          "dweb:/ipfs/QmTgAxHAAys4kq9ZfU9YB24MWYoHLGAKSxnYUigPFrNW7g"
+        ],
+        "license": "MIT"
+      },
+      "lib/openzeppelin-contracts/contracts/utils/Context.sol": {
+        "keccak256": "0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2",
+        "urls": [
+          "bzz-raw://6a708e8a5bdb1011c2c381c9a5cfd8a9a956d7d0a9dc1bd8bcdaf52f76ef2f12",
+          "dweb:/ipfs/Qmax9WHBnVsZP46ZxEMNRQpLQnrdE4dK8LehML1Py8FowF"
+        ],
+        "license": "MIT"
+      },
+      "lib/openzeppelin-contracts/contracts/utils/introspection/IERC165.sol": {
+        "keccak256": "0x4296879f55019b23e135000eb36896057e7101fb7fb859c5ef690cf14643757b",
+        "urls": [
+          "bzz-raw://87b3541437c8c443ccd36795e56a338ed12855eec17f8da624511b8d1a7e14df",
+          "dweb:/ipfs/QmeJQCtZrQjtJLr6u7ZHWeH3pBnjtLWzvRrKViAi7UZqxL"
+        ],
+        "license": "MIT"
+      },
+      "src/names/INames.sol": {
+        "keccak256": "0xfbb164aadc1b2b41a06f87ea696effff39326381fd605ac9eb640035336281be",
+        "urls": [
+          "bzz-raw://512f999d06d7557fb985e4d0e75a4a07ece333fc8438deddd381b28ae9fd7695",
+          "dweb:/ipfs/QmPqXUxqxsYD9XW6amypNQcQ1Aspw6aJtaf9aeUQhr1CHL"
+        ],
+        "license": "MIT"
+      },
+      "src/plasa/Plasa.sol": {
+        "keccak256": "0x0f2a42b737ee0b664191b3f9e257aeb05cbedfc03db5dbb259c69446f26ea7bd",
+        "urls": [
+          "bzz-raw://3acaacbcf1e82528a7f1e813cb2e3ed1c5a60d370820d874ff1f7977bd3571a0",
+          "dweb:/ipfs/QmVmGAi89QaxJNg9zrPCE6eZ1AeqSaRFzVjWbmY3T5X6pL"
+        ],
+        "license": "MIT"
+      },
+      "src/plasa/interfaces/IPlasa.sol": {
+        "keccak256": "0xb0d9b64fdeab1f9d85f5e0ffe2ca85e455c6b0be7ce8e62ef09abab0bd6725a5",
+        "urls": [
+          "bzz-raw://8e1d9a5a362a7294b791ed6c0eaf2dae11b4221f0843a1d0736c1c4caf5f16e3",
+          "dweb:/ipfs/QmaiBpudCPxQGAXDziyNCvDqFgWWZp7UKiRRchveb97EE2"
+        ],
+        "license": "MIT"
+      },
+      "src/plasa/interfaces/IPlasaView.sol": {
+        "keccak256": "0xf713804acbd4552a38931e1ad5c109ac84621af36af87db9591ef85f41fe57da",
+        "urls": [
+          "bzz-raw://b84b3189c8520faef1c78d1dfdea418500e87f99b39527519ef9ef95b5cba0dc",
+          "dweb:/ipfs/QmZGzrH3SjiGzxnXDB5hHXZQNu2Kci2EG2P4Yt3SvEdEXw"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "id": 50
+}
