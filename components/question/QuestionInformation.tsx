@@ -37,10 +37,10 @@ export default function QuestionInformation() {
 				</CardHeader>
 				<CardContent>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-						<div>
+						{/* <div>
 							<p className="font-semibold">Total de Votos</p>
 							<p className="text-muted-foreground">{question.data.voteCount.toString()}</p>
-						</div>
+						</div> */}
 						<div>
 							<p className="font-semibold">Inicio</p>
 							<p className="text-muted-foreground">{formatDate(question.data.kickoff)}</p>
@@ -49,19 +49,26 @@ export default function QuestionInformation() {
 							<p className="font-semibold">Fin</p>
 							<p className="text-muted-foreground">{formatDate(question.data.deadline)}</p>
 						</div>
-						<div>
-							<p className="font-semibold">Contrato de la votación</p>
-							<AddressScanLink address={question.data.contractAddress} />
-						</div>
+
 						<div>
 							<p className="font-semibold">Creador</p>
 							<AddressScanLink address={question.data.creator} />
 						</div>
+						<div>
+							<p className="font-semibold">Contrato de la votación</p>
+							<AddressScanLink address={question.data.contractAddress} />
+						</div>
 						{space && (
-							<div>
-								<p className="font-semibold">Contrato del Espacio</p>
-								<AddressScanLink address={spaceAddress} />
-							</div>
+							<>
+								<div>
+									<p className="font-semibold">Contrato de los puntos</p>
+									<AddressScanLink address={question.points.data.contractAddress} />
+								</div>
+								<div>
+									<p className="font-semibold">Contrato del espacio</p>
+									<AddressScanLink address={spaceAddress} />
+								</div>
+							</>
 						)}
 					</div>
 				</CardContent>
