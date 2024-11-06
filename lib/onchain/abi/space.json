@@ -613,12 +613,17 @@
                             "type": "address"
                           },
                           {
+                            "internalType": "string",
+                            "name": "name",
+                            "type": "string"
+                          },
+                          {
                             "internalType": "uint256",
                             "name": "balance",
                             "type": "uint256"
                           }
                         ],
-                        "internalType": "struct IPointsView.Holder[]",
+                        "internalType": "struct IPointsView.HolderData[]",
                         "name": "top10Holders",
                         "type": "tuple[]"
                       }
@@ -834,12 +839,17 @@
                             "type": "address"
                           },
                           {
+                            "internalType": "string",
+                            "name": "name",
+                            "type": "string"
+                          },
+                          {
                             "internalType": "uint256",
                             "name": "balance",
                             "type": "uint256"
                           }
                         ],
-                        "internalType": "struct IPointsView.Holder[]",
+                        "internalType": "struct IPointsView.HolderData[]",
                         "name": "top10Holders",
                         "type": "tuple[]"
                       }
