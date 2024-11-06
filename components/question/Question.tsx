@@ -70,8 +70,8 @@ function QuestionContent() {
 					<QuestionVotingProgress />
 				</div>
 				<div className='space-y-6'>
-					<QuestionInformation />
 					<QuestionRecentVotes />
+					<QuestionInformation />
 				</div>
 			</div>
 		</div>
