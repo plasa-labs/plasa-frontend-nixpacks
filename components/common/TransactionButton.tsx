@@ -3,6 +3,7 @@ import { Progress } from "@/components/ui/progress"
 import { usePrivy } from '@privy-io/react-auth'
 import { useSmartWallets } from '@privy-io/react-auth/smart-wallets'
 import { useState } from 'react'
+import { useTransaction } from '@/contexts/TransactionContext'
 
 /**
  * Interface for transaction data structure
@@ -54,6 +55,7 @@ export default function TransactionButton({
 	const [isProcessed, setIsProcessed] = useState(false)
 	const { authenticated } = usePrivy()
 	const { client } = useSmartWallets()
+	const { isAnyTransactionProcessing, setIsAnyTransactionProcessing } = useTransaction()
 
 	const handleTransaction = async () => {
 		if (!client || !authenticated) {
@@ -63,6 +65,7 @@ export default function TransactionButton({
 
 		try {
 			setIsProcessing(true)
+			setIsAnyTransactionProcessing(true)
 			console.log('Sending transaction:', {
 				to: transactionData.to,
 				data: transactionData.data,
@@ -85,14 +88,17 @@ export default function TransactionButton({
 			onError?.(error as Error)
 		} finally {
 			setIsProcessing(false)
+			setIsAnyTransactionProcessing(false)
 		}
 	}
 
 	return (
 		<Button
 			onClick={handleTransaction}
-			className={`relative ${className}`}
-			disabled={disabled || isProcessing || !authenticated || !client || isProcessed}
+			className={`relative ${className} ${(isAnyTransactionProcessing && !isProcessing) ?
+				"opacity-50 cursor-not-allowed" : ""
+				}`}
+			disabled={disabled || isProcessing || !authenticated || !client || isProcessed || isAnyTransactionProcessing}
 		>
 			{isProcessing ? (
 				<>

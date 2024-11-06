@@ -11,6 +11,7 @@ import { cookieToInitialState } from 'wagmi'
 import { OnchainProviders } from '@/providers/OnchainProviders'
 import { ContextProviders } from '@/providers/ContextProviders'
 import { ThemeProvider } from '@/providers/ThemeProvider'
+import { TransactionProvider } from '@/contexts/TransactionContext'
 
 // Components
 import Navbar from '@/components/navigation/Navbar'
@@ -66,9 +67,11 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 				>
 					<OnchainProviders initialState={initialState}>
 						<ContextProviders>
-							<Navbar />
-							<main>{children}</main>
-							<Footer />
+							<TransactionProvider>
+								<Navbar />
+								<main>{children}</main>
+								<Footer />
+							</TransactionProvider>
 						</ContextProviders>
 					</OnchainProviders>
 				</ThemeProvider>
