@@ -9,11 +9,12 @@ import {
 	encodeFunctionData,
 } from 'viem'
 import { baseSepolia, type Chain } from 'viem/chains'
+
 // Read contracts
 
 export const contractsGetPlasa = (userAddress: `0x${string}` | undefined): ReadContractParameters => {
 	return {
-		address: '0x6ae715986B4d26cDA8548589d1F76a178cB59005',
+		address: process.env.NEXT_PUBLIC_PLASA_ADDRESS as `0x${string}`,
 		abi: plasaAbi as Abi,
 		functionName: 'getPlasaView',
 		args: [getValidAddress(userAddress)],
@@ -38,9 +39,9 @@ export const contractsGetQuestion = (questionAddress: `0x${string}`, userAddress
 	}
 }
 
-export const contractsGetNameAvailability = (name: string): ReadContractParameters => {
+export const contractsGetNameAvailability = (name: string, namesContractAddress: `0x${string}`): ReadContractParameters => {
 	return {
-		address: process.env.NEXT_PUBLIC_NAMES_ADDRESS as `0x${string}`,
+		address: namesContractAddress,
 		abi: namesAbi as Abi,
 		functionName: 'isAvailable',
 		args: [name]
