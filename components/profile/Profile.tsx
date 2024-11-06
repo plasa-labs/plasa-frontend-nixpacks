@@ -63,9 +63,9 @@ export default function Profile(): ReactElement {
 	}
 
 	return (
-		<div className="main-container">
+		<div className="main-container px-4 sm:px-6">
 			<h1 className="text-3xl font-bold mb-6">Mi Perfil</h1>
-			<div className="grid gap-6 md:grid-cols-2">
+			<div className="grid gap-6 grid-cols-1 md:grid-cols-2">
 				<div>
 					<ProfileUsernameCard />
 					<ProfilePointsCard />

@@ -63,7 +63,7 @@ export default function ProfileStampCard({
 	return (
 		<Card className="overflow-hidden flex flex-col h-full">
 			<CardContent className="p-4 flex-grow flex flex-col">
-				<h4 className="font-semibold mb-2 truncate">{formatStampName(stamp.data.name)}</h4>
+				<h4 className="font-semibold mb-2 line-clamp-2">{formatStampName(stamp.data.name)}</h4>
 				<div className="flex-grow">
 					{/* Title is always shown above */}
 
