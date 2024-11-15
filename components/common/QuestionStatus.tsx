@@ -1,4 +1,4 @@
-import { Badge } from '@/components/ui/badge'
+import { GreenBadge, RedBadge } from '@/components/common/Badges'
 
 type QuestionStatusProps = {
 	isActive: boolean,
@@ -7,8 +7,13 @@ type QuestionStatusProps = {
 
 export default function QuestionStatus(props: QuestionStatusProps) {
 	return (
-		<Badge variant={props.isActive ? 'default' : 'secondary'} className={props.className}>
-			{props.isActive ? 'Activa' : 'Finalizada'}
-		</Badge>
+		props.isActive ?
+			<GreenBadge className={props.className}>
+				Activa
+			</GreenBadge>
+			:
+			<RedBadge className={props.className}>
+				Finalizada
+			</RedBadge>
 	)
 }
