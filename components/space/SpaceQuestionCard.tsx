@@ -9,12 +9,12 @@ import { Eye, Vote } from 'lucide-react'
 // UI Component imports
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import PointsToolpit from '@/components/common/PointsToolpit'
+// import PointsToolpit from '@/components/common/PointsToolpit'
 import QuestionTags from '@/components/common/QuestionTags'
 import QuestionStatus from '@/components/common/QuestionStatus'
 // Types and utilities
 import { QuestionPreview } from '@/lib/onchain/types/interfaces'
-import { formatPoints } from '@/lib/utils/formatters'
+// import { formatPoints } from '@/lib/utils/formatters'
 
 /**
  * Props interface for the SpaceQuestionCard component
@@ -69,11 +69,11 @@ export default function SpaceQuestionCard({ question }: SpaceQuestionCardProps) 
 					</span>
 					<span>{voteCount.toString()} votos</span>
 				</div>
-				<div className="flex justify-between items-center">
-					<span className="text-sm font-medium flex items-center gap-2">
+				<div className="flex justify-end items-center">
+					{/* <span className="text-sm font-medium flex items-center gap-2">
 						Tus puntos para esta votación: {formatPoints(question.user.pointsAtDeadline)}
 						<PointsToolpit className="mr-10" />
-					</span>
+					</span> */}
 					<div className="flex items-center">
 						{canVote && isActive ? (
 							<Button variant="default" size="sm" onClick={() => router.push(`/question/${question.data.contractAddress}`)}>
