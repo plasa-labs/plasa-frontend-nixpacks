@@ -12,8 +12,8 @@ import QuestionLoading from './QuestionLoading'
 import QuestionRecentVotes from './QuestionRecentVotes'
 
 // Question type specific components
-import QuestionFixed from './types/QuestionFixed'
-import QuestionOpen from './types/QuestionOpen'
+import QuestionFixed from './types/fixed/QuestionFixed'
+import QuestionOpen from './types/open/QuestionOpen'
 
 import { QuestionType } from '@/lib/onchain/types/interfaces'
 
