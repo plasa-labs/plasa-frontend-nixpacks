@@ -13,7 +13,7 @@ export default function PointsToolpit(props: PointsToolpitProps) {
 					<InfoIcon className={`h-4 w-4 text-muted-foreground ${props.className}`} />
 				</TooltipTrigger>
 				<TooltipContent>
-					<p>Al votar, contarás con la cantidad de puntos que tendrás al finalizar la votación.</p>
+					<p>Al votar, contarán los puntos que tendrás al momento de finalizar la votación.</p>
 				</TooltipContent>
 			</Tooltip>
 		</TooltipProvider>
