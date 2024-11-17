@@ -40,9 +40,11 @@ export default function SpaceLeaderboard() {
 				) : (
 					filteredTop10Holders.map((holder, index) => (
 						<div key={index} className='flex justify-between items-center py-2 border-b last:border-b-0'>
-							<span>{holder.name || 'user'}</span>
-							<span><AddressScanLink address={holder.user} /></span>
-							<Badge variant='secondary'>{formatPoints(holder.balance)} {symbol}</Badge>
+							<span className='flex-1 text-left'>{holder.name || 'user'}</span>
+							<span className='flex-1 text-center'><AddressScanLink address={holder.user} /></span>
+							<span className='flex-1 text-right'>
+								<Badge variant='secondary'>{formatPoints(holder.balance)} {symbol}</Badge>
+							</span>
 						</div>
 					))
 				)}
