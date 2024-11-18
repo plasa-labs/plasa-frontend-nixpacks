@@ -12,6 +12,7 @@ import { OnchainProviders } from '@/providers/OnchainProviders'
 import { ContextProviders } from '@/providers/ContextProviders'
 import { ThemeProvider } from '@/providers/ThemeProvider'
 import { TransactionProvider } from '@/contexts/TransactionContext'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 // Components
 import Navbar from '@/components/navigation/Navbar'
@@ -69,7 +70,10 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 						<ContextProviders>
 							<TransactionProvider>
 								<Navbar />
-								<main>{children}</main>
+								<main>
+									{children}
+									<SpeedInsights />
+								</main>
 								<Footer />
 							</TransactionProvider>
 						</ContextProviders>

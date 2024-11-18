@@ -2221,6 +2221,11 @@
     "@typescript-eslint/types" "8.13.0"
     eslint-visitor-keys "^3.4.3"
 
+"@vercel/speed-insights@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@vercel/speed-insights/-/speed-insights-1.1.0.tgz#d48bce27b38a35da86805cc316656344a2230108"
+  integrity sha512-rAXxuhhO4mlRGC9noa5F7HLMtGg8YF1zAN6Pjd1Ny4pII4cerhtwSG4vympbCl+pWkH7nBS9kVXRD4FAn54dlg==
+
 "@wagmi/connectors@5.3.4":
   version "5.3.4"
   resolved "https://registry.yarnpkg.com/@wagmi/connectors/-/connectors-5.3.4.tgz#a39218fbd11f0f93cb9af697b1d982e74b647adb"
