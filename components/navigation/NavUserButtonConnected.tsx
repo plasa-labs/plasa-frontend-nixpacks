@@ -13,6 +13,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 // Types
 interface NavUserButtonConnectedProps {
@@ -48,8 +49,12 @@ export default function NavUserButtonConnected({ className }: NavUserButtonConne
 					variant='outline'
 					className={`transition-all duration-200 hover:scale-105 ${className}`}
 				>
-					<User className='mr-2 h-4 w-4' />
-					<span className='max-w-[150px] truncate'>{displayName}</span>
+					{/* <User className='mr-2 h-4 w-4' /> */}
+					<Avatar className="h-6 w-6">
+						<AvatarImage src={`https://avatar.vercel.sh/${displayName}.png`} alt={displayName} />
+						<AvatarFallback>{displayName}</AvatarFallback>
+					</Avatar>
+					<span className='max-w-[150px] truncate ml-2'>{displayName}</span>
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align='end'>
