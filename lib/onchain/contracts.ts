@@ -3,11 +3,14 @@ import spaceAbi from './abi/space.json'
 import plasaAbi from './abi/plasa.json'
 import followerSinceStampAbi from './abi/follower-since-stamp.json'
 import namesAbi from './abi/names.json'
+import openQuestionAbi from './abi/open-question.json'
+
 import {
 	type Abi,
 	type ReadContractParameters,
 	encodeFunctionData,
 } from 'viem'
+
 import { baseSepolia, type Chain } from 'viem/chains'
 
 // Read contracts
@@ -86,6 +89,24 @@ export const contractsVote = (
 		abi: fixedQuestionAbi as Abi,
 		functionName: 'vote',
 		args: [optionIndex]
+	})
+
+	return {
+		to: questionAddress,
+		data,
+		chain: baseSepolia
+	}
+}
+
+export const contractsAddOption = (
+	questionAddress: `0x${string}`,
+	title: string,
+	description: string
+): { to: `0x${string}`, data: `0x${string}`, chain: Chain } => {
+	const data = encodeFunctionData({
+		abi: openQuestionAbi as Abi,
+		functionName: 'addOption',
+		args: [title, description]
 	})
 
 	return {
