@@ -47,7 +47,12 @@ export default function SpaceQuestionCard({ question }: SpaceQuestionCardProps) 
 	const voteCount = BigInt(question.data.voteCount)
 	const deadlineTimestamp = Number(question.data.deadline)
 	const timeRemaining = new Date(deadlineTimestamp * 1000).getTime() - Date.now()
-	const daysRemaining = Math.ceil(timeRemaining / (1000 * 60 * 60 * 24))
+
+	// New time calculation
+	const days = Math.floor(Math.abs(timeRemaining) / (1000 * 60 * 60 * 24))
+	const hours = Math.floor((Math.abs(timeRemaining) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+	const minutes = Math.floor((Math.abs(timeRemaining) % (1000 * 60 * 60)) / (1000 * 60))
+
 	const tags = question.data.tags
 
 	return (
@@ -65,7 +70,9 @@ export default function SpaceQuestionCard({ question }: SpaceQuestionCardProps) 
 			<CardContent>
 				<div className="flex justify-between items-center text-sm text-gray-500 mb-4">
 					<span>
-						{isActive ? `Quedan ${daysRemaining} días` : `Terminó hace ${Math.abs(daysRemaining)} días`}
+						{isActive
+							? `Quedan ${days}d ${hours}h ${minutes}m`
+							: `Terminó hace ${days}d ${hours}h ${minutes}m`}
 					</span>
 					<span>{voteCount.toString()} votos</span>
 				</div>
