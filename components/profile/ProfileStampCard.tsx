@@ -114,7 +114,6 @@ export default function ProfileStampCard({
 					</Badge>
 				) : onMint && firestoreStamp && (
 					<TransactionButton
-						text="Obtener sello"
 						className="w-full mt-2"
 						transactionData={contractsMintStamp(
 							stamp.data.contractAddress as `0x${string}`,
@@ -122,8 +121,9 @@ export default function ProfileStampCard({
 							firestoreStamp?.deadline,
 							firestoreStamp?.signature as `0x${string}`
 						)}
-						onSuccess={onMint}
-					/>
+						onSuccess={onMint}>
+						Obtener sello
+					</TransactionButton>
 				)}
 			</CardContent>
 		</Card>

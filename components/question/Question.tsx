@@ -1,37 +1,30 @@
 'use client'
 
-// External imports
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-
-// Internal UI components
 import { Button } from '@/components/ui/button'
 
-// Question-specific components
+// Common question components
 import QuestionHeader from './QuestionHeader'
 import QuestionDetails from './QuestionDetails'
-import QuestionVotingOptions from './QuestionVotingOptions'
-import QuestionVotingProgress from './QuestionVotingProgress'
 import QuestionInformation from './QuestionInformation'
 import QuestionLoading from './QuestionLoading'
 import QuestionRecentVotes from './QuestionRecentVotes'
+
+// Question type specific components
+import QuestionFixed from './types/fixed/QuestionFixed'
+import QuestionOpen from './types/open/QuestionOpen'
+
+import { QuestionType } from '@/lib/onchain/types/interfaces'
 
 // Contexts
 import { useSpace } from '@/contexts/SpaceContext'
 import { QuestionProvider, useQuestion } from '@/contexts/QuestionContext'
 
-/**
- * Props interface for the Question component
- */
 interface QuestionProps {
 	questionAddress: string
 }
 
-/**
- * Main Question component that wraps the content with the QuestionProvider
- * @param {QuestionProps} props - Component props containing the question address
- * @returns {JSX.Element} Rendered Question component
- */
 export default function Question({ questionAddress }: QuestionProps) {
 	return (
 		<QuestionProvider questionAddress={questionAddress}>
@@ -40,11 +33,6 @@ export default function Question({ questionAddress }: QuestionProps) {
 	)
 }
 
-/**
- * Internal component that handles the main question content and layout
- * Manages loading states and error handling
- * @returns {JSX.Element} Rendered question content
- */
 function QuestionContent() {
 	const { question, isLoading, isError } = useQuestion()
 	const { space } = useSpace()
@@ -66,8 +54,7 @@ function QuestionContent() {
 			<div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
 				<div className='lg:col-span-2 space-y-6'>
 					<QuestionDetails />
-					<QuestionVotingOptions />
-					<QuestionVotingProgress />
+					<QuestionTypeComponent />
 				</div>
 				<div className='space-y-6'>
 					<QuestionRecentVotes />
@@ -76,4 +63,15 @@ function QuestionContent() {
 			</div>
 		</div>
 	)
+}
+
+function QuestionTypeComponent() {
+	const { question } = useQuestion()
+	const type = question?.data.questionType
+	switch (type) {
+		case QuestionType.Fixed:
+			return <QuestionFixed />
+		case QuestionType.Open:
+			return <QuestionOpen />
+	}
 }

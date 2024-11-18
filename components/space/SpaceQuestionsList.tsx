@@ -23,7 +23,11 @@ export default function SpaceQuestionsList() {
 	if (!space) return null
 	const canCreateQuestion = space.user.permissions.CreateFixedQuestion ||
 		space.user.permissions.CreateOpenQuestion
-	const questions = space.questions
+
+	// Sort questions by deadline in descending order (latest first)
+	const questions = [...space.questions].sort((a, b) => {
+		return Number(b.data.deadline) - Number(a.data.deadline)
+	})
 
 	return (
 		<Card className="mb-6">

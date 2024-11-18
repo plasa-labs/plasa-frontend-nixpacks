@@ -67,6 +67,7 @@ export interface OptionData {
 	title: string
 	description: string
 	proposer: string  // address
+	proposerName: string
 	voteCount: bigint
 	pointsAtDeadline: bigint
 }

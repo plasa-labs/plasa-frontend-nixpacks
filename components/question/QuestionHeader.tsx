@@ -25,7 +25,7 @@ export default function QuestionHeader() {
 		<div className='mb-6'>
 			<div className='flex items-center justify-between mb-2'>
 				<h1 className='text-2xl font-bold'>{title}</h1>
-				<QuestionStatus isActive={isActive} />
+				<QuestionStatus isActive={isActive} className='ml-2' />
 			</div>
 			<QuestionTags tags={question.data.tags} className="mb-4" />
 			{isActive ? (
