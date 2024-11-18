@@ -7,7 +7,7 @@ import { useSpace } from '@/contexts/SpaceContext'
 import SpaceHeader from './SpaceHeader'
 import SpaceQuestionsList from './SpaceQuestionsList'
 import SpaceLeaderboard from './SpaceLeaderboard'
-import SpaceInformation from './SpaceInformation'
+// import SpaceInformation from './SpaceInformation'
 import {
 	SpaceHeaderSkeleton,
 	SpaceQuestionsListSkeleton,
@@ -70,7 +70,7 @@ export default function Space({ spaceAddress }: SpaceProps) {
 			<SpaceHeader />
 			<SpaceQuestionsList />
 			<SpaceLeaderboard />
-			<SpaceInformation />
+			{/* <SpaceInformation /> */}
 		</div>
 	)
 } 
