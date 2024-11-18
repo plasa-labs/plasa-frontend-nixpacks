@@ -43,14 +43,14 @@ export default function QuestionVotingOptions() {
 						{canVote && active && userPointsAtDeadline > BigInt(0) && (
 							<div className="relative">
 								<TransactionButton
-									text="Votar por esta opción"
 									className="w-full"
 									transactionData={contractsVote(
 										questionAddress as `0x${string}`,
 										index + 1
 									)}
-									onSuccess={() => refetch()}
-								/>
+									onSuccess={() => refetch()}>
+									Votar por esta opción
+								</TransactionButton>
 							</div>
 						)}
 					</CardContent>
