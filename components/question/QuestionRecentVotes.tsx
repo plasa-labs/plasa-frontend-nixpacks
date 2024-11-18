@@ -40,7 +40,9 @@ export default function QuestionRecentVotes() {
 				optionId: Number(log.args.optionId),
 				points: Number(log.args.points),
 				timestamp: Number(log.args.timestamp)
-			})).slice(0, 10)
+			}))
+				.sort((a, b) => b.timestamp - a.timestamp)
+				.slice(0, 10)
 
 			setRecentVotes(initialVotes)
 		}
