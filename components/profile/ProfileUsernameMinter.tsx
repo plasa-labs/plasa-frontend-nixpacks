@@ -137,12 +137,12 @@ export default function ProfileUsernameMinter() {
 			)}
 
 			<TransactionButton
-				text="Obtener nombre de usuario"
 				disabled={!isUsernameValid || !isUsernameAvailable || isCheckingUsername}
 				transactionData={contractsMintName(namesContractAddress, pretendedUsername)}
 				className="w-full"
-				onSuccess={() => onNameMint(pretendedUsername)}
-			/>
+				onSuccess={() => onNameMint(pretendedUsername)}>
+				Obtener nombre de usuario
+			</TransactionButton>
 		</div>
 	)
 }
