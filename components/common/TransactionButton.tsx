@@ -17,8 +17,6 @@ interface TransactionData {
  * Props interface for the TransactionButton component
  */
 interface TransactionButtonProps {
-	/** Main button text */
-	text: string
 	/** Text to display while transaction is processing */
 	loadingText?: string
 	/** Additional CSS classes */
@@ -31,6 +29,8 @@ interface TransactionButtonProps {
 	onSuccess?: () => void
 	/** Callback function on transaction error */
 	onError?: (error: Error) => void
+	/** Children elements to render inside button */
+	children: React.ReactNode
 }
 
 /**
@@ -43,13 +43,13 @@ interface TransactionButtonProps {
  * @returns React component
  */
 export default function TransactionButton({
-	text,
 	loadingText = "Procesando...",
 	className = "",
 	disabled = false,
 	transactionData,
 	onSuccess,
-	onError
+	onError,
+	children
 }: TransactionButtonProps) {
 	const [isProcessing, setIsProcessing] = useState(false)
 	const [isProcessed, setIsProcessed] = useState(false)
@@ -111,7 +111,7 @@ export default function TransactionButton({
 			) : isProcessed ? (
 				"¡Listo!"
 			) : (
-				text
+				children
 			)}
 		</Button>
 	)
