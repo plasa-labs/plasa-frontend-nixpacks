@@ -10,6 +10,7 @@ import QuestionDetails from './QuestionDetails'
 import QuestionInformation from './QuestionInformation'
 import QuestionLoading from './QuestionLoading'
 import QuestionRecentVotes from './QuestionRecentVotes'
+import QuestionTotalVotes from './QuestionTotalVotes'
 
 // Question type specific components
 import QuestionFixed from './types/fixed/QuestionFixed'
@@ -57,6 +58,7 @@ function QuestionContent() {
 					<QuestionTypeComponent />
 				</div>
 				<div className='space-y-6'>
+					<QuestionTotalVotes />
 					<QuestionRecentVotes />
 					<QuestionInformation />
 				</div>

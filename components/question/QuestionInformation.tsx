@@ -26,21 +26,11 @@ export default function QuestionInformation() {
 	return (
 		<>
 			<Card>
-				<CardContent className="pt-6">
-					<h2 className="text-base font-semibold mb-2">Total de Votos</h2>
-					<p className="text-3xl font-bold">{question.data.voteCount.toString()}</p>
-				</CardContent>
-			</Card>
-			<Card>
 				<CardHeader>
 					<CardTitle>Información de la votación</CardTitle>
 				</CardHeader>
 				<CardContent>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-						{/* <div>
-							<p className="font-semibold">Total de Votos</p>
-							<p className="text-muted-foreground">{question.data.voteCount.toString()}</p>
-						</div> */}
 						<div>
 							<p className="font-semibold">Inicio</p>
 							<p className="text-muted-foreground">{formatDate(question.data.kickoff)}</p>
