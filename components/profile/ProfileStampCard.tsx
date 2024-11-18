@@ -1,9 +1,10 @@
-import Link from 'next/link'
-import { AlertTriangle, ExternalLink } from 'lucide-react'
+// import Link from 'next/link'
+// import { AlertTriangle, ExternalLink } from 'lucide-react'
+import { AlertTriangle } from 'lucide-react'
 
 // UI Components
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+// import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import TransactionButton from '@/components/common/TransactionButton'
 
@@ -97,16 +98,17 @@ export default function ProfileStampCard({
 
 				{/* Button logic */}
 				{owned ? (
-					<Button
-						asChild
-						size="sm"
-						variant="outline"
-						className="w-full mt-2"
-					>
-						<Link href={`https://sepolia.basescan.org/token/${stamp.data.contractAddress}?a=${stamp.user.stampId}`} target="_blank" rel="noopener noreferrer" prefetch={true}>
-							Ver mi sello <ExternalLink className="ml-2 h-4 w-4" />
-						</Link>
-					</Button>
+					<></>
+					// <Button
+					// 	asChild
+					// 	size="sm"
+					// 	variant="outline"
+					// 	className="w-full mt-2"
+					// >
+					// 	<Link href={`https://sepolia.basescan.org/token/${stamp.data.contractAddress}?a=${stamp.user.stampId}`} target="_blank" rel="noopener noreferrer" prefetch={true}>
+					// 		Ver mi sello <ExternalLink className="ml-2 h-4 w-4" />
+					// 	</Link>
+					// </Button>
 				) : authentic === false ? (
 					<Badge variant="outline" className="w-full flex items-center justify-center gap-2 mb-2 bg-yellow-100 text-yellow-800 border-yellow-300">
 						<AlertTriangle className="h-4 w-4" />
