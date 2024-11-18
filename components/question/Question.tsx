@@ -40,8 +40,6 @@ function QuestionContent() {
 	if (isLoading) return <QuestionLoading />
 	if (isError || !question) return <div>Error al cargar los datos</div>
 
-	const QuestionTypeComponent = question.data.questionType === QuestionType.Fixed ? QuestionFixed : QuestionOpen
-
 	return (
 		<div className='main-container'>
 			<Link href='/' passHref prefetch={true}>
@@ -65,4 +63,15 @@ function QuestionContent() {
 			</div>
 		</div>
 	)
+}
+
+function QuestionTypeComponent() {
+	const { question } = useQuestion()
+	const type = question?.data.questionType
+	switch (type) {
+		case QuestionType.Fixed:
+			return <QuestionFixed />
+		case QuestionType.Open:
+			return <QuestionOpen />
+	}
 }
