@@ -4,7 +4,7 @@ import { Users } from 'lucide-react'
 // Internal UI component imports
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { AddressScanLink } from '@/components/common/ScanLink'
+// import { AddressScanLink } from '@/components/common/ScanLink'
 
 // Hooks and utilities
 import { useSpace } from '@/contexts/SpaceContext'
@@ -41,7 +41,7 @@ export default function SpaceLeaderboard() {
 					filteredTop10Holders.map((holder, index) => (
 						<div key={index} className='flex justify-between items-center py-2 border-b last:border-b-0'>
 							<span className='flex-1 text-left'>{holder.name || 'user'}</span>
-							<span className='flex-1 text-center'><AddressScanLink address={holder.user} /></span>
+							{/* <span className='flex-1 text-center'><AddressScanLink address={holder.user} /></span> */}
 							<span className='flex-1 text-right'>
 								<Badge variant='secondary'>{formatPoints(holder.balance)} {symbol}</Badge>
 							</span>
