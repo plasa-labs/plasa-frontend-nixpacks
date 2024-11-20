@@ -47,6 +47,7 @@ export default function QuestionOpen() {
 				proposerName: userName,
 				voteCount: BigInt(0),
 				pointsAtDeadline: BigInt(0),
+				isVetoed: false
 			},
 			user: {
 				voted: false
