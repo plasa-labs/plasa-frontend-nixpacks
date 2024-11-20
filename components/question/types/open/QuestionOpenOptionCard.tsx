@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ThumbsUp, ChevronDown, ChevronUp } from 'lucide-react'
+import { ThumbsUp, ChevronDown, ChevronUp, Flag } from 'lucide-react'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
@@ -11,18 +11,22 @@ import { useQuestion } from "@/contexts/QuestionContext"
 import { OptionView } from "@/lib/onchain/types/interfaces"
 import { formatPoints } from "@/lib/utils/formatters"
 import { contractsVote } from "@/lib/onchain/contracts"
+import { useSpace } from "@/contexts/SpaceContext"
 
 interface QuestionOpenOptionCardProps {
 	option: OptionView
 	id: number
 	onVote: (id: number) => void
+	onVeto: (id: number) => void
 }
 
-export function QuestionOpenOptionCard({ option, id, onVote }: QuestionOpenOptionCardProps) {
+export function QuestionOpenOptionCard({ option, id, onVote, onVeto }: QuestionOpenOptionCardProps) {
 	const { question } = useQuestion()
+	const { space } = useSpace()
 	const [isDescriptionVisible, setIsDescriptionVisible] = useState(false)
 
 	if (!question) return null
+	if (!space) return null
 
 	const isActive = question.data.isActive
 	const pointsAtDeadline = option.data.pointsAtDeadline
@@ -33,9 +37,13 @@ export function QuestionOpenOptionCard({ option, id, onVote }: QuestionOpenOptio
 	const voteCount = option.data.voteCount
 	const questionAddress = question?.data.contractAddress as `0x${string}`
 	const pointsSymbol = question?.points.data.symbol
+	const isVetoed = option.data.isVetoed
+
+	const canVeto = space.user.permissions.VetoOpenQuestionOption
+	const canLiftVeto = space.user.permissions.LiftVetoOpenQuestionOption
 
 	return (
-		<Card className="mb-4 hover:shadow-md transition-shadow duration-200">
+		<Card className={`mb-4 hover:shadow-md transition-shadow duration-200 ${isVetoed ? 'opacity-50' : ''}`}>
 			<CardHeader className="pb-2">
 				<div className="flex justify-between items-center">
 					<CardTitle className="font-semibold">{title}</CardTitle>
@@ -72,23 +80,34 @@ export function QuestionOpenOptionCard({ option, id, onVote }: QuestionOpenOptio
 						{proposer}
 					</span>
 				</div>
-				{isActive && !userVoted ? (
-					<TransactionButton
-						transactionData={contractsVote(questionAddress, id)}
-						onSuccess={() => onVote(id)}
-					>
-						<div className="flex items-center">
-							<ThumbsUp className={`mr-4 h-4 w-4 ${userVoted ? 'fill-current' : ''}`} />
-							{voteCount}
-						</div>
-					</TransactionButton>)
-					:
-					(
-						<div className="inline-flex items-center justify-center text-sm font-medium h-10 px-4 py-2">
-							<ThumbsUp className={`mr-4 h-4 w-4 ${userVoted ? 'fill-current' : ''}`} />
-							{voteCount}
-						</div>
-					)}
+				<div className="flex items-center space-x-2">
+					{1 == 1 && (
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() => onVeto(id)}
+							className={`${isVetoed ? 'bg-destructive text-destructive-foreground' : ''}`}
+						>
+							<Flag className="h-4 w-4" />
+						</Button>)}
+					{isActive && !userVoted ? (
+						<TransactionButton
+							transactionData={contractsVote(questionAddress, id)}
+							onSuccess={() => onVote(id)}
+						>
+							<div className="flex items-center">
+								<ThumbsUp className={`mr-4 h-4 w-4 ${userVoted ? 'fill-current' : ''}`} />
+								{voteCount}
+							</div>
+						</TransactionButton>)
+						:
+						(
+							<div className="inline-flex items-center justify-center text-sm font-medium h-10 px-4 py-2">
+								<ThumbsUp className={`mr-4 h-4 w-4 ${userVoted ? 'fill-current' : ''}`} />
+								{voteCount}
+							</div>
+						)}
+				</div>
 			</CardFooter>
 		</Card>
 	)
