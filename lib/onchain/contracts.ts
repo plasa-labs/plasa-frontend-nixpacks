@@ -13,6 +13,8 @@ import {
 
 import { baseSepolia, type Chain } from 'viem/chains'
 
+const CHAIN = baseSepolia
+
 // Read contracts
 
 export const contractsGetPlasa = (userAddress: `0x${string}` | undefined): ReadContractParameters => {
@@ -77,7 +79,7 @@ export const contractsMintStamp = (
 	return {
 		to: stampAddress,
 		data,
-		chain: baseSepolia
+		chain: CHAIN
 	}
 }
 
@@ -94,7 +96,7 @@ export const contractsVote = (
 	return {
 		to: questionAddress,
 		data,
-		chain: baseSepolia
+		chain: CHAIN
 	}
 }
 
@@ -112,7 +114,7 @@ export const contractsAddOption = (
 	return {
 		to: questionAddress,
 		data,
-		chain: baseSepolia
+		chain: CHAIN
 	}
 }
 
@@ -129,7 +131,41 @@ export const contractsMintName = (
 	return {
 		to: namesAddress,
 		data,
-		chain: baseSepolia
+		chain: CHAIN
+	}
+}
+
+export const contractsVetoOption = (
+	questionAddress: `0x${string}`,
+	optionIndex: number
+): { to: `0x${string}`, data: `0x${string}`, chain: Chain } => {
+	const data = encodeFunctionData({
+		abi: openQuestionAbi as Abi,
+		functionName: 'vetoOption',
+		args: [optionIndex]
+	})
+
+	return {
+		to: questionAddress,
+		data,
+		chain: CHAIN
+	}
+}
+
+export const contractsLiftOptionVeto = (
+	questionAddress: `0x${string}`,
+	optionIndex: number
+): { to: `0x${string}`, data: `0x${string}`, chain: Chain } => {
+	const data = encodeFunctionData({
+		abi: openQuestionAbi as Abi,
+		functionName: 'liftOptionVeto',
+		args: [optionIndex]
+	})
+
+	return {
+		to: questionAddress,
+		data,
+		chain: CHAIN
 	}
 }
 
