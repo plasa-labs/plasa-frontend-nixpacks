@@ -16,7 +16,8 @@
         "internalType": "string[]",
         "name": "_initialOptionDescriptions",
         "type": "string[]"
-      }
+      },
+      { "internalType": "address", "name": "_plasa", "type": "address" }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
@@ -36,20 +37,7 @@
     "name": "NotAllowed",
     "type": "error"
   },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "owner", "type": "address" }
-    ],
-    "name": "OwnableInvalidOwner",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "account", "type": "address" }
-    ],
-    "name": "OwnableUnauthorizedAccount",
-    "type": "error"
-  },
+  { "inputs": [], "name": "NotRegistered", "type": "error" },
   { "inputs": [], "name": "UserAlreadyVoted", "type": "error" },
   { "inputs": [], "name": "VotingEnded", "type": "error" },
   {
@@ -75,25 +63,6 @@
       }
     ],
     "name": "NewOption",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousOwner",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "OwnershipTransferred",
     "type": "event"
   },
   {
@@ -152,15 +121,27 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "address",
         "name": "voter",
         "type": "address"
       },
       {
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
         "indexed": true,
         "internalType": "uint256",
         "name": "optionId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "points",
         "type": "uint256"
       },
       {
@@ -221,7 +202,7 @@
             "type": "uint256"
           }
         ],
-        "internalType": "struct IQuestionView.OptionData",
+        "internalType": "struct IQuestionView.OptionStorage",
         "name": "",
         "type": "tuple"
       }
@@ -245,7 +226,7 @@
             "type": "uint256"
           }
         ],
-        "internalType": "struct IQuestionView.OptionData[]",
+        "internalType": "struct IQuestionView.OptionStorage[]",
         "name": "",
         "type": "tuple[]"
       }
@@ -355,12 +336,17 @@
                         "type": "address"
                       },
                       {
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                      },
+                      {
                         "internalType": "uint256",
                         "name": "balance",
                         "type": "uint256"
                       }
                     ],
-                    "internalType": "struct IPointsView.Holder[]",
+                    "internalType": "struct IPointsView.HolderData[]",
                     "name": "top10Holders",
                     "type": "tuple[]"
                   }
@@ -485,6 +471,11 @@
                     "type": "address"
                   },
                   {
+                    "internalType": "string",
+                    "name": "proposerName",
+                    "type": "string"
+                  },
+                  {
                     "internalType": "uint256",
                     "name": "voteCount",
                     "type": "uint256"
@@ -493,7 +484,8 @@
                     "internalType": "uint256",
                     "name": "pointsAtDeadline",
                     "type": "uint256"
-                  }
+                  },
+                  { "internalType": "bool", "name": "isVetoed", "type": "bool" }
                 ],
                 "internalType": "struct IQuestionView.OptionData",
                 "name": "data",
@@ -544,12 +536,17 @@
                         "type": "address"
                       },
                       {
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                      },
+                      {
                         "internalType": "uint256",
                         "name": "balance",
                         "type": "uint256"
                       }
                     ],
-                    "internalType": "struct IPointsView.Holder[]",
+                    "internalType": "struct IPointsView.HolderData[]",
                     "name": "top10Holders",
                     "type": "tuple[]"
                   }
@@ -619,8 +616,10 @@
   },
   {
     "inputs": [],
-    "name": "owner",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "plasa",
+    "outputs": [
+      { "internalType": "contract IPlasa", "name": "", "type": "address" }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -644,13 +643,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -681,15 +673,6 @@
     "name": "totalVoteCount",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "newOwner", "type": "address" }
-    ],
-    "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {

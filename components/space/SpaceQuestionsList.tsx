@@ -1,26 +1,44 @@
 'use client'
 
+// External imports
 import { PlusCircle } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { SpaceQuestionCard } from './SpaceQuestionCard'
+
+// Internal UI component imports
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import SpaceQuestionCard from './SpaceQuestionCard'
+
+// Contexts
 import { useSpace } from '@/contexts/SpaceContext'
 
-export function SpaceQuestionsList() {
+/**
+ * SpaceQuestionsList Component
+ * 
+ * Renders a list of questions for a space with the ability to create new questions
+ * if the user has the appropriate permissions. Questions are displayed using SpaceQuestionCard
+ * components within a styled card container.
+ */
+export default function SpaceQuestionsList() {
 	const { space } = useSpace()
 	if (!space) return null
 	const canCreateQuestion = space.user.permissions.CreateFixedQuestion ||
 		space.user.permissions.CreateOpenQuestion
-	const questions = space.questions
+
+	// Sort questions by deadline in descending order (latest first)
+	const questions = [...space.questions].sort((a, b) => {
+		return Number(b.data.deadline) - Number(a.data.deadline)
+	})
 
 	return (
 		<Card className="mb-6">
 			<CardHeader>
 				<div className="flex justify-between items-center">
 					<CardTitle>Votaciones</CardTitle>
-					<Button size="sm" disabled={!canCreateQuestion}>
-						<PlusCircle className="mr-2 h-4 w-4" /> Nueva votación
-					</Button>
+					{canCreateQuestion && (
+						<Button size="sm" disabled={!canCreateQuestion}>
+							<PlusCircle className="mr-2 h-4 w-4" /> Nueva votación
+						</Button>
+					)}
 				</div>
 			</CardHeader>
 			<CardContent>

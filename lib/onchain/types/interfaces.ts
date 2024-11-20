@@ -1,6 +1,23 @@
+// Plasa Types
+export interface PlasaData {
+	contractAddress: string  // address
+	namesContract: string   // address
+}
+
+export interface PlasaUser {
+	isRegistered: boolean
+	username: string
+}
+
+export interface PlasaView {
+	data: PlasaData
+	user: PlasaUser
+}
+
 // Points Types
-export interface Holder {
+export interface HolderData {
 	user: string  // address
+	name: string
 	balance: bigint
 }
 
@@ -9,7 +26,7 @@ export interface PointsData {
 	name: string
 	symbol: string
 	totalSupply: bigint
-	top10Holders: Holder[]
+	top10Holders: HolderData[]
 }
 
 export interface PointsUser {
@@ -22,7 +39,7 @@ export interface PointsView {
 }
 
 // Question Types
-enum QuestionType {
+export enum QuestionType {
 	Null,
 	Open,
 	Fixed
@@ -50,8 +67,10 @@ export interface OptionData {
 	title: string
 	description: string
 	proposer: string  // address
+	proposerName: string
 	voteCount: bigint
 	pointsAtDeadline: bigint
+	isVetoed: boolean
 }
 
 export interface OptionUser {
@@ -77,7 +96,7 @@ export interface QuestionView {
 }
 
 // Stamp Types
-enum StampType {
+export enum StampType {
 	Null,
 	AccountOwnership,
 	FollowerSince

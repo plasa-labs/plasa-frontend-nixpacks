@@ -1,82 +1,80 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useAccount } from 'wagmi'
+// React/Next.js imports
+import { type ReactElement } from 'react'
+
+// External dependencies
+import { usePrivy } from '@privy-io/react-auth'
+
+// Internal contexts
 import { useSpace } from '@/contexts/SpaceContext'
+import { useFirestore } from '@/contexts/FirestoreContext'
 
-// Types and interfaces
+// Internal utilities and types
+import { setInstagramUsername } from '@/lib/api/endpoints'
 import type { UserData } from '@/lib/api/interfaces'
-// import { PlasaView } from '@/lib/onchain/types/interfaces'
 
-// Local utilities and contracts
-import { fetchUser, setInstagramUsername } from '@/lib/api/endpoints'
+// Internal components
+import ProfileNotConnectedCard from './ProfileNotConnectedCard'
+import ProfileUsernameCard from './ProfileUsernameCard'
+import ProfileConnectionsCard from './ProfileConnectionsCard'
+import ProfileStampsCard from './ProfileStampsCard'
+import ProfileSkeletonLoader from './ProfileSkeletonLoader'
+import ProfilePointsCard from './ProfilePointsCard'
 
-// Components
-import { ProfileNotConnectedCard } from './ProfileNotConnectedCard'
-import { ProfileUsernameCard } from './ProfileUsernameCard'
-import { ProfileConnectionsCard } from './ProfileConnectionsCard'
-import { ProfileStampsCard } from './ProfileStampsCard'
-import { ProfileSkeletonLoader } from './ProfileSkeletonLoader'
+/**
+ * Profile component handles user profile management including:
+ * - Instagram connection
+ * - Profile stamps
+ * - User connections
+ * - Username management
+ * 
+ * @returns {ReactElement} The rendered Profile component
+ */
+export default function Profile(): ReactElement {
+	const { user, authenticated } = usePrivy()
+	const { isLoading: firestoreLoading, updateUserData } = useFirestore()
+	const userAddress = user?.smartWallet?.address as `0x${string}`
+	const { isLoading: spaceLoading, refetch: refetchSpace } = useSpace()
 
-export function Profile() {
-	const { address } = useAccount()
-	const [userFirestore, setUserFirestore] = useState<UserData | null>(null)
-	const [loading, setLoading] = useState(true)
-
-	const { space, isLoading: spaceLoading, refetch: refetchSpace } = useSpace()
-
-	useEffect(() => {
-		if (space && address) {
-			fetchUser(address)
-				.then(data => {
-					setUserFirestore(data)
-					setLoading(false)
-				})
-				.catch(error => {
-					console.error('Error fetching user data:', error)
-					setLoading(false)
-				})
-		}
-	}, [space, address])
-
-	if (!address) {
+	if (!authenticated) {
 		return <ProfileNotConnectedCard />
 	}
 
 	const handleConnectInstagram = async (username: string) => {
-		setLoading(true)
 		try {
-			const processedUsername = username.toLowerCase().replace(/\s+/g, '').replace('@', '')
-			const updatedUserData = await setInstagramUsername(address, processedUsername)
-			setUserFirestore(updatedUserData)
+			const processedUsername: string = username.toLowerCase().replace(/\s+/g, '').replace('@', '')
+
+			const updatedUserData: UserData = await setInstagramUsername(userAddress, processedUsername)
+
+			await updateUserData(updatedUserData)
 		} catch (error) {
 			console.error('Error connecting Instagram:', error)
-		} finally {
-			setLoading(false)
+			throw error
 		}
 	}
 
 	const handleStampMint = () => {
-		setLoading(true)
 		refetchSpace()
-		setLoading(false)
 	}
 
-	if (loading || spaceLoading) {
+	if (firestoreLoading || spaceLoading) {
 		return <ProfileSkeletonLoader />
 	}
 
 	return (
-		<div className="main-container">
+		<div className="main-container px-4 sm:px-6">
 			<h1 className="text-3xl font-bold mb-6">Mi Perfil</h1>
-			<div className="grid gap-6 md:grid-cols-2">
+			<div className="grid gap-6 grid-cols-1 md:grid-cols-2">
 				<div>
 					<ProfileUsernameCard />
-					<ProfileConnectionsCard userFirestore={userFirestore} onConnectInstagram={handleConnectInstagram} />
+					<ProfilePointsCard />
+					<ProfileConnectionsCard
+						onConnectInstagram={handleConnectInstagram}
+					/>
 				</div>
 				<div>
 					<ProfileStampsCard
-						userFirestore={userFirestore}
 						onStampMint={handleStampMint}
 					/>
 				</div>

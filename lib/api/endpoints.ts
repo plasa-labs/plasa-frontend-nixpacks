@@ -74,11 +74,14 @@ async function setInstagramUsername(userId: string, username: string): Promise<U
 	}
 
 	try {
-		const url = `${apiBaseUrl}/user/${userId}/instagram?username=${encodeURIComponent(username)}`
-		console.log('URL:', url)
-		// Make a GET request to set the Instagram username
+		const url = `${apiBaseUrl}/user/${userId}/instagram`
+		// Updated to POST request with JSON body
 		const response = await fetch(url, {
-			method: 'GET',
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ username }),
 		})
 		console.log('Response:', response)
 

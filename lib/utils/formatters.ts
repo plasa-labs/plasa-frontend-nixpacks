@@ -1,10 +1,10 @@
-export const abbreviateAddress = (address: string) => {
+export const abbreviateAddress = (address: string): string => {
 	return `${address.slice(0, 6)}...${address.slice(-4)}`
 }
 
-export const scanLink = (address: string) => `https://sepolia.basescan.org/address/${address}`
+export const scanLink = (address: string): string => `https://sepolia.basescan.org/address/${address}`
 
-export const formatDate = (timestamp: bigint) => {
+export const formatDate = (timestamp: bigint): string => {
 	// Create a fixed date formatter to ensure consistency
 	const formatter = new Intl.DateTimeFormat('es-AR', {
 		// timeZone: 'America/Argentina/Buenos_Aires',
@@ -25,5 +25,5 @@ export const formatPoints = (points: bigint): string => {
 		minimumFractionDigits: 0,
 	})
 
-	return formatter.format(Math.floor(Number(points) / 1e17))
+	return formatter.format(Math.floor(Number(points) / 1e18))
 }

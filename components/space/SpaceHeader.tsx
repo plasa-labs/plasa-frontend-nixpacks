@@ -4,7 +4,18 @@ import { Badge } from '@/components/ui/badge'
 import { formatPoints } from '@/lib/utils/formatters'
 import { useSpace } from '@/contexts/SpaceContext'
 
-export function SpaceHeader() {
+/**
+ * SpaceHeader Component
+ * 
+ * Displays the header section of a space, including:
+ * - Space logo/image
+ * - Space name and description
+ * - Current point balance with symbol
+ * 
+ * The component relies on the SpaceContext to access space data
+ * and automatically handles the case when space data is not available.
+ */
+export default function SpaceHeader() {
 	const { space } = useSpace()
 
 	if (!space) return null
