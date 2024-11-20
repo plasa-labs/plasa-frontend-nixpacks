@@ -484,7 +484,8 @@
                     "internalType": "uint256",
                     "name": "pointsAtDeadline",
                     "type": "uint256"
-                  }
+                  },
+                  { "internalType": "bool", "name": "isVetoed", "type": "bool" }
                 ],
                 "internalType": "struct IQuestionView.OptionData",
                 "name": "data",

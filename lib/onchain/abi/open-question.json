@@ -33,7 +33,7 @@
       { "internalType": "address", "name": "voter", "type": "address" },
       { "internalType": "uint256", "name": "optionId", "type": "uint256" }
     ],
-    "name": "UserAlreadyVotedThisOption",
+    "name": "UserAlreadyVotedOption",
     "type": "error"
   },
   { "inputs": [], "name": "VotingEnded", "type": "error" },
@@ -60,6 +60,44 @@
       }
     ],
     "name": "NewOption",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "moderator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "optionId",
+        "type": "uint256"
+      }
+    ],
+    "name": "OptionVetoLifted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "moderator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "optionId",
+        "type": "uint256"
+      }
+    ],
+    "name": "OptionVetoed",
     "type": "event"
   },
   {
@@ -491,7 +529,8 @@
                     "internalType": "uint256",
                     "name": "pointsAtDeadline",
                     "type": "uint256"
-                  }
+                  },
+                  { "internalType": "bool", "name": "isVetoed", "type": "bool" }
                 ],
                 "internalType": "struct IQuestionView.OptionData",
                 "name": "data",
@@ -621,6 +660,15 @@
     "type": "function"
   },
   {
+    "inputs": [
+      { "internalType": "uint256", "name": "optionId", "type": "uint256" }
+    ],
+    "name": "liftOptionVeto",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "plasa",
     "outputs": [
@@ -715,6 +763,22 @@
     "name": "updateTitle",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "optionId", "type": "uint256" }
+    ],
+    "name": "vetoOption",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "vetoed",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
     "type": "function"
   },
   {
