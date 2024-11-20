@@ -70,6 +70,7 @@ export interface OptionData {
 	proposerName: string
 	voteCount: bigint
 	pointsAtDeadline: bigint
+	isVetoed: boolean
 }
 
 export interface OptionUser {
