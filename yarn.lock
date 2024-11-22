@@ -1299,7 +1299,7 @@
     libphonenumber-js "^1.10.31"
     zod "^3.22.4"
 
-"@privy-io/react-auth@^1.92.6":
+"@privy-io/react-auth@^1.94.3":
   version "1.94.3"
   resolved "https://registry.yarnpkg.com/@privy-io/react-auth/-/react-auth-1.94.3.tgz#1fe1b74085b4f44f79555f9906b3b9c7e03e0a49"
   integrity sha512-HA2iSn1qwTD2NjealVEvcYLQY+iEG7+GRdgRQN9dxEBYmAxS2ydB6B7vHJ1ouW5NUdbHMCeqtOM+KZk0jbxaSQ==
@@ -5196,10 +5196,10 @@ lru-cache@^10.2.0, lru-cache@^10.4.3:
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-10.4.3.tgz#410fc8a17b70e598013df257c2446b7f3383f119"
   integrity sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==
 
-lucide-react@^0.454.0:
-  version "0.454.0"
-  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.454.0.tgz#a81b9c482018720f07ead0503ae502d94d528444"
-  integrity sha512-hw7zMDwykCLnEzgncEEjHeA6+45aeEzRYuKHuyRSOPkhko+J3ySGjGIzu+mmMfDFG1vazHepMaYFYHbTFAZAAQ==
+lucide-react@^0.460.0:
+  version "0.460.0"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.460.0.tgz#5681364b6bd94d1d475944f0385239c0b1408e35"
+  integrity sha512-BVtq/DykVeIvRTJvRAgCsOwaGL8Un3Bxh8MbDxMhEWlZay3T4IpEKDEpwt5KZ0KJMHzgm6jrltxlT5eXOWXDHg==
 
 md5@^2.3.0:
   version "2.3.0"
@@ -5651,6 +5651,11 @@ pathe@^1.1.1, pathe@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/pathe/-/pathe-1.1.2.tgz#6c4cb47a945692e48a1ddd6e4094d170516437ec"
   integrity sha512-whLdWMYL2TwI08hn8/ZqAbrVemu0LNaNNJZX73O6qaIdCTfXutsLhMkjdENX0qhsQ9uIimo4/aQOmXkoon2nDQ==
+
+permissionless@^0.2.18:
+  version "0.2.18"
+  resolved "https://registry.yarnpkg.com/permissionless/-/permissionless-0.2.18.tgz#247505e746c5191b2dc9abff1459cfffca8e97d5"
+  integrity sha512-l8w4eisCExu2wgIkLUEwVab2+qIjmFl2QVy0MeVal5RxZZrxf+R2y1yJBnRwPnHjrB/aRRNQDN78qqtZ7G3joQ==
 
 picocolors@^1.0.0, picocolors@^1.1.1:
   version "1.1.1"
