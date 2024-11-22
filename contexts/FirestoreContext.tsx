@@ -5,20 +5,20 @@ import { createContext, useContext, ReactNode, useState, useEffect } from 'react
 import { usePrivy } from '@privy-io/react-auth'
 
 // Internal imports
-import type { UserData } from '@/lib/api/interfaces'
+import type { FirestoreUserData } from '@/lib/api/interfaces'
 import { fetchUser } from '@/lib/api/endpoints'
 
 /**
  * Interface defining the shape of the Firestore context
  */
 interface FirestoreContextType {
-	userFirestore: UserData | null
+	userFirestore: FirestoreUserData | null
 	isLoading: boolean
 	isError: boolean
 	error: Error | null
 	refetch: () => Promise<void>
-	setUserFirestore: (userData: UserData) => void
-	updateUserData: (updates: Partial<UserData>) => Promise<void>
+	setUserFirestore: (userData: FirestoreUserData) => void
+	updateUserFirestore: (updates: Partial<FirestoreUserData>) => Promise<void>
 }
 
 /**
@@ -40,7 +40,7 @@ const FirestoreContext = createContext<FirestoreContextType | undefined>(undefin
  * @returns {JSX.Element} Provider component wrapping children with Firestore context
  */
 export function FirestoreProvider({ children }: FirestoreProviderProps) {
-	const [userFirestore, setUserFirestore] = useState<UserData | null>(null)
+	const [userFirestore, setUserFirestore] = useState<FirestoreUserData | null>(null)
 	const [isLoading, setIsLoading] = useState(true)
 	const [isError, setIsError] = useState(false)
 	const [error, setError] = useState<Error | null>(null)
@@ -54,7 +54,7 @@ export function FirestoreProvider({ children }: FirestoreProviderProps) {
 			return
 		}
 
-		if (userFirestore?.address === userAddress) {
+		if (userFirestore?.user_id === userAddress) {
 			setIsLoading(false)
 			return
 		}
@@ -85,7 +85,7 @@ export function FirestoreProvider({ children }: FirestoreProviderProps) {
 		}
 	}, [authenticated, userAddress])
 
-	const updateUserData = async (updates: Partial<UserData>) => {
+	const updateUserFirestore = async (updates: Partial<FirestoreUserData>) => {
 		if (!userFirestore) return
 
 		try {
@@ -105,7 +105,7 @@ export function FirestoreProvider({ children }: FirestoreProviderProps) {
 		error,
 		refetch: fetchUserData,
 		setUserFirestore,
-		updateUserData
+		updateUserFirestore
 	}
 
 	return <FirestoreContext.Provider value={value}>{children}</FirestoreContext.Provider>

@@ -47,7 +47,7 @@ export default function ProfileStampCard({
 	const owned = stamp.user.owns
 	const multiplier = stamp.data.multiplier
 
-	const firestoreStamp = userFirestore?.availableStamps?.find(
+	const firestoreStamp = userFirestore?.available_stamps?.find(
 		s => s.stamp.contractAddress === stamp.data.contractAddress
 	)
 	const authentic = firestoreStamp?.authentic
