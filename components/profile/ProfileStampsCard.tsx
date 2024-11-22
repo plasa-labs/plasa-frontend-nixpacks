@@ -26,7 +26,7 @@ export default function ProfileStampsCard({ onStampMint }: ProfileStampsCardProp
 	const ownedStamps = stamps.filter(stamp => stamp.user.owns)
 	const notOwnedStamps = stamps.filter(stamp => !stamp.user.owns)
 
-	if (!userFirestore?.instagram) {
+	if (!userFirestore?.instagram_username) {
 		return (
 			<Card>
 				<CardHeader>
