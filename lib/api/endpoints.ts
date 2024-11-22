@@ -61,6 +61,9 @@ async function verifyInstagramCode(code: number, userId: string): Promise<Instag
 	try {
 		const response = await fetch(`${apiBaseUrl}/instagram/verify`, {
 			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
 			body: JSON.stringify(requestBody),
 		})
 

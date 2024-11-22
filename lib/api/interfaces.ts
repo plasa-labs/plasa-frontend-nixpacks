@@ -37,6 +37,8 @@ export interface UserResponse {
 	available_stamps?: FollowerSinceStampSignature[] | null
 }
 
+export type FirestoreUserData = UserResponse
+
 export enum InstagramCodeVerificationStatus {
 	INVALID_CODE = 'Invalid code',
 	EXPIRED_CODE = 'Code expired',
