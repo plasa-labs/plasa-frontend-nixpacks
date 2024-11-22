@@ -10,10 +10,6 @@ import { usePrivy } from '@privy-io/react-auth'
 import { useSpace } from '@/contexts/SpaceContext'
 import { useFirestore } from '@/contexts/FirestoreContext'
 
-// Internal utilities and types
-import { setInstagramUsername } from '@/lib/api/endpoints'
-import type { UserData } from '@/lib/api/interfaces'
-
 // Internal components
 import ProfileNotConnectedCard from './ProfileNotConnectedCard'
 import ProfileUsernameCard from './ProfileUsernameCard'
@@ -32,26 +28,12 @@ import ProfilePointsCard from './ProfilePointsCard'
  * @returns {ReactElement} The rendered Profile component
  */
 export default function Profile(): ReactElement {
-	const { user, authenticated } = usePrivy()
-	const { isLoading: firestoreLoading, updateUserData } = useFirestore()
-	const userAddress = user?.smartWallet?.address as `0x${string}`
+	const { authenticated } = usePrivy()
+	const { isLoading: firestoreLoading } = useFirestore()
 	const { isLoading: spaceLoading, refetch: refetchSpace } = useSpace()
 
 	if (!authenticated) {
 		return <ProfileNotConnectedCard />
-	}
-
-	const handleConnectInstagram = async (username: string) => {
-		try {
-			const processedUsername: string = username.toLowerCase().replace(/\s+/g, '').replace('@', '')
-
-			const updatedUserData: UserData = await setInstagramUsername(userAddress, processedUsername)
-
-			await updateUserData(updatedUserData)
-		} catch (error) {
-			console.error('Error connecting Instagram:', error)
-			throw error
-		}
 	}
 
 	const handleStampMint = () => {
@@ -69,9 +51,7 @@ export default function Profile(): ReactElement {
 				<div>
 					<ProfileUsernameCard />
 					<ProfilePointsCard />
-					<ProfileConnectionsCard
-						onConnectInstagram={handleConnectInstagram}
-					/>
+					<ProfileConnectionsCard />
 				</div>
 				<div>
 					<ProfileStampsCard
