@@ -4,7 +4,7 @@
 import { useSpace } from '@/contexts/SpaceContext'
 
 // Internal imports - components
-import SpaceHeader from './SpaceHeader'
+// import SpaceHeader from './SpaceHeader'
 import SpaceQuestionsList from './SpaceQuestionsList'
 import SpaceLeaderboard from './SpaceLeaderboard'
 // import SpaceInformation from './SpaceInformation'
