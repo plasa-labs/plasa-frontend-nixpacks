@@ -14,6 +14,7 @@ import {
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from '@/components/ui/badge'
 
 // Types
 interface NavUserButtonConnectedProps {
@@ -22,6 +23,10 @@ interface NavUserButtonConnectedProps {
 
 // Contexts
 import { usePlasa } from '@/contexts/PlasaContext'
+import { useSpace } from '@/contexts/SpaceContext'
+
+// Utils
+import { formatPoints } from '@/lib/utils/formatters'
 
 /**
  * NavUserButtonConnected - A navigation button component for authenticated users
@@ -34,7 +39,16 @@ import { usePlasa } from '@/contexts/PlasaContext'
  */
 export default function NavUserButtonConnected({ className }: NavUserButtonConnectedProps) {
 	const { logout } = usePrivy()
-	const { displayName } = usePlasa()
+	const { plasa, displayName } = usePlasa()
+	const { space } = useSpace()
+
+	if (!plasa || !space) return null
+
+	const points = space.points.points
+
+	const symbol = points.data.symbol
+	const balance = points.user.currentBalance
+
 	/**
 	 * Handles user logout action
 	 */
@@ -55,6 +69,9 @@ export default function NavUserButtonConnected({ className }: NavUserButtonConne
 						<AvatarFallback>{displayName}</AvatarFallback>
 					</Avatar>
 					<span className='max-w-[150px] truncate ml-2'>{displayName}</span>
+					<Badge variant="secondary" className="px-a3 py-1 ml-4 whitespace-nowrap">
+						{formatPoints(balance)} {symbol}
+					</Badge>
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align='end'>
