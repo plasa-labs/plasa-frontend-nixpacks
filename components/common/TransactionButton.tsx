@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
+// import { Progress } from "@/components/ui/progress"
 import { usePrivy } from '@privy-io/react-auth'
 import { useSmartWallets } from '@privy-io/react-auth/smart-wallets'
 import { useState } from 'react'
 import { useTransaction } from '@/contexts/TransactionContext'
-
+import { Loader2 } from 'lucide-react'
 /**
  * Interface for transaction data structure
  */
@@ -102,10 +102,11 @@ export default function TransactionButton({
 		>
 			{isProcessing ? (
 				<>
-					<Progress
+					{/* <Progress
 						value={100}
 						className="absolute inset-0 h-full w-full rounded-md"
-					/>
+					/> */}
+					<Loader2 className="mr-2 h-4 w-4 animate-spin" />
 					<span className="relative z-10">{loadingText}</span>
 				</>
 			) : isProcessed ? (

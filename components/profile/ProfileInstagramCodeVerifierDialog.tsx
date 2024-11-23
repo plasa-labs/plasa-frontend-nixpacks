@@ -30,6 +30,33 @@ const FormSchema = z.object({
 	}),
 })
 
+function Instructions() {
+	return (
+		<div className="">
+			<div className="bg-muted p-4 rounded-md space-y-2">
+				<h3 className="font-semibold">Cómo obtener tu código:</h3>
+				<ol className="list-decimal list-inside space-y-1">
+					<li className="flex items-center">
+						<Instagram className="w-4 h-4 mr-2" />
+						Abrí Instagram
+					</li>
+					<li className="flex items-center">
+						<Search className="w-4 h-4 mr-2" />
+						Buscá @ddfundacion
+					</li>
+					<li className="flex items-center">
+						<MessageCircle className="w-4 h-4 mr-2" />
+						Enviá un mensaje directo
+					</li>
+					<li className="flex items-center">
+						<Key className="w-4 h-4 mr-2" />
+						Recibí automáticamente el código
+					</li>
+				</ol>
+			</div>
+		</div>)
+}
+
 export default function ProfileInstagramCodeVerifierDialog() {
 	const [verificationStatus, setVerificationStatus] = useState<InstagramCodeVerificationStatus | null>(null)
 	const [isVerifying, setIsVerifying] = useState(false)
@@ -73,88 +100,66 @@ export default function ProfileInstagramCodeVerifierDialog() {
 	}
 
 	return (
-		<DialogContent className="max-w-md">
+		<DialogContent className="max-w-md flex flex-col items-center">
 			<DialogHeader>
 				<DialogTitle>Conectar Instagram</DialogTitle>
 			</DialogHeader>
 
-			<div className="space-y-6">
-				<div className="bg-muted p-4 rounded-md space-y-2">
-					<h3 className="font-semibold">Cómo obtener tu código:</h3>
-					<ol className="list-decimal list-inside space-y-1">
-						<li className="flex items-center">
-							<Instagram className="w-4 h-4 mr-2" />
-							Abrí Instagram
-						</li>
-						<li className="flex items-center">
-							<Search className="w-4 h-4 mr-2" />
-							Buscá @ddfundacion
-						</li>
-						<li className="flex items-center">
-							<MessageCircle className="w-4 h-4 mr-2" />
-							Enviá un mensaje directo
-						</li>
-						<li className="flex items-center">
-							<Key className="w-4 h-4 mr-2" />
-							Recibí automáticamente el código
-						</li>
-					</ol>
-				</div>
+			<Instructions />
 
-				<Form {...form} >
-					<form onSubmit={form.handleSubmit(handleSubmit)} className="w-2/3 space-y-6">
-						<FormField
-							control={form.control}
-							name="pin"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Ingresá el código</FormLabel>
-									<FormControl>
-										<InputOTP maxLength={6} {...field} pattern={REGEXP_ONLY_DIGITS}>
-											<InputOTPGroup>
-												<InputOTPSlot index={0} />
-												<InputOTPSlot index={1} />
-												<InputOTPSlot index={2} />
-											</InputOTPGroup>
-											<InputOTPSeparator />
-											<InputOTPGroup>
-												<InputOTPSlot index={3} />
-												<InputOTPSlot index={4} />
-												<InputOTPSlot index={5} />
-											</InputOTPGroup>
-										</InputOTP>
-									</FormControl>
-									{/* <FormDescription>
+			<Form {...form} >
+				<form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+					<FormField
+						control={form.control}
+						name="pin"
+						render={({ field }) => (
+							<FormItem className="">
+								<FormLabel>Ingresá el código</FormLabel>
+								<FormControl >
+									<InputOTP maxLength={6} {...field} pattern={REGEXP_ONLY_DIGITS} >
+										<InputOTPGroup >
+											<InputOTPSlot index={0} className="w-12" />
+											<InputOTPSlot index={1} className="w-12" />
+											<InputOTPSlot index={2} className="w-12" />
+										</InputOTPGroup>
+										<InputOTPSeparator />
+										<InputOTPGroup >
+											<InputOTPSlot index={3} className="w-12" />
+											<InputOTPSlot index={4} className="w-12" />
+											<InputOTPSlot index={5} className="w-12" />
+										</InputOTPGroup>
+									</InputOTP>
+								</FormControl>
+								{/* <FormDescription>
 										Por favor, ingresá el código enviado a tu teléfono.
 									</FormDescription> */}
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 
-						<Button type="submit" className="w-full" disabled={isVerifying}>
-							{isVerifying ? 'Verificando...' : 'Verificar código'}
-						</Button>
-					</form>
-				</Form>
+					<Button type="submit" className="w-full" disabled={isVerifying || form.watch('pin').length !== 6}>
+						{isVerifying ? 'Verificando...' : 'Verificar código'}
+					</Button>
+				</form>
+			</Form>
 
-				<AnimatePresence>
-					{verificationStatus && (
-						<motion.div
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							exit={{ opacity: 0, y: -20 }}
-							transition={{ duration: 0.3 }}
-							className={`p-4 rounded-md ${verificationStatus === InstagramCodeVerificationStatus.SUCCESS
-								? 'bg-green-100 text-green-800'
-								: 'bg-red-100 text-red-800'
-								}`}
-						>
-							<p className="text-sm font-medium">{verificationStatus}</p>
-						</motion.div>
-					)}
-				</AnimatePresence>
-			</div >
+			<AnimatePresence>
+				{verificationStatus && (
+					<motion.div
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: -20 }}
+						transition={{ duration: 0.3 }}
+						className={`p-4 rounded-md ${verificationStatus === InstagramCodeVerificationStatus.SUCCESS
+							? 'bg-green-100 text-green-800'
+							: 'bg-red-100 text-red-800'
+							}`}
+					>
+						<p className="text-sm font-medium">{verificationStatus}</p>
+					</motion.div>
+				)}
+			</AnimatePresence>
 		</DialogContent >
 	)
 }
