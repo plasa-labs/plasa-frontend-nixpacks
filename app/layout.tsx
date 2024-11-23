@@ -29,8 +29,8 @@ const inter = Inter({ subsets: ['latin'] })
  * Metadata configuration for the application
  */
 export const metadata: Metadata = {
-	title: 'Plasa',
-	description: 'Real world governance',
+	title: 'D&D',
+	description: 'No hacemos caridad.',
 }
 
 /**
