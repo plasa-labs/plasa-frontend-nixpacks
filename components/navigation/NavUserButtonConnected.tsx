@@ -61,15 +61,15 @@ export default function NavUserButtonConnected({ className }: NavUserButtonConne
 			<DropdownMenuTrigger asChild>
 				<Button
 					variant='outline'
-					className={`transition-all duration-200 hover:scale-105 ${className}`}
+					className={`transition-all duration-200 hover:scale-105 ${className} gap-3`}
 				>
 					{/* <User className='mr-2 h-4 w-4' /> */}
 					<Avatar className="h-6 w-6">
 						<AvatarImage src={`https://avatar.vercel.sh/${displayName}.png`} alt={displayName} />
 						<AvatarFallback>{displayName}</AvatarFallback>
 					</Avatar>
-					<span className='max-w-[150px] truncate ml-2'>{displayName}</span>
-					<Badge variant="secondary" className="px-a3 py-1 ml-4 whitespace-nowrap">
+					<span className='max-w-[150px] truncate'>{displayName}</span>
+					<Badge variant="secondary" className="px-3 py-1 whitespace-nowrap">
 						{formatPoints(balance)} {symbol}
 					</Badge>
 				</Button>
