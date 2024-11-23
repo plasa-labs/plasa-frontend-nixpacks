@@ -67,7 +67,7 @@ export default function Space({ spaceAddress }: SpaceProps) {
 
 	return (
 		<div className='main-container'>
-			<SpaceHeader />
+			{/* <SpaceHeader /> */}
 			<SpaceQuestionsList />
 			<SpaceLeaderboard />
 			{/* <SpaceInformation /> */}
