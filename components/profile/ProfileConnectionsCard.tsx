@@ -4,8 +4,8 @@ import { Instagram } from 'lucide-react'
 // Internal UI component imports
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Dialog, DialogTrigger } from '@/components/ui/dialog'
-import ProfileInstagramCodeVerifierDialog from './ProfileInstagramCodeVerifierDialog'
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { ProfileInstagramCodeVerifierDialog, Instructions } from './ProfileInstagramCodeVerifier'
 
 // Context imports
 import { useFirestore } from '@/contexts/FirestoreContext'
@@ -38,7 +38,14 @@ export default function ProfileConnectionsCard() {
 							<DialogTrigger asChild>
 								<Button variant='outline' size='sm'>Conectar</Button>
 							</DialogTrigger>
-							<ProfileInstagramCodeVerifierDialog />
+							<DialogContent className="max-w-md flex flex-col items-center">
+								<DialogHeader>
+									<DialogTitle>Conectar Instagram</DialogTitle>
+								</DialogHeader>
+
+								<Instructions />
+								<ProfileInstagramCodeVerifierDialog />
+							</DialogContent>
 						</Dialog>
 					)}
 				</div>
