@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { ChevronDown } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { usePrivy } from "@privy-io/react-auth"
@@ -8,21 +8,14 @@ import { useQuestion } from "@/contexts/QuestionContext"
 import { OptionView } from "@/lib/onchain/types/interfaces"
 import { QuestionOpenOptionCard } from "./QuestionOpenOptionCard"
 
-interface QuestionOpenOptionsListProps {
-	onVote: (index: number) => void
-}
-
-export function QuestionOpenOptionsList({ onVote }: QuestionOpenOptionsListProps) {
+export function QuestionOpenOptionsList() {
 	const [displayCount, setDisplayCount] = useState(10)
-	const { question } = useQuestion()
+	const { question, options } = useQuestion()
 	const { user } = usePrivy()
 
-	if (!question) return null
-
-	const { options } = question
 	const userAddress = user?.smartWallet?.address
 
-	const sortOptions = (options: OptionView[]) => {
+	const sortOptions = useCallback((options: OptionView[]) => {
 		return options
 			.map((option, index) => ({ ...option, id: index }))
 			.slice(1)
@@ -36,23 +29,24 @@ export function QuestionOpenOptionsList({ onVote }: QuestionOpenOptionsListProps
 				}
 				return Number(b.data.pointsAtDeadline) - Number(a.data.pointsAtDeadline)
 			})
-	}
+	}, [userAddress])
+
+	if (!question) return null
 
 	const handleShowMore = () => {
 		setDisplayCount(prevCount => Math.min(prevCount + 10, options.length - 1))
 	}
 
-	const sortedOptions = sortOptions(options)
+	const sortedOptions = sortOptions(options).slice(0, displayCount)
 
 	return (
 		<div>
 			<div className="space-y-4">
 				{sortedOptions.map((option) => (
 					<QuestionOpenOptionCard
-						key={option.id}
+						key={`${option.id}-${options.length}`}
 						id={option.id}
 						option={option}
-						onVote={() => onVote(option.id)}
 					/>
 				))}
 			</div>

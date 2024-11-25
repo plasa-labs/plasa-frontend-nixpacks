@@ -9,17 +9,24 @@ import { useQuestion } from "@/contexts/QuestionContext"
 import { contractsAddOption } from "@/lib/onchain/contracts"
 
 interface QuestionOpenAddOptionFormProps {
-	onAdd: (title: string, description: string) => void
+	onPropose: () => void
 }
 
-export function QuestionOpenAddOptionForm({ onAdd }: QuestionOpenAddOptionFormProps) {
+export function QuestionOpenAddOptionForm({ onPropose }: QuestionOpenAddOptionFormProps) {
 	const [newOptionTitle, setNewOptionTitle] = useState("")
 	const [newOptionDescription, setNewOptionDescription] = useState("")
 
-	const { question } = useQuestion()
+	const { question, refetch: refetchQuestion } = useQuestion()
 	if (!question) return null
 
 	const questionAddress = question?.data.contractAddress as `0x${string}`
+
+	const handleAdd = () => {
+		refetchQuestion()
+		setNewOptionTitle("")
+		setNewOptionDescription("")
+		onPropose()
+	}
 
 	return (
 		<div className="space-y-4">
@@ -45,13 +52,10 @@ export function QuestionOpenAddOptionForm({ onAdd }: QuestionOpenAddOptionFormPr
 			<TransactionButton
 				transactionData={contractsAddOption(questionAddress, newOptionTitle, newOptionDescription)}
 				className="w-full"
-				onSuccess={() => {
-					onAdd(newOptionTitle, newOptionDescription)
-					setNewOptionTitle("")
-					setNewOptionDescription("")
-				}}>
+				onSuccess={handleAdd}
+			>
 				Proponer opción
 			</TransactionButton>
-		</div>
+		</div >
 	)
 }
