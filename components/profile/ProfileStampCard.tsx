@@ -50,9 +50,8 @@ export default function ProfileStampCard({
 	const firestoreStamp = userFirestore?.available_stamps?.find(
 		s => s.stamp.contractAddress === stamp.data.contractAddress
 	)
-	const authentic = firestoreStamp?.authentic
 
-	const followerSince: bigint = owned ? BigInt(stamp.user.specific) : BigInt(firestoreStamp?.since || 0)
+	const followerSince: bigint = owned ? BigInt(stamp.user.specific) : firestoreStamp ? BigInt(firestoreStamp?.since || 0) : BigInt(0)
 
 	const accumulatedPoints: bigint =
 		(BigInt(Math.floor(Date.now() / 1000)) - followerSince) *
@@ -69,7 +68,7 @@ export default function ProfileStampCard({
 					{/* Title is always shown above */}
 
 					{/* Since line - show if owned or authentic */}
-					{(owned || authentic) && (
+					{(owned || firestoreStamp) && (
 						<p className="text-xs text-muted-foreground mb-2">
 							Desde {formatDate(followerSince)}
 						</p>
@@ -81,7 +80,7 @@ export default function ProfileStampCard({
 					</p>
 
 					{/* Accumulated points - show if owned or authentic */}
-					{(owned || authentic) && (
+					{(owned || firestoreStamp) && (
 						<p className="text-xs text-muted-foreground mb-2">
 							{formatPoints(accumulatedPoints)} puntos acumulados
 						</p>
@@ -109,7 +108,7 @@ export default function ProfileStampCard({
 					// 		Ver mi sello <ExternalLink className="ml-2 h-4 w-4" />
 					// 	</Link>
 					// </Button>
-				) : authentic === false ? (
+				) : !firestoreStamp ? (
 					<Badge variant="outline" className="w-full flex items-center justify-center gap-2 mb-2 bg-yellow-100 text-yellow-800 border-yellow-300">
 						<AlertTriangle className="h-4 w-4" />
 						No cumplís con los requisitos
