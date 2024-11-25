@@ -22,7 +22,6 @@ interface PlasaContextType {
 	error: Error | null
 	refetch: () => void
 	setUsername: (username: string) => void
-	displayName: string
 }
 
 /**
@@ -49,18 +48,6 @@ function PlasaProvider({ children }: PlasaProviderProps): JSX.Element {
 	const [error, setError] = useState<Error | null>(null)
 	const { user, authenticated } = usePrivy()
 	const userAddress = user?.smartWallet?.address as `0x${string}`
-
-	// Initialize displayName with a default value
-	const [displayName, setDisplayName] = useState<string>('')
-
-	// Update displayName whenever userAddress changes
-	useEffect(() => {
-		if (username) {
-			setDisplayName(username)
-		} else if (userAddress) {
-			setDisplayName(abbreviateAddress(userAddress))
-		}
-	}, [userAddress, username])
 
 	const contract = contractsGetPlasa(userAddress)
 	const {
@@ -114,8 +101,7 @@ function PlasaProvider({ children }: PlasaProviderProps): JSX.Element {
 		isError,
 		error,
 		refetch: contractRefetch,
-		setUsername,
-		displayName
+		setUsername
 	}
 
 	return (

@@ -39,10 +39,10 @@ import { formatPoints } from '@/lib/utils/formatters'
  */
 export default function NavUserButtonConnected({ className }: NavUserButtonConnectedProps) {
 	const { logout } = usePrivy()
-	const { plasa, displayName } = usePlasa()
+	const { plasa, username } = usePlasa()
 	const { space } = useSpace()
 
-	if (!plasa || !space) return null
+	if (!plasa || !space || !username) return null
 
 	const points = space.points.points
 
@@ -65,10 +65,10 @@ export default function NavUserButtonConnected({ className }: NavUserButtonConne
 				>
 					{/* <User className='mr-2 h-4 w-4' /> */}
 					<Avatar className="h-6 w-6">
-						<AvatarImage src={`https://avatar.vercel.sh/${displayName}.png`} alt={displayName} />
-						<AvatarFallback>{displayName}</AvatarFallback>
+						<AvatarImage src={`https://avatar.vercel.sh/${username}.png`} alt={username} />
+						<AvatarFallback>{username}</AvatarFallback>
 					</Avatar>
-					<span className='max-w-[150px] truncate'>{displayName}</span>
+					<span className='max-w-[150px] truncate'>{username}</span>
 					<Badge variant="secondary" className="px-3 py-1 whitespace-nowrap">
 						{formatPoints(balance)} {symbol}
 					</Badge>
