@@ -11,21 +11,17 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog"
-import { usePrivy } from "@privy-io/react-auth"
-import { useQuestion } from "@/contexts/QuestionContext"
 import { useSpace } from "@/contexts/SpaceContext"
 import { usePlasa } from "@/contexts/PlasaContext"
-import { OptionView } from "@/lib/onchain/types/interfaces"
-
+import { useQuestion } from "@/contexts/QuestionContext"
 import { QuestionOpenAddOptionForm } from "./QuestionOpenAddOptionForm"
 import { QuestionOpenOptionsList } from "./QuestionOpenOptionsList"
 
 export default function QuestionOpen() {
 	const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-	const { user } = usePrivy()
 	const { space } = useSpace()
-	const { question, setQuestion } = useQuestion()
+	const { question } = useQuestion()
 	const { plasa } = usePlasa()
 
 	if (!question) return null
@@ -33,57 +29,10 @@ export default function QuestionOpen() {
 	if (!plasa) return null
 
 	const isActive = question.data.isActive
-	const userName = plasa.user.username
 	const canAddOption = space.user.permissions.AddOpenQuestionOption
 
-	const handlePropose = async (title: string, description: string) => {
-		if (!user) throw new Error("User not found")
-
-		const newOption: OptionView = {
-			data: {
-				title,
-				description,
-				proposer: user.smartWallet!.address,
-				proposerName: userName,
-				voteCount: BigInt(0),
-				pointsAtDeadline: BigInt(0),
-				isVetoed: false
-			},
-			user: {
-				voted: false
-			}
-		}
-
-		setQuestion({
-			...question!,
-			options: [...question.options, newOption]
-		})
-
+	const handlePropose = () => {
 		setIsDialogOpen(false)
-	}
-
-	const handleVote = async (optionIndex: number) => {
-		const updatedOptions = question!.options.map((option, index) => {
-			if (index === optionIndex) {
-				return {
-					...option,
-					data: {
-						...option.data,
-						voteCount: option.data.voteCount + BigInt(1),
-						pointsAtDeadline: option.data.pointsAtDeadline + question.user.pointsAtDeadline,
-					},
-					user: {
-						voted: true
-					}
-				}
-			}
-			return option
-		})
-
-		setQuestion({
-			...question,
-			options: updatedOptions,
-		})
 	}
 
 	return (
@@ -104,7 +53,7 @@ export default function QuestionOpen() {
 										Ingresa el título y la descripción para tu propuesta.
 									</DialogDescription>
 								</DialogHeader>
-								<QuestionOpenAddOptionForm onAdd={handlePropose} />
+								<QuestionOpenAddOptionForm onPropose={handlePropose} />
 							</DialogContent>
 						</Dialog>
 						{!canAddOption && (
@@ -115,9 +64,7 @@ export default function QuestionOpen() {
 					</div>
 				</div>
 			)}
-			<QuestionOpenOptionsList
-				onVote={handleVote}
-			/>
+			<QuestionOpenOptionsList />
 		</div>
 	)
 }

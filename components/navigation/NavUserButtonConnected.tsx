@@ -14,6 +14,7 @@ import {
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from '@/components/ui/badge'
 
 // Types
 interface NavUserButtonConnectedProps {
@@ -22,6 +23,10 @@ interface NavUserButtonConnectedProps {
 
 // Contexts
 import { usePlasa } from '@/contexts/PlasaContext'
+import { useSpace } from '@/contexts/SpaceContext'
+
+// Utils
+import { formatPoints } from '@/lib/utils/formatters'
 
 /**
  * NavUserButtonConnected - A navigation button component for authenticated users
@@ -34,7 +39,16 @@ import { usePlasa } from '@/contexts/PlasaContext'
  */
 export default function NavUserButtonConnected({ className }: NavUserButtonConnectedProps) {
 	const { logout } = usePrivy()
-	const { displayName } = usePlasa()
+	const { plasa, username } = usePlasa()
+	const { space } = useSpace()
+
+	if (!plasa || !space || !username) return null
+
+	const points = space.points.points
+
+	const symbol = points.data.symbol
+	const balance = points.user.currentBalance
+
 	/**
 	 * Handles user logout action
 	 */
@@ -47,14 +61,17 @@ export default function NavUserButtonConnected({ className }: NavUserButtonConne
 			<DropdownMenuTrigger asChild>
 				<Button
 					variant='outline'
-					className={`transition-all duration-200 hover:scale-105 ${className}`}
+					className={`transition-all duration-200 hover:scale-105 ${className} gap-3`}
 				>
 					{/* <User className='mr-2 h-4 w-4' /> */}
 					<Avatar className="h-6 w-6">
-						<AvatarImage src={`https://avatar.vercel.sh/${displayName}.png`} alt={displayName} />
-						<AvatarFallback>{displayName}</AvatarFallback>
+						<AvatarImage src={`https://avatar.vercel.sh/${username}.png`} alt={username} />
+						<AvatarFallback>{username}</AvatarFallback>
 					</Avatar>
-					<span className='max-w-[150px] truncate ml-2'>{displayName}</span>
+					<span className='max-w-[150px] truncate'>{username}</span>
+					<Badge variant="secondary" className="px-3 py-1 whitespace-nowrap">
+						{formatPoints(balance)} {symbol}
+					</Badge>
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align='end'>

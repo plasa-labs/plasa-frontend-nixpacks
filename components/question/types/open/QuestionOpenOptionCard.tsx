@@ -16,11 +16,10 @@ import { useSpace } from "@/contexts/SpaceContext"
 interface QuestionOpenOptionCardProps {
 	option: OptionView
 	id: number
-	onVote: (id: number) => void
 }
 
-export function QuestionOpenOptionCard({ option, id, onVote }: QuestionOpenOptionCardProps) {
-	const { question, setQuestion } = useQuestion()
+export function QuestionOpenOptionCard({ option, id }: QuestionOpenOptionCardProps) {
+	const { question, refetch: refetchQuestion } = useQuestion()
 	const { space } = useSpace()
 	const [isDescriptionVisible, setIsDescriptionVisible] = useState(false)
 
@@ -42,22 +41,6 @@ export function QuestionOpenOptionCard({ option, id, onVote }: QuestionOpenOptio
 	const canLiftVeto = space.user.permissions.LiftVetoOpenQuestionOption
 
 	if (!canLiftVeto && isVetoed) return null
-
-	const handleVeto = async () => {
-		const updatedOptions = question!.options.map((option, index) => {
-			if (index === id) return { ...option, data: { ...option.data, isVetoed: true } }
-			return option
-		})
-		setQuestion({ ...question, options: updatedOptions })
-	}
-
-	const handleLiftVeto = async () => {
-		const updatedOptions = question!.options.map((option, index) => {
-			if (index === id) return { ...option, data: { ...option.data, isVetoed: false } }
-			return option
-		})
-		setQuestion({ ...question, options: updatedOptions })
-	}
 
 	return (
 		<Card className={`mb-4 hover:shadow-md transition-shadow duration-200 ${isVetoed ? 'opacity-60' : ''}`}>
@@ -101,7 +84,7 @@ export function QuestionOpenOptionCard({ option, id, onVote }: QuestionOpenOptio
 					{canVeto && !isVetoed && (
 						<TransactionButton
 							transactionData={contractsVetoOption(questionAddress, id)}
-							onSuccess={handleVeto}
+							onSuccess={refetchQuestion}
 							className="bg-primary-foreground text-primary hover:bg-primary-foreground/80 border-primary"
 						>
 							<Flag className="h-4 w-4" />
@@ -110,7 +93,7 @@ export function QuestionOpenOptionCard({ option, id, onVote }: QuestionOpenOptio
 					{canLiftVeto && isVetoed && (
 						<TransactionButton
 							transactionData={contractsLiftOptionVeto(questionAddress, id)}
-							onSuccess={handleLiftVeto}
+							onSuccess={refetchQuestion}
 							className="bg-destructive text-destructive-foreground"
 						>
 							<Flag className="h-4 w-4" />
@@ -119,7 +102,7 @@ export function QuestionOpenOptionCard({ option, id, onVote }: QuestionOpenOptio
 					{isActive && !userVoted ? (
 						<TransactionButton
 							transactionData={contractsVote(questionAddress, id)}
-							onSuccess={() => onVote(id)}
+							onSuccess={refetchQuestion}
 						>
 							<div className="flex items-center">
 								<ThumbsUp className={`mr-4 h-4 w-4 ${userVoted ? 'fill-current' : ''}`} />

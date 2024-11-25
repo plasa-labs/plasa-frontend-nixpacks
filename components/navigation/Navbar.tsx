@@ -2,14 +2,17 @@
 
 // External dependencies
 import Link from 'next/link'
-import { Public_Sans } from 'next/font/google'
+// import { Public_Sans } from 'next/font/google'
+import { Poppins } from 'next/font/google'
 
 // Internal components
 import NavUserButton from './NavUserButton'
 import ThemeToggle from './ThemeToggle'
 
 // Font configuration
-const publicSans = Public_Sans({ subsets: ['latin'] })
+// const publicSans = Public_Sans({ subsets: ['latin'] })
+const poppins = Poppins({ subsets: ['latin'], weight: ['400', '700', '900'] })
+
 
 /**
  * Navbar Component
@@ -22,7 +25,8 @@ export default function Navbar() {
 		<nav className="border-b border-border">
 			<div className="container-base flex justify-between items-center py-4">
 				<Link href="/" className="flex-shrink-0" prefetch={true}>
-					<h1 className={`text-4xl font-medium tracking-tighter ${publicSans.className}`}>plasa</h1>
+					{/* <h1 className={`text-4xl font-medium tracking-tighter ${publicSans.className}`}>D&D</h1> */}
+					<h1 className={`text-4xl font-medium tracking-tighter ${poppins.className}`}>D&D</h1>
 				</Link>
 				<div className="flex items-center gap-4">
 					<NavUserButton className="h-10 md:h-12" />

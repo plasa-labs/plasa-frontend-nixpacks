@@ -1,7 +1,7 @@
 "use client"
 
 // External imports
-import { createContext, useContext, ReactNode, useState, useEffect } from 'react'
+import { createContext, useContext, ReactNode, useState, useEffect, useCallback } from 'react'
 import { usePrivy } from '@privy-io/react-auth'
 
 // Internal imports
@@ -16,9 +16,10 @@ interface FirestoreContextType {
 	isLoading: boolean
 	isError: boolean
 	error: Error | null
-	refetch: () => Promise<void>
-	setUserFirestore: (userData: FirestoreUserData) => void
+	setUserFirestore: (userData: FirestoreUserData | null) => void
+	asyncSetUserFirestore: (userData: FirestoreUserData) => Promise<void>
 	updateUserFirestore: (updates: Partial<FirestoreUserData>) => Promise<void>
+	instagram: string | null
 }
 
 /**
@@ -48,7 +49,7 @@ export function FirestoreProvider({ children }: FirestoreProviderProps) {
 	const { user, authenticated } = usePrivy()
 	const userAddress = user?.smartWallet?.address as `0x${string}`
 
-	const fetchUserData = async () => {
+	const fetchUserData = useCallback(async () => {
 		if (!authenticated || !userAddress) {
 			setIsLoading(false)
 			return
@@ -62,7 +63,7 @@ export function FirestoreProvider({ children }: FirestoreProviderProps) {
 		setIsLoading(true)
 		try {
 			const data = await fetchUser(userAddress)
-			if (JSON.stringify(data) !== JSON.stringify(userFirestore)) {
+			if (data && JSON.stringify(data) !== JSON.stringify(userFirestore)) {
 				setUserFirestore(data)
 				setIsError(false)
 				setError(null)
@@ -74,19 +75,28 @@ export function FirestoreProvider({ children }: FirestoreProviderProps) {
 		} finally {
 			setIsLoading(false)
 		}
-	}
+	}, [authenticated, userAddress, userFirestore])
 
 	useEffect(() => {
+		let mounted = true
+
 		if (authenticated && userAddress) {
-			fetchUserData()
+			fetchUserData().then(() => {
+				if (!mounted) return
+			})
 		} else {
-			// Reset user data when not authenticated
 			setUserFirestore(null)
 		}
-	}, [authenticated, userAddress])
 
-	const updateUserFirestore = async (updates: Partial<FirestoreUserData>) => {
-		if (!userFirestore) return
+		return () => {
+			mounted = false
+		}
+	}, [authenticated, userAddress, fetchUserData])
+
+	const updateUserFirestore = async (updates: Partial<FirestoreUserData>): Promise<void> => {
+		if (!userFirestore || !userAddress) {
+			throw new Error('Cannot update user data: User not initialized')
+		}
 
 		try {
 			const updatedData = { ...userFirestore, ...updates }
@@ -95,7 +105,17 @@ export function FirestoreProvider({ children }: FirestoreProviderProps) {
 			setIsError(true)
 			setError(err as Error)
 			console.error('Error updating user data:', err)
+			throw err
 		}
+	}
+
+	const asyncSetUserFirestore = async (userData: FirestoreUserData) => {
+		return new Promise<void>((resolve) => {
+			setUserFirestore(userData)
+			setIsLoading(false)
+			// Give time for state updates to propagate
+			setTimeout(resolve, 100)
+		})
 	}
 
 	const value = {
@@ -103,9 +123,10 @@ export function FirestoreProvider({ children }: FirestoreProviderProps) {
 		isLoading,
 		isError,
 		error,
-		refetch: fetchUserData,
 		setUserFirestore,
-		updateUserFirestore
+		asyncSetUserFirestore,
+		updateUserFirestore,
+		instagram: userFirestore?.instagram_username || null,
 	}
 
 	return <FirestoreContext.Provider value={value}>{children}</FirestoreContext.Provider>

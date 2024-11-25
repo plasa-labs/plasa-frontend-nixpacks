@@ -20,6 +20,7 @@ interface SpaceContextType {
 	error: Error | null
 	refetch: () => void
 	setSpace: (space: SpaceView) => void
+	updateSpace: (partial: Partial<SpaceView>) => void
 }
 
 /**
@@ -43,34 +44,44 @@ function SpaceProvider({ children }: SpaceProviderProps): JSX.Element {
 	const [isLoading, setIsLoading] = useState(true)
 	const [isError, setIsError] = useState(false)
 	const [error, setError] = useState<Error | null>(null)
+	const [isInitializing, setIsInitializing] = useState(true)
 
 	const { user, authenticated } = usePrivy()
 
 	const userAddress = user?.smartWallet?.address as `0x${string}`
 
-	const spaceAddress = process.env.NEXT_PUBLIC_SPACE_ADDRESS as `0x${string}`
+	const spaceAddress = process.env.NEXT_PUBLIC_SPACE_ADDRESS
+	if (!spaceAddress) {
+		throw new Error('NEXT_PUBLIC_SPACE_ADDRESS is not defined')
+	}
+	const typedSpaceAddress = spaceAddress as `0x${string}`
 
-	const contract = contractsGetSpace(spaceAddress, userAddress)
+	const contract = contractsGetSpace(typedSpaceAddress, userAddress)
 	const { data: spaceData, isLoading: isLoadingContract, isError: isErrorContract, error: contractError, refetch: contractRefetch } = useReadContract(contract)
 
 	useEffect(() => {
 		if (spaceData) {
-			const serializedSpaceData = JSON.parse(JSON.stringify(spaceData, (_, value) =>
-				typeof value === 'bigint' ? value.toString() : value
-			))
-			const serializedSpace = space ? JSON.parse(JSON.stringify(space, (_, value) =>
-				typeof value === 'bigint' ? value.toString() : value
-			)) : null
+			try {
+				const serializedSpaceData = JSON.parse(JSON.stringify(spaceData, (_, value) =>
+					typeof value === 'bigint' ? value.toString() : value
+				))
+				const serializedSpace = space ? JSON.parse(JSON.stringify(space, (_, value) =>
+					typeof value === 'bigint' ? value.toString() : value
+				)) : null
 
-			if (JSON.stringify(serializedSpaceData) !== JSON.stringify(serializedSpace)) {
-				const newSpace = spaceData as unknown as SpaceView
-				setSpace(newSpace)
+				if (JSON.stringify(serializedSpaceData) !== JSON.stringify(serializedSpace)) {
+					const newSpace = spaceData as unknown as SpaceView
+					setSpace(newSpace)
+				}
+			} catch (err) {
+				setError(err as Error)
+				setIsError(true)
 			}
 		}
 		if (isLoadingContract !== isLoading) setIsLoading(isLoadingContract)
 		if (isErrorContract !== isError) setIsError(isErrorContract)
 		if (contractError !== error) setError(contractError as Error | null)
-	}, [spaceData, isLoadingContract, isErrorContract, contractError])
+	}, [spaceData, isLoadingContract, isErrorContract, contractError, space])
 
 	useEffect(() => {
 		if (authenticated) {
@@ -78,13 +89,27 @@ function SpaceProvider({ children }: SpaceProviderProps): JSX.Element {
 		}
 	}, [authenticated, contractRefetch])
 
+	useEffect(() => {
+		if (authenticated && !isLoadingContract) {
+			setIsInitializing(false)
+		}
+	}, [authenticated, isLoadingContract])
+
+	const updateSpace = (partial: Partial<SpaceView>) => {
+		setSpace(currentSpace => {
+			if (!currentSpace) return null
+			return { ...currentSpace, ...partial }
+		})
+	}
+
 	const value = {
 		space,
 		isLoading,
 		isError,
 		error,
 		refetch: contractRefetch,
-		setSpace
+		setSpace,
+		updateSpace
 	}
 
 	return <SpaceContext.Provider value={value}>{children}</SpaceContext.Provider>

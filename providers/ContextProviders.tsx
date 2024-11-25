@@ -1,11 +1,11 @@
 'use client'
 
 import { type ReactNode } from 'react'
-import { type State } from 'wagmi'
 
 import { PlasaProvider } from '@/contexts/PlasaContext'
 import { SpaceProvider } from '@/contexts/SpaceContext'
 import { FirestoreProvider } from '@/contexts/FirestoreContext'
+import { RegistrationProvider } from '@/contexts/RegistrationContext'
 
 export function ContextProviders(props: {
 	children: ReactNode
@@ -14,7 +14,9 @@ export function ContextProviders(props: {
 		<PlasaProvider>
 			<SpaceProvider>
 				<FirestoreProvider>
-					{props.children}
+					<RegistrationProvider>
+						{props.children}
+					</RegistrationProvider>
 				</FirestoreProvider>
 			</SpaceProvider>
 		</PlasaProvider>

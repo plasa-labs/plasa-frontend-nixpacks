@@ -3,7 +3,7 @@
 import { usePrivy } from '@privy-io/react-auth'
 
 // Internal component imports
-import NavUserButtonConnect from './NavUserButtonConnect'
+import ConnectButton from '../common/ConnectButton'
 import NavUserButtonConnected from './NavUserButtonConnected'
 
 /**
@@ -29,6 +29,6 @@ export default function NavUserButton({ className }: NavUserButtonProps) {
 	return authenticated ? (
 		<NavUserButtonConnected className={className} />
 	) : (
-		<NavUserButtonConnect className={className} />
+		<ConnectButton className={className} />
 	)
 }

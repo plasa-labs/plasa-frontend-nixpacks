@@ -4,7 +4,7 @@
 import { useSpace } from '@/contexts/SpaceContext'
 
 // Internal imports - components
-import SpaceHeader from './SpaceHeader'
+// import SpaceHeader from './SpaceHeader'
 import SpaceQuestionsList from './SpaceQuestionsList'
 import SpaceLeaderboard from './SpaceLeaderboard'
 // import SpaceInformation from './SpaceInformation'
@@ -67,7 +67,7 @@ export default function Space({ spaceAddress }: SpaceProps) {
 
 	return (
 		<div className='main-container'>
-			<SpaceHeader />
+			{/* <SpaceHeader /> */}
 			<SpaceQuestionsList />
 			<SpaceLeaderboard />
 			{/* <SpaceInformation /> */}

@@ -19,7 +19,6 @@ import QuestionOpen from './types/open/QuestionOpen'
 import { QuestionType } from '@/lib/onchain/types/interfaces'
 
 // Contexts
-import { useSpace } from '@/contexts/SpaceContext'
 import { QuestionProvider, useQuestion } from '@/contexts/QuestionContext'
 
 interface QuestionProps {
@@ -36,7 +35,6 @@ export default function Question({ questionAddress }: QuestionProps) {
 
 function QuestionContent() {
 	const { question, isLoading, isError } = useQuestion()
-	const { space } = useSpace()
 
 	if (isLoading) return <QuestionLoading />
 	if (isError || !question) return <div>Error al cargar los datos</div>
@@ -46,7 +44,8 @@ function QuestionContent() {
 			<Link href='/' passHref prefetch={true}>
 				<Button variant='outline' className='mb-6'>
 					<ArrowLeft className='mr-2 h-4 w-4' />
-					Volver a {space?.data.name ? space.data.name : 'Espacio'}
+					{/* Volver a {space?.data.name ? space.data.name : 'Espacio'} */}
+					Volver a Inicio
 				</Button>
 			</Link>
 
