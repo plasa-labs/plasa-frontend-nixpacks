@@ -29,6 +29,9 @@ interface QuestionProviderProps {
 // Create the Question context
 const QuestionContext = createContext<QuestionContextType | undefined>(undefined)
 
+// Add at the top with other constants
+const VOTING_ENDED_MESSAGE = 'Votación finalizada'
+
 /**
  * QuestionProvider component that manages the state and logic for a question
  * Handles loading question data, countdown timer, and error states
@@ -69,8 +72,8 @@ export function QuestionProvider({ children, questionAddress }: QuestionProvider
 		}
 
 		if (!newQuestion.data.isActive) {
-			if (timeLeft !== 'Votación finalizada') {
-				setTimeLeft('Votación finalizada')
+			if (timeLeft !== VOTING_ENDED_MESSAGE) {
+				setTimeLeft(VOTING_ENDED_MESSAGE)
 			}
 			return
 		}
@@ -80,8 +83,8 @@ export function QuestionProvider({ children, questionAddress }: QuestionProvider
 			const remaining = Number(newQuestion.data.deadline) * 1000 - now
 
 			if (remaining <= 0) {
-				if (timeLeft !== 'Votación finalizada') {
-					setTimeLeft('Votación finalizada')
+				if (timeLeft !== VOTING_ENDED_MESSAGE) {
+					setTimeLeft(VOTING_ENDED_MESSAGE)
 				}
 				return
 			}
@@ -100,7 +103,7 @@ export function QuestionProvider({ children, questionAddress }: QuestionProvider
 		updateTimeLeft()
 		const timer = setInterval(updateTimeLeft, 1000)
 		return () => clearInterval(timer)
-	}, [questionData])
+	}, [questionData, timeLeft])
 
 	// Add useEffect to refetch when user auth changes
 	useEffect(() => {

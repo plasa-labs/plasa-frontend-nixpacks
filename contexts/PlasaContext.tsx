@@ -70,7 +70,7 @@ function PlasaProvider({ children }: PlasaProviderProps): JSX.Element {
 		error: contractError,
 		refetch: contractRefetch
 	} = useReadContract(contract) as {
-		data: PlasaView | undefined
+		data: PlasaView
 		isLoading: boolean
 		isError: boolean
 		error: Error | null
