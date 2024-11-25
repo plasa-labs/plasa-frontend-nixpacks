@@ -13,6 +13,7 @@ import { ContextProviders } from '@/providers/ContextProviders'
 import { ThemeProvider } from '@/providers/ThemeProvider'
 import { TransactionProvider } from '@/contexts/TransactionContext'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { RegistrationProvider } from '@/contexts/RegistrationContext'
 
 // Components
 import Navbar from '@/components/navigation/Navbar'
@@ -69,12 +70,14 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 					<OnchainProviders initialState={initialState}>
 						<ContextProviders>
 							<TransactionProvider>
-								<Navbar />
-								<main>
-									{children}
-									<SpeedInsights />
-								</main>
-								<Footer />
+								<RegistrationProvider>
+									<Navbar />
+									<main>
+										{children}
+										<SpeedInsights />
+									</main>
+									<Footer />
+								</RegistrationProvider>
 							</TransactionProvider>
 						</ContextProviders>
 					</OnchainProviders>
