@@ -16,6 +16,7 @@ type RegistrationContextType = {
 	nextStep: () => void
 	showCongrats: boolean
 	setShowCongrats: (show: boolean) => void
+	isLoading: boolean
 }
 
 type Step = {
@@ -35,8 +36,8 @@ export const RegistrationProvider: React.FC<{ children: React.ReactNode }> = ({ 
 	const [currentStep, setCurrentStep] = useState<Step>(steps[0])
 	const [showCongrats, setShowCongrats] = useState(false)
 
-	const { instagram } = useFirestore()
-	const { username } = usePlasa()
+	const { instagram, isLoading: isFirestoreLoading } = useFirestore()
+	const { username, isLoading: isPlasaLoading } = usePlasa()
 
 	useEffect(() => {
 		if (!username) {
@@ -67,6 +68,7 @@ export const RegistrationProvider: React.FC<{ children: React.ReactNode }> = ({ 
 				nextStep,
 				showCongrats,
 				setShowCongrats,
+				isLoading: isFirestoreLoading || isPlasaLoading
 			}}
 		>
 			{children}
