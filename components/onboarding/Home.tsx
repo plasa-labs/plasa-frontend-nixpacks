@@ -3,10 +3,12 @@
 // External dependencies
 import { usePrivy } from '@privy-io/react-auth'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 // Internal components
 import Welcome from './Welcome'
 import Space from '@/components/space/Space'
+import ConnectButton from '@/components/common/ConnectButton'
 
 // Contexts
 import { useRegistration } from '@/contexts/RegistrationContext'
@@ -21,19 +23,26 @@ import { useRegistration } from '@/contexts/RegistrationContext'
  * 
  * @returns {JSX.Element} The rendered Home component
  */
-export default function Home(): JSX.Element {
-	const { isRegistered } = useRegistration()
+export default function Home() {
+	const { isRegistered, isLoading } = useRegistration()
 	const { authenticated } = usePrivy()
 	const router = useRouter()
 
-	// Redirect to onboarding if user is authenticated but not registered
-	if (authenticated && !isRegistered) {
-		router.push('/onboarding')
-	}
+	// Use useEffect for navigation
+	useEffect(() => {
+		if (!isLoading && authenticated && !isRegistered) {
+			router.push('/onboarding')
+		}
+	}, [authenticated, isRegistered, router, isLoading])
 
 	return (
 		<>
-			{authenticated ? <Space /> : <Welcome />}
+			{isLoading ? <Welcome /> :
+				authenticated ? <Space /> : <>
+					<Welcome />
+					<ConnectButton />
+				</>
+			}
 		</>
 	)
 }

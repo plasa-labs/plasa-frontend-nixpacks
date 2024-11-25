@@ -1,9 +1,6 @@
 // External dependencies
 import { Poppins } from 'next/font/google'
 
-// Internal dependencies
-import ConnectButton from '@/components/common/ConnectButton'
-
 // Font configuration
 const poppins = Poppins({
 	weight: ['400', '700', '900'],
@@ -25,7 +22,6 @@ export default function Welcome(): JSX.Element {
 			<p className="mb-8 text-xl text-muted-foreground">
 				No hacemos caridad
 			</p>
-			<ConnectButton />
 		</div>
 	)
 }
