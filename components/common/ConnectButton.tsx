@@ -5,21 +5,22 @@ import { usePrivy } from '@privy-io/react-auth'
 import { Button } from '@/components/ui/button'
 
 /**
- * Props interface for the NavUserButtonConnect component
- * @interface NavUserButtonConnectProps
+ * Props interface for the ConnectButton component
+ * @interface ConnectButtonProps
  * @property {string} [className] - Optional CSS class names to be applied to the button
  */
-interface NavUserButtonConnectProps {
+interface ConnectButtonProps {
 	className?: string
+	text?: string
 }
 
 /**
  * Navigation button component that handles wallet connection using Privy
  * @component
- * @param {NavUserButtonConnectProps} props - Component props
+ * @param {ConnectButtonProps} props - Component props
  * @returns {JSX.Element} A button element that triggers wallet connection
  */
-export default function NavUserButtonConnect({ className }: NavUserButtonConnectProps) {
+export default function ConnectButton({ className, text }: ConnectButtonProps) {
 	const { login } = usePrivy()
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -46,7 +47,7 @@ export default function NavUserButtonConnect({ className }: NavUserButtonConnect
 			{isLoading ? (
 				<span className='animate-pulse'>Conectando...</span>
 			) : (
-				'Conectar'
+				text || 'Ingresar'
 			)}
 		</Button>
 	)

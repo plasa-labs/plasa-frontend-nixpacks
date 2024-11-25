@@ -1,28 +1,31 @@
 'use client'
 
-import { useState } from 'react'
-import { Instagram, MessageCircle, Key, Search } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { zodResolver } from "@hookform/resolvers/zod"
+// React and hooks imports
+import { useState, useEffect } from 'react'
 import { useForm } from "react-hook-form"
-import { z } from "zod"
 
-import { DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@/components/ui/input-otp'
-import { Button } from '@/components/ui/button'
+// Third-party imports
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import { motion, AnimatePresence } from 'framer-motion'
 import { usePrivy } from '@privy-io/react-auth'
+import { REGEXP_ONLY_DIGITS } from 'input-otp'
+
+// Icons
+import { Instagram, MessageCircle, Key, Search } from 'lucide-react'
+
+// Local imports - contexts
 import { useFirestore } from '@/contexts/FirestoreContext'
+import { useRegistration } from '@/contexts/RegistrationContext'
+
+// Local imports - utils and types
 import { verifyInstagramCode } from '@/lib/api/endpoints'
 import { InstagramCodeVerificationStatus } from '@/lib/api/interfaces'
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "@/components/ui/form"
-import { REGEXP_ONLY_DIGITS } from 'input-otp'
+
+// Local imports - components
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@/components/ui/input-otp'
+import { Button } from '@/components/ui/button'
 
 const FormSchema = z.object({
 	pin: z.string().min(6, {
@@ -30,7 +33,11 @@ const FormSchema = z.object({
 	}),
 })
 
-function Instructions() {
+/**
+ * Instructions component displays the step-by-step guide for obtaining
+ * the Instagram verification code.
+ */
+export function Instructions() {
 	return (
 		<div className="">
 			<div className="bg-muted p-4 rounded-md space-y-2">
@@ -57,14 +64,33 @@ function Instructions() {
 		</div>)
 }
 
-export default function ProfileInstagramCodeVerifierDialog() {
+/**
+ * InstagramConnectStep handles the Instagram verification process during onboarding.
+ * It allows users to input a verification code received via Instagram DM and
+ * validates it against the backend.
+ * 
+ * Features:
+ * - 6-digit OTP input
+ * - Real-time validation
+ * - Animated status messages
+ * - Automatic progression to next step on success
+ */
+export default function InstagramConnectStep() {
+	const { nextStep } = useRegistration()
+	const { instagram, isLoading, asyncSetUserFirestore } = useFirestore()
+	const { user } = usePrivy()
 	const [verificationStatus, setVerificationStatus] = useState<InstagramCodeVerificationStatus | null>(null)
 	const [isVerifying, setIsVerifying] = useState(false)
 
-	const { user } = usePrivy()
-	const { updateUserFirestore } = useFirestore()
-
 	const smartWalletAddress = user?.smartWallet?.address
+
+	useEffect(() => {
+		console.log('Instagram Effect:', { instagram, isLoading })
+		if (!isLoading && instagram) {
+			console.log('Attempting next step')
+			nextStep()
+		}
+	}, [instagram, isLoading, nextStep])
 
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
@@ -79,17 +105,19 @@ export default function ProfileInstagramCodeVerifierDialog() {
 		setIsVerifying(true)
 		try {
 			const code = parseInt(data.pin)
-			console.log('code', code)
-			console.log('smartWalletAddress', smartWalletAddress)
-
+			console.log('Submitting code:', code)
 			const response = await verifyInstagramCode(code, smartWalletAddress)
+			console.log('Verification response:', response)
 			setVerificationStatus(response.status)
 
 			if (response.status === InstagramCodeVerificationStatus.SUCCESS) {
-				updateUserFirestore({
-					instagram_username: response.user_data.instagram_username,
-					available_stamps: response.user_data.available_stamps
-				})
+				console.log('Success, updating Firestore')
+				await asyncSetUserFirestore(response.user_data)
+				console.log('Firestore updated')
+				setTimeout(() => {
+					console.log('Calling nextStep')
+					nextStep()
+				}, 500)
 			}
 		} catch (error) {
 			console.error('Error verifying Instagram code:', error)
@@ -99,14 +127,13 @@ export default function ProfileInstagramCodeVerifierDialog() {
 		}
 	}
 
+	if (isLoading) {
+		return <div>Loading...</div>
+	}
+
 	return (
-		<DialogContent className="max-w-md flex flex-col items-center">
-			<DialogHeader>
-				<DialogTitle>Conectar Instagram</DialogTitle>
-			</DialogHeader>
-
+		<div className='space-y-6'>
 			<Instructions />
-
 			<Form {...form} >
 				<form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
 					<FormField
@@ -160,6 +187,6 @@ export default function ProfileInstagramCodeVerifierDialog() {
 					</motion.div>
 				)}
 			</AnimatePresence>
-		</DialogContent >
+		</div>
 	)
-}
+} 
