@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation'
 import Question from '@/components/question/Question'
+import RequireRegistration from '@/components/auth/RequireRegistration'
 
 /**
  * Interface defining the expected URL parameters for the question page.
@@ -27,5 +28,9 @@ interface QuestionPageParams {
  */
 export default function QuestionPage(): JSX.Element {
 	const { questionAddress } = useParams<QuestionPageParams>()
-	return <Question questionAddress={questionAddress} />
+	return (
+		<RequireRegistration>
+			<Question questionAddress={questionAddress} />
+		</RequireRegistration>
+	)
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import Profile from '@/components/profile/Profile'
+import RequireRegistration from '@/components/auth/RequireRegistration'
 
 /**
  * ProfilePage Component
@@ -11,5 +12,9 @@ import Profile from '@/components/profile/Profile'
  * @returns {JSX.Element} The rendered Profile component
  */
 export default function ProfilePage(): JSX.Element {
-	return <Profile />
+	return (
+		<RequireRegistration>
+			<Profile />
+		</RequireRegistration>
+	)
 }

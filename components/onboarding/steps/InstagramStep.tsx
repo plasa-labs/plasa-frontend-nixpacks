@@ -65,6 +65,41 @@ export function Instructions() {
 }
 
 /**
+ * Loading state component for the Instagram verification step
+ */
+function InstagramStepLoading() {
+	return (
+		<div className='space-y-6 animate-pulse'>
+			{/* Instructions skeleton */}
+			<div className="bg-muted p-4 rounded-md space-y-2">
+				<div className="h-6 w-48 bg-muted-foreground/20 rounded" />
+				<div className="space-y-3">
+					{[1, 2, 3, 4].map((i) => (
+						<div key={i} className="flex items-center space-x-2">
+							<div className="w-4 h-4 rounded bg-muted-foreground/20" />
+							<div className="h-4 w-32 bg-muted-foreground/20 rounded" />
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Input skeleton */}
+			<div className="space-y-4">
+				<div className="h-6 w-32 bg-muted-foreground/20 rounded" />
+				<div className="flex justify-center space-x-2">
+					{[1, 2, 3, 4, 5, 6].map((i) => (
+						<div key={i} className="w-12 h-12 rounded border-2 border-muted-foreground/20" />
+					))}
+				</div>
+			</div>
+
+			{/* Button skeleton */}
+			<div className="h-10 w-full bg-muted-foreground/20 rounded" />
+		</div>
+	)
+}
+
+/**
  * InstagramConnectStep handles the Instagram verification process during onboarding.
  * It allows users to input a verification code received via Instagram DM and
  * validates it against the backend.
@@ -78,26 +113,38 @@ export function Instructions() {
 export default function InstagramConnectStep() {
 	const { nextStep } = useRegistration()
 	const { instagram, isLoading, asyncSetUserFirestore } = useFirestore()
-	const { user } = usePrivy()
+	const { user, ready } = usePrivy()
 	const [verificationStatus, setVerificationStatus] = useState<InstagramCodeVerificationStatus | null>(null)
 	const [isVerifying, setIsVerifying] = useState(false)
-
-	const smartWalletAddress = user?.smartWallet?.address
-
-	useEffect(() => {
-		console.log('Instagram Effect:', { instagram, isLoading })
-		if (!isLoading && instagram) {
-			console.log('Attempting next step')
-			nextStep()
-		}
-	}, [instagram, isLoading, nextStep])
-
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
 			pin: "",
 		},
 	})
+
+	const smartWalletAddress = user?.smartWallet?.address
+
+	useEffect(() => {
+		if (!isLoading && instagram) {
+			console.log('Attempting next step')
+			nextStep()
+		}
+	}, [instagram, isLoading, nextStep])
+
+	// Show loading state while wallet is not ready
+	if (!ready || isLoading) {
+		return <InstagramStepLoading />
+	}
+
+	// Show error if wallet is not connected
+	if (!smartWalletAddress) {
+		return (
+			<div className="text-center p-4 text-destructive">
+				<p>Por favor, conectá tu billetera primero.</p>
+			</div>
+		)
+	}
 
 	const handleSubmit = async (data: z.infer<typeof FormSchema>) => {
 		if (!smartWalletAddress) return
@@ -125,10 +172,6 @@ export default function InstagramConnectStep() {
 		} finally {
 			setIsVerifying(false)
 		}
-	}
-
-	if (isLoading) {
-		return <div>Loading...</div>
 	}
 
 	return (
