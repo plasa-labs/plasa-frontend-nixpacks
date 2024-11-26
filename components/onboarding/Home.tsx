@@ -25,22 +25,25 @@ import { useRegistration } from '@/contexts/RegistrationContext'
  */
 export default function Home() {
 	const { isRegistered, isLoading } = useRegistration()
-	const { authenticated } = usePrivy()
+	const { authenticated, ready } = usePrivy()
 	const router = useRouter()
 
-	// Use useEffect for navigation
 	useEffect(() => {
-		if (!isLoading && authenticated && !isRegistered) {
+		if (ready && authenticated && !isLoading && !isRegistered) {
 			router.push('/onboarding')
 		}
-	}, [authenticated, isRegistered, router, isLoading])
+	}, [authenticated, isRegistered, router, isLoading, ready])
+
+	if (!ready) {
+		return <Welcome />
+	}
 
 	return (
 		<>
 			{isLoading ? <Welcome /> :
 				authenticated ? <Space /> : <>
 					<Welcome />
-					<ConnectButton />
+					{/* <ConnectButton /> */}
 				</>
 			}
 		</>
