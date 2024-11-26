@@ -59,7 +59,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 	return (
 		<html lang='es' suppressHydrationWarning>
 			<head />
-			<body className={`${inter.className} antialiased min-h-screen flex flex-col`}>
+			<body className={`${inter.className} antialiased`}>
 				<ThemeProvider
 					attribute='class'
 					defaultTheme='system'
@@ -69,12 +69,16 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 					<OnchainProviders initialState={initialState}>
 						<ContextProviders>
 							<TransactionProvider>
-								<Navbar />
-								<main>
-									{children}
-									<SpeedInsights />
-								</main>
-								<Footer />
+								<div className="min-h-screen flex flex-col">
+									<div className="min-h-screen flex flex-col">
+										<Navbar />
+										<main className="flex-1 flex flex-col">
+											{children}
+											<SpeedInsights />
+										</main>
+									</div>
+									<Footer />
+								</div>
 							</TransactionProvider>
 						</ContextProviders>
 					</OnchainProviders>
