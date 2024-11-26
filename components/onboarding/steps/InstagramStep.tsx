@@ -116,8 +116,21 @@ export default function InstagramConnectStep() {
 	const { user, ready } = usePrivy()
 	const [verificationStatus, setVerificationStatus] = useState<InstagramCodeVerificationStatus | null>(null)
 	const [isVerifying, setIsVerifying] = useState(false)
+	const form = useForm<z.infer<typeof FormSchema>>({
+		resolver: zodResolver(FormSchema),
+		defaultValues: {
+			pin: "",
+		},
+	})
 
 	const smartWalletAddress = user?.smartWallet?.address
+
+	useEffect(() => {
+		if (!isLoading && instagram) {
+			console.log('Attempting next step')
+			nextStep()
+		}
+	}, [instagram, isLoading, nextStep])
 
 	// Show loading state while wallet is not ready
 	if (!ready || isLoading) {
@@ -125,28 +138,13 @@ export default function InstagramConnectStep() {
 	}
 
 	// Show error if wallet is not connected
-	if (ready && !smartWalletAddress) {
+	if (!smartWalletAddress) {
 		return (
 			<div className="text-center p-4 text-destructive">
 				<p>Por favor, conectá tu billetera primero.</p>
 			</div>
 		)
 	}
-
-	useEffect(() => {
-		console.log('Instagram Effect:', { instagram, isLoading })
-		if (!isLoading && instagram) {
-			console.log('Attempting next step')
-			nextStep()
-		}
-	}, [instagram, isLoading, nextStep])
-
-	const form = useForm<z.infer<typeof FormSchema>>({
-		resolver: zodResolver(FormSchema),
-		defaultValues: {
-			pin: "",
-		},
-	})
 
 	const handleSubmit = async (data: z.infer<typeof FormSchema>) => {
 		if (!smartWalletAddress) return

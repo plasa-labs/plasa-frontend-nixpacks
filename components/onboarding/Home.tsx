@@ -8,7 +8,6 @@ import { useEffect } from 'react'
 // Internal components
 import Welcome from './Welcome'
 import Space from '@/components/space/Space'
-import ConnectButton from '@/components/common/ConnectButton'
 
 // Contexts
 import { useRegistration } from '@/contexts/RegistrationContext'
