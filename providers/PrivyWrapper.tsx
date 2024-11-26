@@ -3,6 +3,8 @@
 import { PrivyProvider } from '@privy-io/react-auth'
 import { baseSepolia } from 'viem/chains'
 import { SmartWalletsProvider } from '@privy-io/react-auth/smart-wallets'
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 
 export function PrivyWrapper({
 	children,
@@ -10,6 +12,16 @@ export function PrivyWrapper({
 	children: React.ReactNode
 }) {
 	const privyAppId = process.env.NEXT_PUBLIC_PRIVY_APP_ID
+	const { theme, systemTheme } = useTheme()
+	const [privyTheme, setPrivyTheme] = useState<'light' | 'dark'>('light')
+
+	useEffect(() => {
+		if (theme === 'system') {
+			setPrivyTheme(systemTheme as 'light' | 'dark')
+		} else {
+			setPrivyTheme(theme as 'light' | 'dark')
+		}
+	}, [theme, systemTheme])
 
 	if (!privyAppId) {
 		throw new Error('NEXT_PUBLIC_PRIVY_APP_ID is not defined')
@@ -21,11 +33,10 @@ export function PrivyWrapper({
 			config={{
 				loginMethods: ['google'],
 				appearance: {
-					// theme: 'light',
-					// accentColor: '#676FFF',
-					logo: 'https://i.postimg.cc/BvrVvBJz/d-d-v3-horizontal-transparent.png',
+					theme: privyTheme,
+					logo: '',
+					// logo: 'https://i.postimg.cc/BvrVvBJz/d-d-v3-horizontal-transparent.png',
 					landingHeader: 'Ingresá a D&D',
-					// loginMessage: 'mensaje entre el logo y el botón de google',
 				},
 				intl: {
 					defaultCountry: 'AR',
