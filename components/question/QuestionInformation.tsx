@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { formatDate } from '@/lib/utils/formatters'
 // import { AddressScanLink } from '@/components/common/ScanLink'
 import { useQuestion } from "@/contexts/QuestionContext"
-import { useSpace } from "@/contexts/SpaceContext"
+// import { useSpace } from "@/contexts/SpaceContext"
 
 /**
  * QuestionInformation Component
@@ -17,11 +17,11 @@ import { useSpace } from "@/contexts/SpaceContext"
  */
 export default function QuestionInformation() {
 	const { question } = useQuestion()
-	const { space } = useSpace()
+	// const { space } = useSpace()
 
 	if (!question) return null
 
-	const spaceAddress = space?.data.contractAddress as string
+	// const spaceAddress = space?.data.contractAddress as string
 
 	return (
 		<>
