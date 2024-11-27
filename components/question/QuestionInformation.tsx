@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { formatDate } from '@/lib/utils/formatters'
-import { AddressScanLink } from '@/components/common/ScanLink'
+// import { AddressScanLink } from '@/components/common/ScanLink'
 import { useQuestion } from "@/contexts/QuestionContext"
 import { useSpace } from "@/contexts/SpaceContext"
 
@@ -40,7 +40,7 @@ export default function QuestionInformation() {
 							<p className="text-muted-foreground">{formatDate(question.data.deadline)}</p>
 						</div>
 
-						<div>
+						{/* <div>
 							<p className="font-semibold">Creador</p>
 							<AddressScanLink address={question.data.creator} />
 						</div>
@@ -59,7 +59,7 @@ export default function QuestionInformation() {
 									<AddressScanLink address={spaceAddress} />
 								</div>
 							</>
-						)}
+						)} */}
 					</div>
 				</CardContent>
 			</Card>
