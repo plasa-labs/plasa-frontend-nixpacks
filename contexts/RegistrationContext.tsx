@@ -17,6 +17,8 @@ type RegistrationContextType = {
 	showCongrats: boolean
 	setShowCongrats: (show: boolean) => void
 	isLoading: boolean
+	instagramCode: string | null
+	setInstagramCode: (code: string) => void
 }
 
 type Step = {
@@ -35,7 +37,7 @@ const RegistrationContext = createContext<RegistrationContextType | undefined>(u
 export const RegistrationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 	const [currentStep, setCurrentStep] = useState<Step>(steps[0])
 	const [showCongrats, setShowCongrats] = useState(false)
-
+	const [instagramCode, setInstagramCode] = useState<string | null>(null)
 	const { instagram, isLoading: isFirestoreLoading } = useFirestore()
 	const { username, isLoading: isPlasaLoading } = usePlasa()
 
@@ -68,7 +70,9 @@ export const RegistrationProvider: React.FC<{ children: React.ReactNode }> = ({ 
 				nextStep,
 				showCongrats,
 				setShowCongrats,
-				isLoading: isFirestoreLoading || isPlasaLoading
+				isLoading: isFirestoreLoading || isPlasaLoading,
+				instagramCode,
+				setInstagramCode
 			}}
 		>
 			{children}
