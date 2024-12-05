@@ -245,11 +245,7 @@
     "inputs": [],
     "name": "defaultPoints",
     "outputs": [
-      {
-        "internalType": "contract IMultipleFollowerSincePoints",
-        "name": "",
-        "type": "address"
-      }
+      { "internalType": "contract IPoints", "name": "", "type": "address" }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -584,10 +580,30 @@
               {
                 "components": [
                   {
+                    "internalType": "address",
+                    "name": "contractAddress",
+                    "type": "address"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "name",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "symbol",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "uint256",
+                    "name": "totalSupply",
+                    "type": "uint256"
+                  },
+                  {
                     "components": [
                       {
                         "internalType": "address",
-                        "name": "contractAddress",
+                        "name": "user",
                         "type": "address"
                       },
                       {
@@ -596,57 +612,30 @@
                         "type": "string"
                       },
                       {
-                        "internalType": "string",
-                        "name": "symbol",
-                        "type": "string"
-                      },
-                      {
                         "internalType": "uint256",
-                        "name": "totalSupply",
-                        "type": "uint256"
-                      },
-                      {
-                        "components": [
-                          {
-                            "internalType": "address",
-                            "name": "user",
-                            "type": "address"
-                          },
-                          {
-                            "internalType": "string",
-                            "name": "name",
-                            "type": "string"
-                          },
-                          {
-                            "internalType": "uint256",
-                            "name": "balance",
-                            "type": "uint256"
-                          }
-                        ],
-                        "internalType": "struct IPointsView.HolderData[]",
-                        "name": "top10Holders",
-                        "type": "tuple[]"
-                      }
-                    ],
-                    "internalType": "struct IPointsView.PointsData",
-                    "name": "data",
-                    "type": "tuple"
-                  },
-                  {
-                    "components": [
-                      {
-                        "internalType": "uint256",
-                        "name": "currentBalance",
+                        "name": "balance",
                         "type": "uint256"
                       }
                     ],
-                    "internalType": "struct IPointsView.PointsUser",
-                    "name": "user",
-                    "type": "tuple"
+                    "internalType": "struct IPointsView.HolderData[]",
+                    "name": "top10Holders",
+                    "type": "tuple[]"
                   }
                 ],
-                "internalType": "struct IPointsView.PointsView",
-                "name": "points",
+                "internalType": "struct IPointsView.PointsData",
+                "name": "data",
+                "type": "tuple"
+              },
+              {
+                "components": [
+                  {
+                    "internalType": "uint256",
+                    "name": "currentBalance",
+                    "type": "uint256"
+                  }
+                ],
+                "internalType": "struct IPointsView.PointsUser",
+                "name": "user",
                 "type": "tuple"
               },
               {
@@ -654,84 +643,91 @@
                   {
                     "components": [
                       {
-                        "internalType": "address",
-                        "name": "contractAddress",
-                        "type": "address"
+                        "components": [
+                          {
+                            "internalType": "address",
+                            "name": "contractAddress",
+                            "type": "address"
+                          },
+                          {
+                            "internalType": "enum IStampView.StampType",
+                            "name": "stampType",
+                            "type": "uint8"
+                          },
+                          {
+                            "internalType": "string",
+                            "name": "name",
+                            "type": "string"
+                          },
+                          {
+                            "internalType": "string",
+                            "name": "symbol",
+                            "type": "string"
+                          },
+                          {
+                            "internalType": "uint256",
+                            "name": "totalSupply",
+                            "type": "uint256"
+                          },
+                          {
+                            "internalType": "bytes",
+                            "name": "specific",
+                            "type": "bytes"
+                          }
+                        ],
+                        "internalType": "struct IStampView.StampData",
+                        "name": "data",
+                        "type": "tuple"
                       },
                       {
-                        "internalType": "enum IStampView.StampType",
-                        "name": "stampType",
-                        "type": "uint8"
-                      },
-                      {
-                        "internalType": "string",
-                        "name": "name",
-                        "type": "string"
-                      },
-                      {
-                        "internalType": "string",
-                        "name": "symbol",
-                        "type": "string"
-                      },
-                      {
-                        "internalType": "uint256",
-                        "name": "totalSupply",
-                        "type": "uint256"
-                      },
-                      {
-                        "internalType": "bytes",
-                        "name": "specific",
-                        "type": "bytes"
-                      },
-                      {
-                        "internalType": "uint256",
-                        "name": "multiplier",
-                        "type": "uint256"
+                        "components": [
+                          {
+                            "internalType": "bool",
+                            "name": "owns",
+                            "type": "bool"
+                          },
+                          {
+                            "internalType": "uint256",
+                            "name": "stampId",
+                            "type": "uint256"
+                          },
+                          {
+                            "internalType": "uint256",
+                            "name": "mintingTimestamp",
+                            "type": "uint256"
+                          },
+                          {
+                            "internalType": "uint256",
+                            "name": "currentValue",
+                            "type": "uint256"
+                          },
+                          {
+                            "internalType": "bytes",
+                            "name": "specific",
+                            "type": "bytes"
+                          }
+                        ],
+                        "internalType": "struct IStampView.StampUser",
+                        "name": "user",
+                        "type": "tuple"
                       }
                     ],
-                    "internalType": "struct IPointsStampView.PointsStampData",
-                    "name": "data",
+                    "internalType": "struct IStampView.StampView",
+                    "name": "stamp",
                     "type": "tuple"
                   },
                   {
-                    "components": [
-                      {
-                        "internalType": "bool",
-                        "name": "owns",
-                        "type": "bool"
-                      },
-                      {
-                        "internalType": "uint256",
-                        "name": "stampId",
-                        "type": "uint256"
-                      },
-                      {
-                        "internalType": "uint256",
-                        "name": "mintingTimestamp",
-                        "type": "uint256"
-                      },
-                      {
-                        "internalType": "bytes",
-                        "name": "specific",
-                        "type": "bytes"
-                      },
-                      {
-                        "internalType": "uint256",
-                        "name": "points",
-                        "type": "uint256"
-                      }
-                    ],
-                    "internalType": "struct IPointsStampView.PointsStampUser",
-                    "name": "user",
-                    "type": "tuple"
+                    "internalType": "uint256",
+                    "name": "multiplier",
+                    "type": "uint256"
                   }
                 ],
-                "internalType": "struct IPointsStampView.PointsStampView[]",
+                "internalType": "struct IPointsView.PointsStamp[]",
                 "name": "stamps",
                 "type": "tuple[]"
               }
             ],
-            "internalType": "struct IMultipleFollowerSincePoints.MultipleFollowerSincePointsView",
+            "internalType": "struct IPointsView.PointsView",
             "name": "points",
             "type": "tuple"
           },
@@ -869,6 +865,94 @@
                     "internalType": "struct IPointsView.PointsUser",
                     "name": "user",
                     "type": "tuple"
+                  },
+                  {
+                    "components": [
+                      {
+                        "components": [
+                          {
+                            "components": [
+                              {
+                                "internalType": "address",
+                                "name": "contractAddress",
+                                "type": "address"
+                              },
+                              {
+                                "internalType": "enum IStampView.StampType",
+                                "name": "stampType",
+                                "type": "uint8"
+                              },
+                              {
+                                "internalType": "string",
+                                "name": "name",
+                                "type": "string"
+                              },
+                              {
+                                "internalType": "string",
+                                "name": "symbol",
+                                "type": "string"
+                              },
+                              {
+                                "internalType": "uint256",
+                                "name": "totalSupply",
+                                "type": "uint256"
+                              },
+                              {
+                                "internalType": "bytes",
+                                "name": "specific",
+                                "type": "bytes"
+                              }
+                            ],
+                            "internalType": "struct IStampView.StampData",
+                            "name": "data",
+                            "type": "tuple"
+                          },
+                          {
+                            "components": [
+                              {
+                                "internalType": "bool",
+                                "name": "owns",
+                                "type": "bool"
+                              },
+                              {
+                                "internalType": "uint256",
+                                "name": "stampId",
+                                "type": "uint256"
+                              },
+                              {
+                                "internalType": "uint256",
+                                "name": "mintingTimestamp",
+                                "type": "uint256"
+                              },
+                              {
+                                "internalType": "uint256",
+                                "name": "currentValue",
+                                "type": "uint256"
+                              },
+                              {
+                                "internalType": "bytes",
+                                "name": "specific",
+                                "type": "bytes"
+                              }
+                            ],
+                            "internalType": "struct IStampView.StampUser",
+                            "name": "user",
+                            "type": "tuple"
+                          }
+                        ],
+                        "internalType": "struct IStampView.StampView",
+                        "name": "stamp",
+                        "type": "tuple"
+                      },
+                      {
+                        "internalType": "uint256",
+                        "name": "multiplier",
+                        "type": "uint256"
+                      }
+                    ],
+                    "internalType": "struct IPointsView.PointsStamp[]",
+                    "name": "stamps",
+                    "type": "tuple[]"
                   }
                 ],
                 "internalType": "struct IPointsView.PointsView",

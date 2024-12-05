@@ -296,6 +296,15 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "getAllHolders",
+    "outputs": [
+      { "internalType": "address[]", "name": "holders", "type": "address[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
     ],
