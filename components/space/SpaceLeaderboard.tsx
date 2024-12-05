@@ -21,7 +21,7 @@ export default function SpaceLeaderboard() {
 	const { space } = useSpace()
 	if (!space) return null
 
-	const { top10Holders, symbol } = space.points.points.data
+	const { top10Holders, symbol } = space.points.data
 	const filteredTop10Holders = top10Holders.filter(holder => holder.balance > 0)
 
 	return (

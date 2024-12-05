@@ -26,7 +26,7 @@ export default function ProfilePointsCard(): JSX.Element {
 	if (!space) return <></>
 	if (!space.points) return <></>
 
-	const points = space.points.points.user.currentBalance
+	const points = space.points.user.currentBalance
 
 	return (
 		<Card className='mb-6'>
