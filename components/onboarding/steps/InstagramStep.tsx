@@ -1,7 +1,7 @@
 'use client'
 
 // React and hooks imports
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useForm } from "react-hook-form"
 
 // Third-party imports
@@ -12,7 +12,7 @@ import { usePrivy } from '@privy-io/react-auth'
 import { REGEXP_ONLY_DIGITS } from 'input-otp'
 
 // Icons
-import { Instagram, MessageCircle, Key, Search } from 'lucide-react'
+import { MessageCircle, Key, ExternalLink } from 'lucide-react'
 
 // Local imports - contexts
 import { useFirestore } from '@/contexts/FirestoreContext'
@@ -41,23 +41,23 @@ export function Instructions() {
 	return (
 		<div className="">
 			<div className="bg-muted p-4 rounded-md space-y-2">
-				<h3 className="font-semibold">Cómo obtener tu código:</h3>
+				<h3 className="font-semibold">Cómo vincular tu cuenta de Instagram:</h3>
 				<ol className="list-decimal list-inside space-y-1">
-					<li className="flex items-center">
+					{/* <li className="flex items-center">
 						<Instagram className="w-4 h-4 mr-2" />
 						Abrí Instagram
-					</li>
-					<li className="flex items-center">
+					</li> */}
+					{/* <li className="flex items-center">
 						<Search className="w-4 h-4 mr-2" />
 						Buscá @ddfundacion
-					</li>
+					</li> */}
 					<li className="flex items-center">
 						<MessageCircle className="w-4 h-4 mr-2" />
-						Enviá un mensaje directo
+						Enviá un mensaje directo a @ddfundacion en Instagram
 					</li>
 					<li className="flex items-center">
 						<Key className="w-4 h-4 mr-2" />
-						Recibí automáticamente el código
+						Recibí automáticamente el código de verificación
 					</li>
 				</ol>
 			</div>
@@ -111,11 +111,12 @@ function InstagramStepLoading() {
  * - Automatic progression to next step on success
  */
 export default function InstagramConnectStep() {
-	const { nextStep } = useRegistration()
+	const { nextStep, instagramCode } = useRegistration()
 	const { instagram, isLoading, asyncSetUserFirestore } = useFirestore()
 	const { user, ready } = usePrivy()
 	const [verificationStatus, setVerificationStatus] = useState<InstagramCodeVerificationStatus | null>(null)
 	const [isVerifying, setIsVerifying] = useState(false)
+	const smartWalletAddress = user?.smartWallet?.address
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
@@ -123,11 +124,39 @@ export default function InstagramConnectStep() {
 		},
 	})
 
-	const smartWalletAddress = user?.smartWallet?.address
+	const handleSubmit = useCallback(async (data: z.infer<typeof FormSchema>) => {
+		if (!smartWalletAddress) return
+
+		setIsVerifying(true)
+		try {
+			const code = parseInt(data.pin)
+			const response = await verifyInstagramCode(code, smartWalletAddress)
+			setVerificationStatus(response.status)
+
+			if (response.status === InstagramCodeVerificationStatus.SUCCESS) {
+				await asyncSetUserFirestore(response.user_data)
+				setTimeout(() => {
+					nextStep()
+				}, 500)
+			}
+		} catch (error) {
+			console.error('Error verifying Instagram code:', error)
+			setVerificationStatus(InstagramCodeVerificationStatus.INVALID_CODE)
+		} finally {
+			setIsVerifying(false)
+		}
+	}, [smartWalletAddress, asyncSetUserFirestore, nextStep])
+
+	// Auto-fill the OTP input when instagramCode is available
+	useEffect(() => {
+		if (instagramCode) {
+			form.setValue('pin', instagramCode)
+			form.handleSubmit((data) => handleSubmit(data))()
+		}
+	}, [instagramCode, form, handleSubmit])
 
 	useEffect(() => {
 		if (!isLoading && instagram) {
-			console.log('Attempting next step')
 			nextStep()
 		}
 	}, [instagram, isLoading, nextStep])
@@ -146,38 +175,20 @@ export default function InstagramConnectStep() {
 		)
 	}
 
-	const handleSubmit = async (data: z.infer<typeof FormSchema>) => {
-		if (!smartWalletAddress) return
-
-		setIsVerifying(true)
-		try {
-			const code = parseInt(data.pin)
-			console.log('Submitting code:', code)
-			const response = await verifyInstagramCode(code, smartWalletAddress)
-			console.log('Verification response:', response)
-			setVerificationStatus(response.status)
-
-			if (response.status === InstagramCodeVerificationStatus.SUCCESS) {
-				console.log('Success, updating Firestore')
-				await asyncSetUserFirestore(response.user_data)
-				console.log('Firestore updated')
-				setTimeout(() => {
-					console.log('Calling nextStep')
-					nextStep()
-				}, 500)
-			}
-		} catch (error) {
-			console.error('Error verifying Instagram code:', error)
-			setVerificationStatus(InstagramCodeVerificationStatus.INVALID_CODE)
-		} finally {
-			setIsVerifying(false)
-		}
-	}
-
 	return (
 		<div className='space-y-6'>
 			<Instructions />
-			<Form {...form} >
+
+			<Button
+				variant="outline"
+				className="w-full"
+				onClick={() => window.open('https://ig.me/m/ddfundacion', '_blank')}
+			>
+				<ExternalLink className="mr-2 h-4 w-4" />
+				Enviar mensaje a @ddfundacion en Instagram
+			</Button>
+
+			<Form {...form}>
 				<form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
 					<FormField
 						control={form.control}
