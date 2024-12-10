@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import PointsToolpit from '@/components/common/PointsToolpit'
+
 // Context imports
 import { useQuestion } from '@/contexts/QuestionContext'
 
@@ -74,7 +75,7 @@ export default function QuestionDetails() {
 							<PointsToolpit />
 						</p>
 						{canVote ? (
-							<Badge variant="outline" className="bg-primary text-primary-foreground">
+							<Badge variant="outline" className="bg-secondary text-secondary-foreground">
 								Podés votar
 							</Badge>
 						) : (
