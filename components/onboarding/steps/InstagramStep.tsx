@@ -175,17 +175,36 @@ export default function InstagramConnectStep() {
 		)
 	}
 
+	const getVerificationStatusMessage = (status: InstagramCodeVerificationStatus): string => {
+		switch (status) {
+			case InstagramCodeVerificationStatus.SUCCESS:
+				return '¡Verificación exitosa!'
+			case InstagramCodeVerificationStatus.INVALID_CODE:
+				return 'El código ingresado no es válido. Por favor, verificá que hayas ingresado el código correctamente.'
+			case InstagramCodeVerificationStatus.EXPIRED_CODE:
+				return 'El código ha expirado. Por favor, solicitá un nuevo código.'
+			case InstagramCodeVerificationStatus.USED_CODE:
+				return 'Este código ya ha sido utilizado. Por favor, solicitá un nuevo código.'
+			case InstagramCodeVerificationStatus.INSTAGRAM_ALREADY_LINKED:
+				return 'Esta cuenta de Instagram ya está vinculada a otro usuario.'
+			case InstagramCodeVerificationStatus.USER_ALREADY_LINKED:
+				return 'Ya tienes una cuenta de Instagram vinculada.'
+			default:
+				return 'Ha ocurrido un error durante la verificación. Por favor, intentá nuevamente.'
+		}
+	}
+
 	return (
 		<div className='space-y-6'>
 			<Instructions />
 
 			<Button
 				variant="outline"
-				className="w-full"
+				className="w-full min-h-[44px] whitespace-normal px-4 py-6"
 				onClick={() => window.open('https://ig.me/m/ddfundacion', '_blank')}
 			>
-				<ExternalLink className="mr-2 h-4 w-4" />
-				Enviar mensaje a @ddfundacion en Instagram
+				<ExternalLink className="mr-2 h-4 w-4 shrink-0" />
+				<span className="text-center">Enviar mensaje a @ddfundacion en Instagram</span>
 			</Button>
 
 			<Form {...form}>
@@ -196,24 +215,23 @@ export default function InstagramConnectStep() {
 						render={({ field }) => (
 							<FormItem className="">
 								<FormLabel>Ingresá el código</FormLabel>
-								<FormControl >
-									<InputOTP maxLength={6} {...field} pattern={REGEXP_ONLY_DIGITS} >
-										<InputOTPGroup >
-											<InputOTPSlot index={0} className="w-12" />
-											<InputOTPSlot index={1} className="w-12" />
-											<InputOTPSlot index={2} className="w-12" />
-										</InputOTPGroup>
-										<InputOTPSeparator />
-										<InputOTPGroup >
-											<InputOTPSlot index={3} className="w-12" />
-											<InputOTPSlot index={4} className="w-12" />
-											<InputOTPSlot index={5} className="w-12" />
-										</InputOTPGroup>
-									</InputOTP>
+								<FormControl>
+									<div className="flex justify-center">
+										<InputOTP maxLength={6} {...field} pattern={REGEXP_ONLY_DIGITS}>
+											<InputOTPGroup>
+												<InputOTPSlot index={0} className="w-12" />
+												<InputOTPSlot index={1} className="w-12" />
+												<InputOTPSlot index={2} className="w-12" />
+											</InputOTPGroup>
+											<InputOTPSeparator />
+											<InputOTPGroup>
+												<InputOTPSlot index={3} className="w-12" />
+												<InputOTPSlot index={4} className="w-12" />
+												<InputOTPSlot index={5} className="w-12" />
+											</InputOTPGroup>
+										</InputOTP>
+									</div>
 								</FormControl>
-								{/* <FormDescription>
-										Por favor, ingresá el código enviado a tu teléfono.
-									</FormDescription> */}
 								<FormMessage />
 							</FormItem>
 						)}
@@ -237,7 +255,7 @@ export default function InstagramConnectStep() {
 							: 'bg-red-100 text-red-800'
 							}`}
 					>
-						<p className="text-sm font-medium">{verificationStatus}</p>
+						<p className="text-sm font-medium">{getVerificationStatusMessage(verificationStatus)}</p>
 					</motion.div>
 				)}
 			</AnimatePresence>
