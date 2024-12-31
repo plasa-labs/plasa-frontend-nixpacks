@@ -27,7 +27,7 @@ export default function QuestionInformation() {
 		<>
 			<Card>
 				<CardHeader>
-					<CardTitle>Información de la votación</CardTitle>
+					<CardTitle className="text-base font-semibold">Información de la votación</CardTitle>
 				</CardHeader>
 				<CardContent>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
