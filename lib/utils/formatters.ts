@@ -2,12 +2,10 @@ export const abbreviateAddress = (address: string): string => {
 	return `${address.slice(0, 6)}...${address.slice(-4)}`
 }
 
-export const scanLink = (address: string): string => `https://sepolia.basescan.org/address/${address}`
+export const scanLink = (address: string): string => `${process.env.NEXT_PUBLIC_BLOCK_EXPLORER_URL}/address/${address}`
 
-export const formatDate = (timestamp: bigint): string => {
-	// Create a fixed date formatter to ensure consistency
+export const formatDate = (timestamp: string | bigint): string => {
 	const formatter = new Intl.DateTimeFormat('es-AR', {
-		// timeZone: 'America/Argentina/Buenos_Aires',
 		day: '2-digit',
 		month: '2-digit',
 		year: 'numeric',
@@ -16,7 +14,22 @@ export const formatDate = (timestamp: bigint): string => {
 		hour12: false
 	})
 
-	return formatter.format(new Date(Number(timestamp) * 1000))
+	try {
+		// Handle both string dates and bigint timestamps
+		const date = typeof timestamp === 'bigint'
+			? new Date(Number(timestamp) * 1000)
+			: new Date(timestamp)
+
+		// Check if date is valid
+		if (isNaN(date.getTime())) {
+			return 'Fecha inválida'
+		}
+
+		return formatter.format(date)
+	} catch (error) {
+		console.error('Error formatting date:', error)
+		return 'Fecha inválida'
+	}
 }
 
 export const formatPoints = (points: bigint): string => {
