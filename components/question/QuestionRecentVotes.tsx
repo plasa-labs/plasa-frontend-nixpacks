@@ -51,14 +51,14 @@ export default function QuestionRecentVotes() {
 
 	return (
 		<Card className="w-full">
-			<CardHeader className="border-b">
+			<CardHeader>
 				<CardTitle className="text-base font-semibold">Últimos votos</CardTitle>
 			</CardHeader>
 			<CardContent className="p-0">
 				{recentVotes.length === 0 ? (
-					<p className="text-center text-gray-500 py-4">No recent votes</p>
+					<p className="text-center text-gray-500 py-4">No hay votos recientes</p>
 				) : (
-					<ul className="divide-y">
+					<ul className="">
 						{recentVotes.map((vote, index) => (
 							<li key={index} className="p-4 hover:bg-gray-50 transition-colors">
 								<div className="flex items-center space-x-4">

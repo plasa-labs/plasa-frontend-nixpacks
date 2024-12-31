@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useQuestion } from "@/contexts/QuestionContext"
 
 export default function QuestionTotalVotes() {
@@ -9,8 +9,10 @@ export default function QuestionTotalVotes() {
 
 	return (
 		<Card>
+			<CardHeader>
+				<CardTitle className="text-base font-semibold">Total de votos</CardTitle>
+			</CardHeader>
 			<CardContent className="pt-6">
-				<h2 className="text-base font-semibold mb-2">Total de Votos</h2>
 				<p className="text-3xl font-bold">{voteCount.toString()}</p>
 			</CardContent>
 		</Card>
