@@ -39,7 +39,7 @@ export default function QuestionRecentVotes() {
 					timestamp: Number(log.args.timestamp)
 				}))
 				.sort((a, b) => b.timestamp - a.timestamp)
-				.slice(0, 5)  // Showing only the 5 most recent votes for simplicity
+				.slice(0, 10)
 
 			setRecentVotes(initialVotes)
 		}
