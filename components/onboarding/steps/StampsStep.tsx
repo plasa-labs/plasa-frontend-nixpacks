@@ -10,12 +10,6 @@ import { useSpace } from '@/contexts/SpaceContext'
 import { useFirestore } from '@/contexts/FirestoreContext'
 import { useRegistration } from '@/contexts/RegistrationContext'
 
-/**
- * Displays the initial explanation text about stamps and points in Spanish
- * 
- * @component
- * @returns {JSX.Element} The explanation text component
- */
 function Explanation() {
 	return <>
 		<p>
@@ -30,12 +24,6 @@ function Explanation() {
 	</>
 }
 
-/**
- * Displays a user's owned and available stamps with minting functionality
- * 
- * @component
- * @returns {JSX.Element | null} The rendered stamps component or null if space is unavailable
- */
 function Stamps() {
 	const { space, refetch } = useSpace()
 	const { userFirestore } = useFirestore()
@@ -105,13 +93,6 @@ function Stamps() {
 	)
 }
 
-/**
- * Main step component for the stamps onboarding process.
- * Shows an explanation first, then the stamps interface after user acknowledgment.
- * 
- * @component
- * @returns {JSX.Element} The stamps step component
- */
 export default function StampsStep() {
 	const [readExplanation, setReadExplanation] = useState(false)
 

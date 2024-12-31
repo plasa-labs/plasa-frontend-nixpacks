@@ -7,15 +7,7 @@ const poppins = Poppins({
 	subsets: ['latin']
 })
 
-/**
- * Welcome Component
- * 
- * Renders the initial welcome screen with a title, tagline, and connection button.
- * Serves as the entry point for user onboarding.
- * 
- * @returns {JSX.Element} The rendered Welcome component
- */
-export default function Welcome(): JSX.Element {
+export default function Welcome() {
 	return (
 		<div className="flex-1 flex items-center justify-center bg-background">
 			<div className="text-center">

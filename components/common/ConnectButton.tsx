@@ -14,12 +14,6 @@ interface ConnectButtonProps {
 	text?: string
 }
 
-/**
- * Navigation button component that handles wallet connection using Privy
- * @component
- * @param {ConnectButtonProps} props - Component props
- * @returns {JSX.Element} A button element that triggers wallet connection
- */
 export default function ConnectButton({ className, text }: ConnectButtonProps) {
 	const { login } = usePrivy()
 	const [isLoading, setIsLoading] = useState(false)

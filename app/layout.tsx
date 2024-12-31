@@ -25,29 +25,15 @@ import './globals.css'
 // Font configuration
 const inter = Inter({ subsets: ['latin'] })
 
-/**
- * Metadata configuration for the application
- */
 export const metadata: Metadata = {
 	title: 'D&D',
 	description: 'No hacemos caridad.',
 }
 
-/**
- * Root layout component interface
- */
 interface RootLayoutProps {
 	children: ReactNode
 }
 
-/**
- * Root layout component that wraps the entire application
- * Provides theme support, blockchain connectivity, and global contexts
- * 
- * @param {RootLayoutProps} props - Component props
- * @param {ReactNode} props.children - Child components to render
- * @returns {Promise<JSX.Element>} The rendered layout
- */
 export default async function RootLayout({ children }: RootLayoutProps) {
 	const headersObject = await headers()
 	const cookieHeader = headersObject.get('cookie')

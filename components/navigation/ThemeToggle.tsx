@@ -21,12 +21,6 @@ interface ThemeToggleProps {
 	buttonStyle?: string
 }
 
-/**
- * ThemeToggle component that provides a dropdown menu to switch between light, dark, and system themes
- * @component
- * @param {ThemeToggleProps} props - Component props
- * @returns {JSX.Element} A dropdown menu with theme selection options
- */
 export default function ThemeToggle({ buttonStyle }: ThemeToggleProps) {
 	const { setTheme } = useTheme()
 

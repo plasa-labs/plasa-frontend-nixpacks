@@ -24,13 +24,6 @@ interface SpaceProps {
 	spaceAddress?: string
 }
 
-/**
- * Space component that displays the main space layout including header, questions list,
- * leaderboard, and information sections.
- * 
- * @param {SpaceProps} props - Component props
- * @returns {JSX.Element} Rendered Space component
- */
 export default function Space({ spaceAddress }: SpaceProps) {
 	// Fetch space data using context
 	const { isLoading, isError, error } = useSpace()
