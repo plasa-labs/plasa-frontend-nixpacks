@@ -2,7 +2,7 @@
 
 // External dependencies
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { usePrivy } from '@privy-io/react-auth'
 
 // Internal UI components
@@ -24,12 +24,21 @@ import { usePlasa } from '@/contexts/PlasaContext'
  */
 function OnboardingContent() {
 	// Context hooks
-	const { currentStep, setCurrentStep, steps, showCongrats } = useRegistration()
+	const { currentStep, setCurrentStep, steps, showCongrats, setInstagramCode } = useRegistration()
 	const { authenticated } = usePrivy()
 	const { instagram } = useFirestore()
 	const { username } = usePlasa()
 
 	const router = useRouter()
+	const searchParams = useSearchParams()
+
+	// Save Instagram code from URL params as early as possible
+	useEffect(() => {
+		const code = searchParams.get('code')
+		if (code) {
+			setInstagramCode(code)
+		}
+	}, [searchParams, setInstagramCode])
 
 	// Handle step navigation and authentication checks
 	useEffect(() => {

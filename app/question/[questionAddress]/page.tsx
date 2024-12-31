@@ -13,20 +13,7 @@ interface QuestionPageParams {
 	[key: string]: string
 }
 
-/**
- * QuestionPage Component
- * 
- * A client-side page component that displays a single question's details and interactions.
- * Extracts the question address from the URL parameters and passes it to the Question component.
- * 
- * @component
- * @example
- * // Route: /question/0x123...
- * <QuestionPage />
- * 
- * @returns {JSX.Element} A rendered Question component with the specified question address
- */
-export default function QuestionPage(): JSX.Element {
+export default function QuestionPage() {
 	const { questionAddress } = useParams<QuestionPageParams>()
 	return (
 		<RequireRegistration>

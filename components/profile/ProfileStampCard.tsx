@@ -10,7 +10,7 @@ import TransactionButton from '@/components/common/TransactionButton'
 
 // Utils & Types
 import { contractsMintStamp } from '@/lib/onchain/contracts'
-import type { PointsStampView } from '@/lib/onchain/types/interfaces'
+import type { PointsStamp } from '@/lib/onchain/types/interfaces'
 import { formatDate, formatPoints } from '@/lib/utils/formatters'
 
 // Contexts
@@ -25,7 +25,7 @@ import { useFirestore } from '@/contexts/FirestoreContext'
  * @property {boolean} [authentic] - Whether the stamp is authentic or simulated
  */
 interface ProfileStampCardProps {
-	stamp: PointsStampView
+	stamp: PointsStamp
 	onMint?: () => void
 }
 
@@ -44,14 +44,14 @@ export default function ProfileStampCard({
 }: ProfileStampCardProps) {
 	const { userFirestore } = useFirestore()
 
-	const owned = stamp.user.owns
-	const multiplier = stamp.data.multiplier
+	const owned = stamp.stamp.user.owns
+	const multiplier = stamp.multiplier
 
 	const firestoreStamp = userFirestore?.available_stamps?.find(
-		s => s.stamp.contractAddress === stamp.data.contractAddress
+		s => s.stamp.contractAddress === stamp.stamp.data.contractAddress
 	)
 
-	const followerSince: bigint = owned ? BigInt(stamp.user.specific) : firestoreStamp ? BigInt(firestoreStamp?.since || 0) : BigInt(0)
+	const followerSince: bigint = owned ? BigInt(stamp.stamp.user.specific) : firestoreStamp ? BigInt(firestoreStamp?.since || 0) : BigInt(0)
 
 	const accumulatedPoints: bigint =
 		(BigInt(Math.floor(Date.now() / 1000)) - followerSince) *
@@ -63,7 +63,7 @@ export default function ProfileStampCard({
 	return (
 		<Card className="overflow-hidden flex flex-col h-full">
 			<CardContent className="p-4 flex-grow flex flex-col">
-				<h4 className="font-semibold mb-2 line-clamp-2">{formatStampName(stamp.data.name)}</h4>
+				<h4 className="font-semibold mb-2 line-clamp-2">{formatStampName(stamp.stamp.data.name)}</h4>
 				<div className="flex-grow">
 					{/* Title is always shown above */}
 
@@ -117,7 +117,7 @@ export default function ProfileStampCard({
 					<TransactionButton
 						className="w-full mt-2"
 						transactionData={contractsMintStamp(
-							stamp.data.contractAddress as `0x${string}`,
+							stamp.stamp.data.contractAddress as `0x${string}`,
 							firestoreStamp?.since,
 							firestoreStamp?.deadline,
 							firestoreStamp?.signature as `0x${string}`

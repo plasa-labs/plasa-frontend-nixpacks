@@ -1,7 +1,11 @@
+// Basic Types
+export type AccountAddress = string // Ethereum address as hex string
+export type Timestamp = bigint // Unix timestamp
+
 // Plasa Types
 export interface PlasaData {
-	contractAddress: string  // address
-	namesContract: string   // address
+	contractAddress: AccountAddress  // address
+	namesContract: AccountAddress   // address
 }
 
 export interface PlasaUser {
@@ -16,13 +20,13 @@ export interface PlasaView {
 
 // Points Types
 export interface HolderData {
-	user: string  // address
+	user: AccountAddress  // address
 	name: string
 	balance: bigint
 }
 
 export interface PointsData {
-	contractAddress: string  // address
+	contractAddress: AccountAddress  // address
 	name: string
 	symbol: string
 	totalSupply: bigint
@@ -33,9 +37,15 @@ export interface PointsUser {
 	currentBalance: bigint
 }
 
+export interface PointsStamp {
+	stamp: StampView
+	multiplier: bigint
+}
+
 export interface PointsView {
 	data: PointsData
 	user: PointsUser
+	stamps: PointsStamp[]
 }
 
 // Question Types
@@ -46,12 +56,12 @@ export enum QuestionType {
 }
 
 export interface QuestionData {
-	contractAddress: string  // address
+	contractAddress: AccountAddress  // address
 	questionType: QuestionType
 	title: string
 	description: string
 	tags: string[]
-	creator: string  // address
+	creator: AccountAddress  // address
 	kickoff: bigint
 	deadline: bigint
 	isActive: boolean
@@ -66,7 +76,7 @@ export interface QuestionUser {
 export interface OptionData {
 	title: string
 	description: string
-	proposer: string  // address
+	proposer: AccountAddress
 	proposerName: string
 	voteCount: bigint
 	pointsAtDeadline: bigint
@@ -103,7 +113,7 @@ export enum StampType {
 }
 
 export interface StampData {
-	contractAddress: string  // address
+	contractAddress: AccountAddress  // address
 	stampType: StampType
 	name: string
 	symbol: string
@@ -115,6 +125,7 @@ export interface StampUser {
 	owns: boolean
 	stampId: bigint
 	mintingTimestamp: bigint
+	currentValue: bigint
 	specific: string  // bytes in hex
 }
 
@@ -123,14 +134,9 @@ export interface StampView {
 	user: StampUser
 }
 
-// Points Stamp Types
-export interface PointsStampData extends StampData {
-	multiplier: bigint
-}
-
 // Space Types
 export interface SpaceData {
-	contractAddress: string  // address
+	contractAddress: AccountAddress  // address
 	name: string
 	description: string
 	imageUrl: string
@@ -170,37 +176,9 @@ export interface SpacePreview {
 	user: SpaceUser
 }
 
-export interface PointsStampView {
-	data: PointsStampData
-	user: StampUser
-}
-
-export interface MultipleFollowerSincePointsView {
-	points: PointsView
-	stamps: PointsStampView[]
-}
-
 export interface SpaceView {
 	data: SpaceData
 	user: SpaceUser
-	points: MultipleFollowerSincePointsView
+	points: PointsView
 	questions: QuestionPreview[]
-}
-
-// Plasa Types
-export interface PlasaData {
-	contractAddress: string  // address
-	chainId: bigint
-	version: string
-}
-
-export interface PlasaUser {
-	username: string
-}
-
-export interface PlasaView {
-	data: PlasaData
-	user: PlasaUser
-	stamps: StampView[]
-	spaces: SpacePreview[]
 }

@@ -39,7 +39,7 @@ export default function SpaceInformation() {
 				</div>
 				<div className="flex items-center gap-2">
 					<span className="text-sm">Contrato de los puntos: </span>
-					<AddressScanLink address={space.points.points.data.contractAddress} className="text-sm" />
+					<AddressScanLink address={space.points.data.contractAddress} className="text-sm" />
 				</div>
 			</CardContent>
 		</Card>

@@ -21,8 +21,8 @@ export default function SpaceHeader() {
 	if (!space) return null
 
 	const { name, description, imageUrl } = space.data
-	const { symbol } = space.points.points.data
-	const points = BigInt(space.points.points.user.currentBalance)
+	const { symbol } = space.points.data
+	const points = space.points.user.currentBalance
 
 	return (
 		<Card className="mb-6">

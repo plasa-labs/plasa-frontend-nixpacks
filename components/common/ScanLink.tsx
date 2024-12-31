@@ -13,11 +13,6 @@ interface ScanLinkProps {
 	className?: string
 }
 
-/**
- * ScanLink component displays a blockchain address in abbreviated form with an external link
- * @param {ScanLinkProps} props - Component props
- * @returns {JSX.Element} Rendered address link with external link icon
- */
 export function ScanLink({ address, route, className }: ScanLinkProps) {
 	const shortAddress = `${address.slice(0, 6)}...${address.slice(-4)}`
 	const explorerUrl = `https://sepolia.basescan.org${route}`
@@ -35,11 +30,6 @@ export function ScanLink({ address, route, className }: ScanLinkProps) {
 	)
 }
 
-/**
- * AddressScanLink component displays a blockchain address in abbreviated form with an external link to the address page
- * @param {ScanLinkProps} props - Component props
- * @returns {JSX.Element} Rendered address link with external link icon
- */
 export function AddressScanLink({ address, className }: ScanLinkProps) {
 	return <ScanLink address={address} route={`/address/${address}`} className={className} />
 }

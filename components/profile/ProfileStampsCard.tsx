@@ -23,8 +23,8 @@ export default function ProfileStampsCard({ onStampMint }: ProfileStampsCardProp
 	if (!space) return null
 
 	const stamps = space.points.stamps
-	const ownedStamps = stamps.filter(stamp => stamp.user.owns)
-	const notOwnedStamps = stamps.filter(stamp => !stamp.user.owns)
+	const ownedStamps = stamps.filter(stamp => stamp.stamp.user.owns)
+	const notOwnedStamps = stamps.filter(stamp => !stamp.stamp.user.owns)
 
 	if (!userFirestore?.instagram_username) {
 		return (
@@ -50,7 +50,7 @@ export default function ProfileStampsCard({ onStampMint }: ProfileStampsCardProp
 					<div className="space-y-4 mb-6">
 						{ownedStamps.map(stamp => (
 							<ProfileStampCard
-								key={stamp.data.contractAddress}
+								key={stamp.stamp.data.contractAddress}
 								stamp={stamp}
 							/>
 						))}
@@ -64,9 +64,9 @@ export default function ProfileStampsCard({ onStampMint }: ProfileStampsCardProp
 					<div className="space-y-4">
 						{notOwnedStamps.map(stamp => (
 							<ProfileStampCard
-								key={stamp.data.contractAddress}
+								key={stamp.stamp.data.contractAddress}
 								stamp={stamp}
-								onMint={() => onStampMint(stamp.data.contractAddress)}
+								onMint={() => onStampMint(stamp.stamp.data.contractAddress)}
 							/>
 						))}
 					</div>

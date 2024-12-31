@@ -1,7 +1,7 @@
 'use client'
 
 // React and hooks imports
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useForm } from "react-hook-form"
 
 // Third-party imports
@@ -12,7 +12,7 @@ import { usePrivy } from '@privy-io/react-auth'
 import { REGEXP_ONLY_DIGITS } from 'input-otp'
 
 // Icons
-import { Instagram, MessageCircle, Key, Search } from 'lucide-react'
+import { MessageCircle, Key, ExternalLink } from 'lucide-react'
 
 // Local imports - contexts
 import { useFirestore } from '@/contexts/FirestoreContext'
@@ -41,23 +41,23 @@ export function Instructions() {
 	return (
 		<div className="">
 			<div className="bg-muted p-4 rounded-md space-y-2">
-				<h3 className="font-semibold">Cómo obtener tu código:</h3>
+				<h3 className="font-semibold">Cómo vincular tu cuenta de Instagram:</h3>
 				<ol className="list-decimal list-inside space-y-1">
-					<li className="flex items-center">
+					{/* <li className="flex items-center">
 						<Instagram className="w-4 h-4 mr-2" />
 						Abrí Instagram
-					</li>
-					<li className="flex items-center">
+					</li> */}
+					{/* <li className="flex items-center">
 						<Search className="w-4 h-4 mr-2" />
 						Buscá @ddfundacion
-					</li>
+					</li> */}
 					<li className="flex items-center">
 						<MessageCircle className="w-4 h-4 mr-2" />
-						Enviá un mensaje directo
+						Enviá un mensaje directo a @ddfundacion en Instagram
 					</li>
 					<li className="flex items-center">
 						<Key className="w-4 h-4 mr-2" />
-						Recibí automáticamente el código
+						Recibí automáticamente el código de verificación
 					</li>
 				</ol>
 			</div>
@@ -111,11 +111,12 @@ function InstagramStepLoading() {
  * - Automatic progression to next step on success
  */
 export default function InstagramConnectStep() {
-	const { nextStep } = useRegistration()
+	const { nextStep, instagramCode } = useRegistration()
 	const { instagram, isLoading, asyncSetUserFirestore } = useFirestore()
 	const { user, ready } = usePrivy()
 	const [verificationStatus, setVerificationStatus] = useState<InstagramCodeVerificationStatus | null>(null)
 	const [isVerifying, setIsVerifying] = useState(false)
+	const smartWalletAddress = user?.smartWallet?.address
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
@@ -123,11 +124,39 @@ export default function InstagramConnectStep() {
 		},
 	})
 
-	const smartWalletAddress = user?.smartWallet?.address
+	const handleSubmit = useCallback(async (data: z.infer<typeof FormSchema>) => {
+		if (!smartWalletAddress) return
+
+		setIsVerifying(true)
+		try {
+			const code = parseInt(data.pin)
+			const response = await verifyInstagramCode(code, smartWalletAddress)
+			setVerificationStatus(response.status)
+
+			if (response.status === InstagramCodeVerificationStatus.SUCCESS) {
+				await asyncSetUserFirestore(response.user_data)
+				setTimeout(() => {
+					nextStep()
+				}, 500)
+			}
+		} catch (error) {
+			console.error('Error verifying Instagram code:', error)
+			setVerificationStatus(InstagramCodeVerificationStatus.INVALID_CODE)
+		} finally {
+			setIsVerifying(false)
+		}
+	}, [smartWalletAddress, asyncSetUserFirestore, nextStep])
+
+	// Auto-fill the OTP input when instagramCode is available
+	useEffect(() => {
+		if (instagramCode) {
+			form.setValue('pin', instagramCode)
+			form.handleSubmit((data) => handleSubmit(data))()
+		}
+	}, [instagramCode, form, handleSubmit])
 
 	useEffect(() => {
 		if (!isLoading && instagram) {
-			console.log('Attempting next step')
 			nextStep()
 		}
 	}, [instagram, isLoading, nextStep])
@@ -146,38 +175,39 @@ export default function InstagramConnectStep() {
 		)
 	}
 
-	const handleSubmit = async (data: z.infer<typeof FormSchema>) => {
-		if (!smartWalletAddress) return
-
-		setIsVerifying(true)
-		try {
-			const code = parseInt(data.pin)
-			console.log('Submitting code:', code)
-			const response = await verifyInstagramCode(code, smartWalletAddress)
-			console.log('Verification response:', response)
-			setVerificationStatus(response.status)
-
-			if (response.status === InstagramCodeVerificationStatus.SUCCESS) {
-				console.log('Success, updating Firestore')
-				await asyncSetUserFirestore(response.user_data)
-				console.log('Firestore updated')
-				setTimeout(() => {
-					console.log('Calling nextStep')
-					nextStep()
-				}, 500)
-			}
-		} catch (error) {
-			console.error('Error verifying Instagram code:', error)
-			setVerificationStatus(InstagramCodeVerificationStatus.INVALID_CODE)
-		} finally {
-			setIsVerifying(false)
+	const getVerificationStatusMessage = (status: InstagramCodeVerificationStatus): string => {
+		switch (status) {
+			case InstagramCodeVerificationStatus.SUCCESS:
+				return '¡Verificación exitosa!'
+			case InstagramCodeVerificationStatus.INVALID_CODE:
+				return 'El código ingresado no es válido. Por favor, verificá que hayas ingresado el código correctamente.'
+			case InstagramCodeVerificationStatus.EXPIRED_CODE:
+				return 'El código ha expirado. Por favor, solicitá un nuevo código.'
+			case InstagramCodeVerificationStatus.USED_CODE:
+				return 'Este código ya ha sido utilizado. Por favor, solicitá un nuevo código.'
+			case InstagramCodeVerificationStatus.INSTAGRAM_ALREADY_LINKED:
+				return 'Esta cuenta de Instagram ya está vinculada a otro usuario.'
+			case InstagramCodeVerificationStatus.USER_ALREADY_LINKED:
+				return 'Ya tienes una cuenta de Instagram vinculada.'
+			default:
+				return 'Ha ocurrido un error durante la verificación. Por favor, intentá nuevamente.'
 		}
 	}
 
 	return (
 		<div className='space-y-6'>
 			<Instructions />
-			<Form {...form} >
+
+			<Button
+				variant="outline"
+				className="w-full min-h-[44px] whitespace-normal px-4 py-6"
+				onClick={() => window.open('https://ig.me/m/ddfundacion', '_blank')}
+			>
+				<ExternalLink className="mr-2 h-4 w-4 shrink-0" />
+				<span className="text-center">Enviar mensaje a @ddfundacion en Instagram</span>
+			</Button>
+
+			<Form {...form}>
 				<form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
 					<FormField
 						control={form.control}
@@ -185,24 +215,23 @@ export default function InstagramConnectStep() {
 						render={({ field }) => (
 							<FormItem className="">
 								<FormLabel>Ingresá el código</FormLabel>
-								<FormControl >
-									<InputOTP maxLength={6} {...field} pattern={REGEXP_ONLY_DIGITS} >
-										<InputOTPGroup >
-											<InputOTPSlot index={0} className="w-12" />
-											<InputOTPSlot index={1} className="w-12" />
-											<InputOTPSlot index={2} className="w-12" />
-										</InputOTPGroup>
-										<InputOTPSeparator />
-										<InputOTPGroup >
-											<InputOTPSlot index={3} className="w-12" />
-											<InputOTPSlot index={4} className="w-12" />
-											<InputOTPSlot index={5} className="w-12" />
-										</InputOTPGroup>
-									</InputOTP>
+								<FormControl>
+									<div className="flex justify-center">
+										<InputOTP maxLength={6} {...field} pattern={REGEXP_ONLY_DIGITS}>
+											<InputOTPGroup>
+												<InputOTPSlot index={0} className="w-12" />
+												<InputOTPSlot index={1} className="w-12" />
+												<InputOTPSlot index={2} className="w-12" />
+											</InputOTPGroup>
+											<InputOTPSeparator />
+											<InputOTPGroup>
+												<InputOTPSlot index={3} className="w-12" />
+												<InputOTPSlot index={4} className="w-12" />
+												<InputOTPSlot index={5} className="w-12" />
+											</InputOTPGroup>
+										</InputOTP>
+									</div>
 								</FormControl>
-								{/* <FormDescription>
-										Por favor, ingresá el código enviado a tu teléfono.
-									</FormDescription> */}
 								<FormMessage />
 							</FormItem>
 						)}
@@ -226,7 +255,7 @@ export default function InstagramConnectStep() {
 							: 'bg-red-100 text-red-800'
 							}`}
 					>
-						<p className="text-sm font-medium">{verificationStatus}</p>
+						<p className="text-sm font-medium">{getVerificationStatusMessage(verificationStatus)}</p>
 					</motion.div>
 				)}
 			</AnimatePresence>

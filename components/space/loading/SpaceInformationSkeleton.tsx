@@ -1,14 +1,6 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 
-/**
- * SpaceInformationSkeleton
- * 
- * A loading placeholder component that displays a skeleton structure for space information.
- * Uses skeleton elements to indicate loading state for title and two rows of information.
- * 
- * @returns JSX.Element - A card containing skeleton elements for loading state
- */
 export default function SpaceInformationSkeleton() {
 	return (
 		<Card>

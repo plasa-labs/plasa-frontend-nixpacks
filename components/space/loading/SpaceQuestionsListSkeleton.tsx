@@ -1,15 +1,6 @@
 import { Card, CardHeader, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 
-/**
- * SpaceQuestionsListSkeleton
- * 
- * A loading skeleton component that displays a placeholder UI while the actual
- * questions list is being fetched. It shows a card containing two skeleton
- * question items with headers and content areas.
- * 
- * @returns {JSX.Element} A skeleton loading state for the questions list
- */
 export default function SpaceQuestionsListSkeleton() {
 	return (
 		<Card className='mb-6'>

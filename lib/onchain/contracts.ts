@@ -53,14 +53,14 @@ export const contractsGetNameAvailability = (name: string, namesAddress: `0x${st
 	}
 }
 
-export const contractsGetUserName = (userAddress: `0x${string}`): ReadContractParameters => {
-	return {
-		address: process.env.NEXT_PUBLIC_NAMES_ADDRESS as `0x${string}`,
-		abi: namesAbi as Abi,
-		functionName: 'userToName',
-		args: [getValidAddress(userAddress)]
-	}
-}
+// export const contractsGetUserName = (userAddress: `0x${string}`): ReadContractParameters => {
+// 	return {
+// 		address: process.env.NEXT_PUBLIC_NAMES_ADDRESS as `0x${string}`,
+// 		abi: namesAbi as Abi,
+// 		functionName: 'userToName',
+// 		args: [getValidAddress(userAddress)]
+// 	}
+// }
 
 // Write contracts
 
@@ -72,7 +72,7 @@ export const contractsMintStamp = (
 ): { to: `0x${string}`, data: `0x${string}`, chain: Chain } => {
 	const data = encodeFunctionData({
 		abi: followerSinceStampAbi as Abi,
-		functionName: 'mintStamp',
+		functionName: 'mintWithSignature',
 		args: [since, deadline, signature]
 	})
 

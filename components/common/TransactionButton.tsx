@@ -93,27 +93,28 @@ export default function TransactionButton({
 	}
 
 	return (
-		<Button
-			onClick={handleTransaction}
-			className={`relative ${className} ${(isAnyTransactionProcessing && !isProcessing) ?
-				"opacity-50 cursor-not-allowed" : ""
-				}`}
-			disabled={disabled || isProcessing || !authenticated || !client || isProcessed || isAnyTransactionProcessing}
-		>
-			{isProcessing ? (
-				<>
-					{/* <Progress
-						value={100}
-						className="absolute inset-0 h-full w-full rounded-md"
-					/> */}
-					<Loader2 className="mr-2 h-4 w-4 animate-spin" />
-					<span className="relative z-10">{loadingText}</span>
-				</>
-			) : isProcessed ? (
-				"¡Listo!"
-			) : (
-				children
+		<div>
+			<Button
+				onClick={handleTransaction}
+				className={`relative ${className} ${(isAnyTransactionProcessing && !isProcessing) ?
+					"opacity-50 cursor-not-allowed" : ""
+					}`}
+				disabled={disabled || isProcessing || !authenticated || !client || isProcessed || isAnyTransactionProcessing}
+			>
+				{isProcessing ? (
+					<>
+						<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+						<span className="relative z-10">{loadingText}</span>
+					</>
+				) : isProcessed ? (
+					"¡Listo!"
+				) : (
+					children
+				)}
+			</Button>
+			{isProcessing && (
+				<p className="text-sm text-muted-foreground mt-2">Puede demorar unos segundos</p>
 			)}
-		</Button>
+		</div>
 	)
 } 

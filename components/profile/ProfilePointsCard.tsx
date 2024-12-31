@@ -14,19 +14,12 @@ import { useSpace } from '@/contexts/SpaceContext'
 // Utils
 import { formatPoints } from '@/lib/utils/formatters'
 
-/**
- * ProfilePointsCard Component
- * 
- * Displays the user's points information.
- * 
- * @returns {JSX.Element} A card component showing points information
- */
-export default function ProfilePointsCard(): JSX.Element {
+export default function ProfilePointsCard() {
 	const { space } = useSpace()
 	if (!space) return <></>
 	if (!space.points) return <></>
 
-	const points = space.points.points.user.currentBalance
+	const points = space.points.user.currentBalance
 
 	return (
 		<Card className='mb-6'>

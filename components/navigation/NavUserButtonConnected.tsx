@@ -44,7 +44,7 @@ export default function NavUserButtonConnected({ className }: NavUserButtonConne
 
 	if (!plasa || !space || !username) return null
 
-	const points = space.points.points
+	const points = space.points
 
 	const symbol = points.data.symbol
 	const balance = points.user.currentBalance
