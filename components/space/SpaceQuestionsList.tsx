@@ -30,7 +30,7 @@ export default function SpaceQuestionsList() {
 	})
 
 	return (
-		<Card className="mb-6">
+		<Card>
 			<CardHeader>
 				<div className="flex justify-between items-center">
 					<CardTitle>Votaciones</CardTitle>

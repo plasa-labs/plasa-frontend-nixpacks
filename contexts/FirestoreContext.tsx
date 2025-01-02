@@ -32,14 +32,6 @@ interface FirestoreProviderProps {
 // Create context with undefined as initial value
 const FirestoreContext = createContext<FirestoreContextType | undefined>(undefined)
 
-/**
- * FirestoreProvider component that manages user data state and provides
- * methods to interact with Firestore data throughout the application.
- *
- * @component
- * @param {FirestoreProviderProps} props - The component props
- * @returns {JSX.Element} Provider component wrapping children with Firestore context
- */
 export function FirestoreProvider({ children }: FirestoreProviderProps) {
 	const [userFirestore, setUserFirestore] = useState<FirestoreUserData | null>(null)
 	const [isLoading, setIsLoading] = useState(true)

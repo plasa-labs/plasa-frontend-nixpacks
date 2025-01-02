@@ -23,20 +23,6 @@ interface SpaceQuestionCardProps {
 	question: QuestionPreview
 }
 
-/**
- * SpaceQuestionCard Component
- * 
- * Displays a card with question information including:
- * - Question title
- * - Active/Closed status
- * - Time remaining or time since closure
- * - Vote count
- * - User's voting points
- * - Action button (Vote or View)
- * 
- * @param {SpaceQuestionCardProps} props - Component props
- * @returns {JSX.Element} Rendered card component
- */
 export default function SpaceQuestionCard({ question }: SpaceQuestionCardProps) {
 	const router = useRouter()
 

@@ -7,13 +7,7 @@ interface Step {
 	// Add other step properties if they exist
 }
 
-/**
- * ProgressIndicator Component
- * 
- * Displays a progress bar and step indicators for a multi-step onboarding process.
- * Shows completed steps with checkmarks, current step highlighted, and upcoming steps in muted colors.
- */
-export default function ProgressIndicator(): JSX.Element {
+export default function ProgressIndicator() {
 	const { steps, currentStep } = useRegistration()
 	const currentStepIndex = steps.indexOf(currentStep)
 

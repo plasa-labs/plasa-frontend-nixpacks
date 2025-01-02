@@ -34,12 +34,7 @@ interface SpaceProviderProps {
 // Create context with undefined as initial value
 const SpaceContext = createContext<SpaceContextType | undefined>(undefined)
 
-/**
- * SpaceProvider component that manages the space state and provides it to children
- * @param {SpaceProviderProps} props - The component props
- * @returns {JSX.Element} Provider component wrapping children
- */
-function SpaceProvider({ children }: SpaceProviderProps): JSX.Element {
+function SpaceProvider({ children }: SpaceProviderProps) {
 	const [space, setSpace] = useState<SpaceView | null>(null)
 	const [isLoading, setIsLoading] = useState(true)
 	const [isError, setIsError] = useState(false)

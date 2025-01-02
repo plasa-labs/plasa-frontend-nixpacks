@@ -10,15 +10,7 @@ import ProfileUsernameMinter from './ProfileUsernameMinter'
 // Contexts
 import { usePlasa } from '@/contexts/PlasaContext'
 
-/**
- * ProfileUsernameCard Component
- * 
- * Displays the user's Base username if available, otherwise shows an option to get one.
- * Uses the Base Sepolia network for name resolution.
- * 
- * @returns {JSX.Element} A card component showing username information or registration option
- */
-export default function ProfileUsernameCard(): JSX.Element {
+export default function ProfileUsernameCard() {
 	const { username } = usePlasa()
 
 	return (

@@ -34,12 +34,7 @@ interface PlasaProviderProps {
 // Create context with undefined as initial value
 const PlasaContext = createContext<PlasaContextType | undefined>(undefined)
 
-/**
- * PlasaProvider component that manages the username state and provides it to children
- * @param {PlasaProviderProps} props - The component props
- * @returns {JSX.Element} Provider component wrapping children
- */
-function PlasaProvider({ children }: PlasaProviderProps): JSX.Element {
+function PlasaProvider({ children }: PlasaProviderProps) {
 	const [username, setUsername] = useState<string | null>(null)
 	const [plasa, setPlasa] = useState<PlasaView | null>(null)
 	const [isRegistered, setIsRegistered] = useState(false)

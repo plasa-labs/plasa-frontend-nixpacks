@@ -2,10 +2,9 @@ import { useState, useEffect } from 'react'
 import { usePublicClient } from 'wagmi'
 import { parseAbiItem } from 'viem'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { formatDate } from '@/lib/utils/formatters'
+import { formatDate, formatPoints } from '@/lib/utils/formatters'
 import { useQuestion } from '@/contexts/QuestionContext'
-import { formatPoints } from '@/lib/utils/formatters'
-import { Badge } from '@/components/ui/badge'
+// import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 
 interface Vote {
 	voter: string
@@ -15,13 +14,10 @@ interface Vote {
 	timestamp: number
 }
 
-
 export default function QuestionRecentVotes() {
 	const [recentVotes, setRecentVotes] = useState<Vote[]>([])
-
 	const { question } = useQuestion()
 	const publicClient = usePublicClient()
-
 	const questionAddress = question?.data.contractAddress as `0x${string}`
 
 	useEffect(() => {
@@ -34,13 +30,14 @@ export default function QuestionRecentVotes() {
 				fromBlock: BigInt(0),
 			})
 
-			const initialVotes = logs.map(log => ({
-				voter: log.args.voter as string,
-				name: log.args.name as string,
-				optionId: Number(log.args.optionId),
-				points: Number(log.args.points),
-				timestamp: Number(log.args.timestamp)
-			}))
+			const initialVotes = logs
+				.map(log => ({
+					voter: log.args.voter as string,
+					name: log.args.name as string,
+					optionId: Number(log.args.optionId),
+					points: Number(log.args.points),
+					timestamp: Number(log.args.timestamp)
+				}))
 				.sort((a, b) => b.timestamp - a.timestamp)
 				.slice(0, 10)
 
@@ -53,38 +50,38 @@ export default function QuestionRecentVotes() {
 	if (!questionAddress) return null
 
 	return (
-		<>
-			<Card>
-				<CardHeader>
-					<CardTitle>Últimos votos</CardTitle>
-				</CardHeader>
-				<CardContent>
-					<div className="space-y-4">
-						{recentVotes.length === 0 ? (
-							<p className="text-sm text-muted-foreground">No hay votos recientes</p>
-						) : (
-							recentVotes.map((vote, index) => (
-								<div key={index} className="flex flex-wrap items-center gap-4 py-2 justify-between">
-									<div className="flex flex-col sm:flex-row sm:items-center">
-										<span className="font-medium">{vote.name}</span>
-										<span className="text-sm text-muted-foreground sm:ml-2">
-											{question?.options[vote.optionId]?.data.title || `Opción ${vote.optionId}`}
-										</span>
+		<Card className="w-full">
+			<CardHeader>
+				<CardTitle className="text-base font-semibold">Últimos votos</CardTitle>
+			</CardHeader>
+			<CardContent className="p-0">
+				{recentVotes.length === 0 ? (
+					<p className="text-center text-gray-500 py-4">No hay votos recientes</p>
+				) : (
+					<ul className="">
+						{recentVotes.map((vote, index) => (
+							<li key={index} className="p-4 hover:bg-gray-50 transition-colors">
+								<div className="flex items-center space-x-4">
+									{/* <Avatar className="w-10 h-10 bg-primary text-primary-foreground">
+										<AvatarFallback>{vote.name.charAt(0).toUpperCase()}</AvatarFallback>
+									</Avatar> */}
+									<div className="flex-grow min-w-0">
+										<p className="font-medium text-sm truncate">{vote.name}</p>
+										<p className="text-xs text-gray-500 truncate">
+											{question?.options[vote.optionId]?.data.title || `Option ${vote.optionId}`}
+										</p>
 									</div>
-									<div className="flex flex-col items-end gap-1 sm:flex-row sm:items-center sm:gap-4 ml-auto">
-										<Badge variant="outline" className="bg-green-100 text-green-800 border-green-300">
-											{formatPoints(BigInt(vote.points))} pts
-										</Badge>
-										<span className="text-sm text-muted-foreground">
-											{formatDate(BigInt(vote.timestamp))}
-										</span>
+									<div className="text-right flex-shrink-0">
+										<p className="font-semibold text-sm">{formatPoints(BigInt(vote.points))} pts</p>
+										<p className="text-xs text-gray-500">{formatDate(BigInt(vote.timestamp))}</p>
 									</div>
 								</div>
-							))
-						)}
-					</div>
-				</CardContent>
-			</Card >
-		</>
+							</li>
+						))}
+					</ul>
+				)}
+			</CardContent>
+		</Card>
 	)
-} 
+}
+

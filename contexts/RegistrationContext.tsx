@@ -23,7 +23,7 @@ type RegistrationContextType = {
 
 type Step = {
 	name: string
-	component: () => JSX.Element
+	component: () => React.ReactNode
 }
 
 const steps: Step[] = [
