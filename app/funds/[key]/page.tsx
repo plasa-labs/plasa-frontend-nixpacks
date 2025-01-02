@@ -5,17 +5,18 @@ import FundsTransactionTableServer from '@/components/funds/FundsTransactionTabl
 import FundsTransactionsSkeletonLoader from '@/components/funds/FundsTransactionsSkeletonLoader'
 import FundsErrorDisplay from '@/components/funds/FundsErrorDisplay'
 
+interface PageProps {
+	params: Promise<{ key: string }>
+	searchParams: Promise<{ page?: string; search?: string }>
+}
+
 export default async function FundsPage({
 	params,
 	searchParams
-}: {
-	params: { key: string }
-	searchParams: { page?: string; search?: string }
-}) {
-	const { key } = params
-	const page = searchParams.page ? parseInt(searchParams.page, 10) : 1
-	// const lastTransactionId = searchParams.lastTransactionId
-	const searchTerm = searchParams.search
+}: PageProps) {
+	const { key } = await params
+	const { page, search } = await searchParams
+	const currentPage = page ? parseInt(page, 10) : 1
 
 	try {
 		const accountData = await fetchAccountData(key)
@@ -25,15 +26,15 @@ export default async function FundsPage({
 			<Funds
 				accountData={accountData}
 				accountKey={key}
-				searchTerm={searchTerm}
+				searchTerm={search}
 			>
 				<Suspense fallback={<FundsTransactionsSkeletonLoader />}>
 					<FundsTransactionTableServer
 						mercadoPagoId={mercadoPagoId}
 						accountKey={key}
-						page={page}
+						page={currentPage}
 						// lastTransactionId={lastTransactionId}
-						searchTerm={searchTerm}
+						searchTerm={search}
 						initialTransactions={accountData.transactions.documents}
 						initialPaginationInfo={accountData.transactions.pagination}
 					/>

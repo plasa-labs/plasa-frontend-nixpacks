@@ -7,6 +7,7 @@ interface SearchResultsInfoProps {
 
 export default function SearchResultsInfo({ searchTerm }: SearchResultsInfoProps) {
 	return (
+		// @ts-expect-error warning is valid
 		<Alert variant="warning" className="mb-4 bg-yellow-50 border-yellow-200 text-yellow-800">
 			<AlertCircle className="h-4 w-4" />
 			<AlertDescription>
