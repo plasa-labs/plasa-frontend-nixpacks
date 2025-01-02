@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -86,3 +88,4 @@ export default function FundsTransactionsTable({ transactions, mercadoPagoId, is
 		</div>
 	)
 }
+

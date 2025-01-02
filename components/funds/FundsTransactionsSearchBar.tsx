@@ -3,14 +3,14 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Search, X } from 'lucide-react'
 
-interface FundsTransactionsSearchBarProps {
+interface SearchBarProps {
 	onSearch: (prefix: string) => void
 	onReset: () => void
 	isSearchActive: boolean
 	searchTerm: string
 }
 
-export default function FundsTransactionsSearchBar({ onSearch, onReset, isSearchActive, searchTerm }: FundsTransactionsSearchBarProps) {
+export default function SearchBar({ onSearch, onReset, isSearchActive, searchTerm }: SearchBarProps) {
 	const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm)
 
 	useEffect(() => {

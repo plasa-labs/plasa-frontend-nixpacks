@@ -4,13 +4,13 @@ import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Hospital, Users, Building, Briefcase, BanknoteIcon as Bank, BuildingIcon as GovernmentBuilding } from 'lucide-react'
 import { Button } from "@/components/ui/button"
-import { AccountData } from '@/lib/types'
+import { FundsData } from '@/lib/types'
 
-interface FundsOrganizationCardProps {
-	accountData: AccountData
+interface OrganizationCardProps {
+	accountData: FundsData
 }
 
-export default function FundsOrganizationCard({ accountData }: FundsOrganizationCardProps) {
+export default function OrganizationCard({ accountData }: OrganizationCardProps) {
 	const [showDetails, setShowDetails] = useState(false)
 
 	const IconWrapper = ({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string }) => (

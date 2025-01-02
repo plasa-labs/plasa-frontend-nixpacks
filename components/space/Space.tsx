@@ -8,37 +8,37 @@ import { useSpace } from '@/contexts/SpaceContext'
 import SpaceQuestionsList from './SpaceQuestionsList'
 import SpaceLeaderboard from './SpaceLeaderboard'
 // import SpaceInformation from './SpaceInformation'
+import SpaceFundsListClient from './SpaceFundsListClient'
 import {
-	SpaceHeaderSkeleton,
+	// SpaceHeaderSkeleton,
 	SpaceQuestionsListSkeleton,
 	SpaceLeaderboardSkeleton,
-	SpaceInformationSkeleton
+	// SpaceInformationSkeleton,
+	SpaceFundsListSkeleton
 } from './loading'
 
-/**
- * Props interface for the Space component
- * @interface SpaceProps
- * @property {string} [spaceAddress] - Optional address of the space
- */
-interface SpaceProps {
-	spaceAddress?: string
-}
+// /**
+//  * Props interface for the Space component
+//  * @interface SpaceProps
+//  * @property {string} [spaceAddress] - Optional address of the space
+//  */
+// interface SpaceProps {
+// 	spaceAddress?: string
+// }
 
-export default function Space({ spaceAddress }: SpaceProps) {
+// export default function Space({ }: SpaceProps) {
+export default function Space() {
 	// Fetch space data using context
 	const { isLoading, isError, error } = useSpace()
-
-	if (process.env.NODE_ENV === 'development' && spaceAddress) {
-		console.log(spaceAddress)
-	}
 
 	if (isLoading) {
 		return (
 			<div className='main-container'>
-				<SpaceHeaderSkeleton />
+				{/* <SpaceHeaderSkeleton /> */}
+				<SpaceFundsListSkeleton />
 				<SpaceQuestionsListSkeleton />
 				<SpaceLeaderboardSkeleton />
-				<SpaceInformationSkeleton />
+				{/* <SpaceInformationSkeleton /> */}
 			</div>
 		)
 	}
@@ -59,8 +59,9 @@ export default function Space({ spaceAddress }: SpaceProps) {
 	}
 
 	return (
-		<div className='main-container'>
+		<div className='main-container space-y-8'>
 			{/* <SpaceHeader /> */}
+			<SpaceFundsListClient />
 			<SpaceQuestionsList />
 			<SpaceLeaderboard />
 			{/* <SpaceInformation /> */}

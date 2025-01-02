@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ChevronUp, ChevronDown, Check, Clock, X } from 'lucide-react'
 import { Transaction } from '@/lib/types'
-// import { formatCurrency, formatDate, translateStatus, isIncomingTransaction, getTransactionType } from '@/lib/utils/funds'
 import { formatCurrency, formatDate, translateStatus, getTransactionType } from '@/lib/utils/funds'
 import FundsTransactionDetails from './FundsTransactionDetails'
 
@@ -90,3 +89,4 @@ export default function FundsTransactionRow({ tx, mercadoPagoId }: FundsTransact
 		</React.Fragment>
 	)
 }
+

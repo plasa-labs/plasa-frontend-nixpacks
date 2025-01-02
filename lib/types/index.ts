@@ -1,20 +1,25 @@
-export interface AccountData {
-	account: {
-		owner: string
-		cuit: string
-		cvu: string
-		id: string
-		name: string
-		balance_available: number
-		balance_unreleased: number
-		total_out: number
-	}
-	transactions: {
-		documents: Transaction[]
-		pagination: {
-			lastDocId: string
-			hasMore: boolean
-		}
+export interface FundsData {
+	account: AccountInfo
+	transactions: Transactions
+}
+
+export interface AccountInfo {
+	owner: string
+	cuit: string
+	cvu: string
+	id: string
+	name: string
+	balance_available: number
+	balance_unreleased: number
+	total_out: number
+	external_key: string
+}
+
+export interface Transactions {
+	documents: Transaction[],
+	pagination: {
+		lastDocId: string,
+		hasMore: boolean
 	}
 }
 
@@ -46,15 +51,3 @@ export interface Transaction {
 	}
 	description: string
 }
-
-export interface OrganizationData {
-	name: string
-	balance: {
-		total: number
-		available: number
-		unavailable: number
-	}
-	totalDonations: number
-	totalExpenses: number
-}
-

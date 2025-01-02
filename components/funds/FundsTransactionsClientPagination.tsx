@@ -4,19 +4,19 @@ import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 
-interface FundsTransactionsClientPaginationProps {
+interface ClientPaginationProps {
 	paginationInfo: { lastDocId: string; hasMore: boolean }
 	currentPage: number
 	accountKey: string
 	pageHistory: { page: number; lastTransactionId: string }[]
 }
 
-export default function FundsTransactionsClientPagination({
+export default function ClientPagination({
 	paginationInfo,
 	currentPage,
 	accountKey,
 	pageHistory
-}: FundsTransactionsClientPaginationProps) {
+}: ClientPaginationProps) {
 	const router = useRouter()
 	const [isLoading, setIsLoading] = useState(false)
 

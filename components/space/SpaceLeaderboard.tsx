@@ -25,7 +25,7 @@ export default function SpaceLeaderboard() {
 	const filteredTop10Holders = top10Holders.filter(holder => holder.balance > 0)
 
 	return (
-		<Card className='mb-6'>
+		<Card>
 			<CardHeader>
 				<CardTitle className='flex items-center'>
 					<Users className='mr-2' />

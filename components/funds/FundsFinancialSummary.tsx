@@ -1,13 +1,13 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { ArrowDownRight, ArrowUpRight, Wallet, Lock, Unlock } from 'lucide-react'
 import { formatCurrency } from '@/lib/utils/funds'
-import { AccountData } from '@/lib/types'
+import { FundsData } from '@/lib/types'
 
-interface FundsFinancialSummaryProps {
-	accountData: AccountData
+interface BalanceAndSummaryCardProps {
+	accountData: FundsData
 }
 
-export default function FundsFinancialSummary({ accountData }: FundsFinancialSummaryProps) {
+export default function BalanceAndSummaryCard({ accountData }: BalanceAndSummaryCardProps) {
 	const cards = [
 		{
 			title: "Saldo actual",
@@ -81,3 +81,4 @@ export default function FundsFinancialSummary({ accountData }: FundsFinancialSum
 		</Card>
 	)
 }
+

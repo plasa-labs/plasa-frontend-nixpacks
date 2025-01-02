@@ -8,4 +8,4 @@ export { default as SpaceHeaderSkeleton } from './SpaceHeaderSkeleton'
 export { default as SpaceQuestionsListSkeleton } from './SpaceQuestionsListSkeleton'
 export { default as SpaceLeaderboardSkeleton } from './SpaceLeaderboardSkeleton'
 export { default as SpaceInformationSkeleton } from './SpaceInformationSkeleton'
-
+export { default as SpaceFundsListSkeleton } from './SpaceFundsListSkeleton'
