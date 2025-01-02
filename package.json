@@ -9,6 +9,9 @@
   	"start": "bun run next start",
   	"lint": "bun run next lint"
 },
+  "engines": {
+    "node": "22"
+  },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
     "@hookform/resolvers": "^3.9.1",
