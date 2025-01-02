@@ -1,34 +1,29 @@
 import { fetchTransactions, searchTransactionsByPrefix } from '@/lib/api/funds'
-import FundsTransactionsTable from '@/components/funds/FundsTransactionsTable'
-import FundsTransactionsClientPagination from '@/components/funds/FundsTransactionsClientPagination'
-import FundsTransactionsSearchResultsWarning from '@/components/funds/FundsTransactionsSearchResultsWarning'
+import FundsTransactionsTable from './FundsTransactionsTable'
+import FundsTransactionsClientPagination from './FundsTransactionsClientPagination'
+import FundsTransactionsSearchResultsWarning from './FundsTransactionsSearchResultsWarning'
 import { Transaction } from '@/lib/types'
 
-interface TransactionsTableServerProps {
+interface FundsTransactionTableServerProps {
 	mercadoPagoId: string
 	accountKey: string
 	page: number
-	// lastTransactionId?: string
 	searchTerm?: string
 	initialTransactions: Transaction[]
 	initialPaginationInfo: { lastDocId: string; hasMore: boolean }
 }
 
-export default async function TransactionsTableServer({
+export default async function FundsTransactionTableServer({
 	mercadoPagoId,
 	accountKey,
 	page,
-	// lastTransactionId,
 	searchTerm,
 	initialTransactions,
 	initialPaginationInfo
-}: TransactionsTableServerProps) {
-	let transactionsData = {
-		documents: [] as Transaction[],
-		pagination: { lastDocId: '', hasMore: false }
-	}
+}: FundsTransactionTableServerProps) {
+	let transactionsData
 	let searchHasMore = false
-	const pageHistory: { page: number; lastTransactionId: string }[] = [
+	let pageHistory: { page: number; lastTransactionId: string }[] = [
 		{ page: 1, lastTransactionId: initialPaginationInfo.lastDocId }
 	]
 
@@ -61,14 +56,14 @@ export default async function TransactionsTableServer({
 				<FundsTransactionsSearchResultsWarning searchTerm={searchTerm} />
 			)}
 			<FundsTransactionsTable
-				transactions={transactionsData.documents}
+				transactions={transactionsData!.documents}
 				mercadoPagoId={mercadoPagoId}
 				isLoading={false}
 				isSearchActive={!!searchTerm}
 			/>
 			{!searchTerm && (
 				<FundsTransactionsClientPagination
-					paginationInfo={transactionsData.pagination}
+					paginationInfo={transactionsData!.pagination}
 					currentPage={page}
 					accountKey={accountKey}
 					pageHistory={pageHistory}

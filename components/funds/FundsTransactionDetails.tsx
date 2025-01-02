@@ -4,12 +4,12 @@ import { Check, Clock, X, Calendar, CreditCard, Info, ArrowUpRight, DollarSign, 
 import { Transaction } from '@/lib/types'
 import { formatCurrency, formatDate, translateStatus, translatePaymentType, translateChargeName, translateOperationType, isIncomingTransaction, getTransactionType } from '@/lib/utils/funds'
 
-interface FundsTransactionDetailsProps {
+interface TransactionDetailsProps {
 	tx: Transaction
 	mercadoPagoId: string
 }
 
-export default function FundsTransactionDetails({ tx, mercadoPagoId }: FundsTransactionDetailsProps) {
+export default function TransactionDetails({ tx, mercadoPagoId }: TransactionDetailsProps) {
 	const getStatusIcon = (status: string) => {
 		switch (status) {
 			case 'approved':
@@ -97,14 +97,23 @@ export default function FundsTransactionDetails({ tx, mercadoPagoId }: FundsTran
 							</div>
 							<div className="space-y-2">
 								<span className="text-sm text-gray-600 dark:text-gray-400">Cargos y comisiones:</span>
-								{tx.charges_details.map((charge, index) => (
-									<div key={index} className="flex flex-col sm:flex-row sm:justify-between sm:items-center pl-4">
-										<span className="text-xs text-gray-500 dark:text-gray-400 mb-1 sm:mb-0">{translateChargeName(charge.name)}:</span>
-										<span className="text-sm font-medium text-red-600 dark:text-red-400">
-											-{formatCurrency(charge.amounts.original, tx.currency_id)}
+								{tx.charges_details.length > 0 ? (
+									tx.charges_details.map((charge, index) => (
+										<div key={index} className="flex flex-col sm:flex-row sm:justify-between sm:items-center pl-4">
+											<span className="text-xs text-gray-500 dark:text-gray-400 mb-1 sm:mb-0">{translateChargeName(charge.name)}:</span>
+											<span className="text-sm font-medium text-red-600 dark:text-red-400">
+												-{formatCurrency(charge.amounts.original, tx.currency_id)}
+											</span>
+										</div>
+									))
+								) : (
+									<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center pl-4">
+										<span className="text-xs text-gray-500 dark:text-gray-400 mb-1 sm:mb-0">Sin cargos:</span>
+										<span className="text-sm font-medium text-gray-500 dark:text-gray-400">
+											{formatCurrency(0, tx.currency_id)}
 										</span>
 									</div>
-								))}
+								)}
 							</div>
 							<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center pt-2 border-t border-gray-200 dark:border-gray-600">
 								<span className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1 sm:mb-0">Monto neto recibido:</span>
@@ -134,15 +143,19 @@ export default function FundsTransactionDetails({ tx, mercadoPagoId }: FundsTran
 									<Tag className="h-4 w-4 mr-2 text-gray-400" />
 									Tipo de operación:
 								</span>
-								<span className="font-medium">{translateOperationType(tx.operation_type, isIncoming)}</span>
-							</div>
-							<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
-								<span className="text-sm text-gray-600 dark:text-gray-400 flex items-center mb-1 sm:mb-0">
-									<CreditCard className="h-4 w-4 mr-2 text-gray-400" />
-									Método de pago:
+								<span className="font-medium">
+									{tx.operation_type === 'yield' ? 'Rendimiento' : translateOperationType(tx.operation_type, isIncoming)}
 								</span>
-								<span className="font-medium">{translatePaymentType(tx.payment_type_id)}</span>
 							</div>
+							{tx.payment_type_id && (
+								<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+									<span className="text-sm text-gray-600 dark:text-gray-400 flex items-center mb-1 sm:mb-0">
+										<CreditCard className="h-4 w-4 mr-2 text-gray-400" />
+										Método de pago:
+									</span>
+									<span className="font-medium">{translatePaymentType(tx.payment_type_id)}</span>
+								</div>
+							)}
 
 							{tx.description && (
 								<div className="flex flex-col">

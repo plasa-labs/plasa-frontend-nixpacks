@@ -1,11 +1,11 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle } from 'lucide-react'
 
-interface FundsErrorDisplayProps {
+interface ErrorDisplayProps {
 	error: Error
 }
 
-export default function FundsErrorDisplay({ error }: FundsErrorDisplayProps) {
+export default function ErrorDisplay({ error }: ErrorDisplayProps) {
 	return (
 		<div className="container mx-auto px-4 py-8">
 			<Alert variant="destructive">

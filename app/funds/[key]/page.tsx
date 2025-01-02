@@ -1,23 +1,21 @@
 import { Suspense } from 'react'
 import { fetchAccountData } from '@/lib/api/funds'
 import Funds from '@/components/funds/Funds'
-import TransactionsTableServer from './components/FundsTransactionTableServer'
+import FundsTransactionTableServer from '@/components/funds/FundsTransactionTableServer'
 import FundsTransactionsSkeletonLoader from '@/components/funds/FundsTransactionsSkeletonLoader'
 import FundsErrorDisplay from '@/components/funds/FundsErrorDisplay'
-
-interface FundsPageProps {
-	params: Promise<{ key: string }>
-	searchParams: Promise<{ page?: string; lastTransactionId?: string; search?: string }>
-}
 
 export default async function FundsPage({
 	params,
 	searchParams
-}: FundsPageProps) {
-	const { key } = await params
-	const searchParamsResolved = await searchParams
-	const page = searchParamsResolved.page ? parseInt(searchParamsResolved.page, 10) : 1
-	const searchTerm = searchParamsResolved.search
+}: {
+	params: { key: string }
+	searchParams: { page?: string; lastTransactionId?: string; search?: string }
+}) {
+	const { key } = params
+	const page = searchParams.page ? parseInt(searchParams.page, 10) : 1
+	const lastTransactionId = searchParams.lastTransactionId
+	const searchTerm = searchParams.search
 
 	try {
 		const accountData = await fetchAccountData(key)
@@ -30,14 +28,14 @@ export default async function FundsPage({
 				searchTerm={searchTerm}
 			>
 				<Suspense fallback={<FundsTransactionsSkeletonLoader />}>
-					<TransactionsTableServer
+					<FundsTransactionTableServer
 						mercadoPagoId={mercadoPagoId}
 						accountKey={key}
 						page={page}
+						// lastTransactionId={lastTransactionId}
 						searchTerm={searchTerm}
 						initialTransactions={accountData.transactions.documents}
 						initialPaginationInfo={accountData.transactions.pagination}
-					// lastTransactionId={lastTransactionId}
 					/>
 				</Suspense>
 			</Funds>
@@ -48,4 +46,3 @@ export default async function FundsPage({
 	}
 }
 
-// 

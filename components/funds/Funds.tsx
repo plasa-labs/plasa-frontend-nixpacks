@@ -2,10 +2,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import FundsOrganizationCard from './FundsOrganizationCard'
 import FundsFinancialSummary from './FundsFinancialSummary'
 import FundsTransactionsClientSearch from './FundsTransactionsClientSearch'
-import { AccountData } from '@/lib/types'
+import { FundsData } from '@/lib/types'
+import { Button } from '@/components/ui/button'
+import { ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 
 interface FundsProps {
-	accountData: AccountData
+	accountData: FundsData
 	accountKey: string
 	searchTerm?: string
 	children: React.ReactNode
@@ -18,7 +21,15 @@ export default function Funds({
 	children
 }: FundsProps) {
 	return (
-		<main className="container mx-auto px-4 py-8">
+		<main className="main-container">
+			<Link href='/' passHref prefetch={true}>
+				<Button variant='outline' className='mb-6'>
+					<ArrowLeft className='mr-2 h-4 w-4' />
+					{/* Volver a {space?.data.name ? space.data.name : 'Espacio'} */}
+					Volver a Inicio
+				</Button>
+			</Link>
+
 			<div className="grid grid-cols-1 gap-6 mb-8">
 				<FundsOrganizationCard accountData={accountData} />
 				<FundsFinancialSummary accountData={accountData} />
