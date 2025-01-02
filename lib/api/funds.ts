@@ -1,8 +1,8 @@
-import { AccountData, Transaction } from '@/lib/types'
+import { AccountInfo, Transaction, FundsData } from '@/lib/types'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
-export const fetchAccountData = async (key: string): Promise<AccountData> => {
+export const fetchAccountData = async (key: string): Promise<FundsData> => {
 	const url = `${API_BASE_URL}mercadopago/account/${key}`
 	console.log(`Fetching account data from: ${url}`)
 
@@ -81,5 +81,31 @@ export const searchTransactionsByPrefix = async (mercadoPagoId: string, prefix: 
 			throw new Error('Failed to search transactions: Unknown error')
 		}
 	}
-};
+}
 
+export const fetchAccounts = async (): Promise<AccountInfo[]> => {
+	const url = `${API_BASE_URL}mercadopago/accounts`
+	console.log(`Fetching accounts from: ${url}`)
+
+	try {
+		const response = await fetch(url, { next: { revalidate: 60 } })
+		console.log(`Response status: ${response.status}`)
+
+		if (!response.ok) {
+			const errorBody = await response.text()
+			console.error(`Error response body: ${errorBody}`)
+			throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`)
+		}
+
+		const data = await response.json()
+		console.log('Successfully fetched accounts')
+		return data
+	} catch (error) {
+		console.error('Error fetching accounts:', error)
+		if (error instanceof Error) {
+			throw new Error(`Failed to fetch accounts: ${error.message}`)
+		} else {
+			throw new Error('Failed to fetch accounts: Unknown error')
+		}
+	}
+}
