@@ -1,5 +1,6 @@
 {
   "name": "plasa",
+  "packageManager": "bun@1.1.42",
   "version": "0.1.0",
   "private": true,
   "scripts": {
