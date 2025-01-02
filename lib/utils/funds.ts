@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { type Transaction } from "@/lib/types"
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs))
@@ -96,11 +97,11 @@ export const translateOperationType = (type: string, isIncoming: boolean) => {
 	return typeMap[type] || type
 }
 
-export const isIncomingTransaction = (tx: any, mercadoPagoId: string) => {
+export const isIncomingTransaction = (tx: Transaction, mercadoPagoId: string) => {
 	return tx.collector_id == mercadoPagoId
 }
 
-export const getTransactionType = (tx: any, mercadoPagoId: string) => {
+export const getTransactionType = (tx: Transaction, mercadoPagoId: string) => {
 	const isIncoming = isIncomingTransaction(tx, mercadoPagoId)
 	const isRejected = tx.status === 'rejected'
 	if (isIncoming && isRejected) return 'INCOMING_REJECTED'

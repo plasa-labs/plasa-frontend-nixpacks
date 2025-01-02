@@ -10,11 +10,11 @@ export default async function FundsPage({
 	searchParams
 }: {
 	params: { key: string }
-	searchParams: { page?: string; lastTransactionId?: string; search?: string }
+	searchParams: { page?: string; search?: string }
 }) {
 	const { key } = params
 	const page = searchParams.page ? parseInt(searchParams.page, 10) : 1
-	const lastTransactionId = searchParams.lastTransactionId
+	// const lastTransactionId = searchParams.lastTransactionId
 	const searchTerm = searchParams.search
 
 	try {

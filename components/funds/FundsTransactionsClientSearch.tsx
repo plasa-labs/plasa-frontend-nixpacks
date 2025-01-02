@@ -14,22 +14,22 @@ export default function FundsTransactionsClientSearch({
 	accountKey
 }: FundsTransactionsClientSearchProps) {
 	const [searchTerm, setSearchTerm] = useState(initialSearchTerm)
-	const [isLoading, setIsLoading] = useState(false)
+	// const [isLoading, setIsLoading] = useState(false)
 	const router = useRouter()
 
 	useEffect(() => {
 		setSearchTerm(initialSearchTerm)
-		setIsLoading(false)
+		// setIsLoading(false)
 	}, [initialSearchTerm])
 
 	const handleSearch = (term: string) => {
-		setIsLoading(true)
+		// setIsLoading(true)
 		router.push(`/funds/${accountKey}?search=${encodeURIComponent(term)}`)
 	}
 
 	const handleReset = () => {
 		setSearchTerm('')
-		setIsLoading(true)
+		// setIsLoading(true)
 		router.push(`/funds/${accountKey}`)
 	}
 

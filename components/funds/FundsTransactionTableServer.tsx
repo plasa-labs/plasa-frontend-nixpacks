@@ -23,7 +23,7 @@ export default async function FundsTransactionTableServer({
 }: FundsTransactionTableServerProps) {
 	let transactionsData
 	let searchHasMore = false
-	let pageHistory: { page: number; lastTransactionId: string }[] = [
+	const pageHistory: { page: number; lastTransactionId: string }[] = [
 		{ page: 1, lastTransactionId: initialPaginationInfo.lastDocId }
 	]
 

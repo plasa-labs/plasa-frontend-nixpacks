@@ -17,16 +17,17 @@ import {
 	SpaceFundsListSkeleton
 } from './loading'
 
-/**
- * Props interface for the Space component
- * @interface SpaceProps
- * @property {string} [spaceAddress] - Optional address of the space
- */
-interface SpaceProps {
-	spaceAddress?: string
-}
+// /**
+//  * Props interface for the Space component
+//  * @interface SpaceProps
+//  * @property {string} [spaceAddress] - Optional address of the space
+//  */
+// interface SpaceProps {
+// 	spaceAddress?: string
+// }
 
-export default function Space({ spaceAddress }: SpaceProps) {
+// export default function Space({ }: SpaceProps) {
+export default function Space() {
 	// Fetch space data using context
 	const { isLoading, isError, error } = useSpace()
 
